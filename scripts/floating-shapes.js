@@ -5,7 +5,7 @@ const SHAPE_COUNT = 5; // Exactly 5 shapes
 const MAX_SHAPES = 20; // Maximum number of shapes allowed
 const MIN_SIZE = 120;
 const MAX_SIZE = 160;
-const MIN_SPEED = 0.2;
+const MIN_SPEED = 0.3;
 const MAX_SPEED = 2.0;
 
 // Speed configuration
@@ -39,7 +39,7 @@ function createShape(type = null, sizeOverride = null) {
         height = size;
     }
     
-    const left = randomBetween(50, window.innerWidth - width - 50);
+    const left = randomBetween(50, window.innerWidth - width - 90);
     const top = randomBetween(50, window.innerHeight - height - 50);
     const rotate = randomBetween(-15, 15); // Small random rotation
     const opacity = randomBetween(0.7, 1.0); // High opacity for visibility

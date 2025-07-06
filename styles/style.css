@@ -5,8 +5,6 @@
 
 /* CSS Custom Properties */
 :root {
-    --neon-green: #00ff41;
-    --neon-orange: #ff6f00;
     --neon-cyan: #00f0ff;
     --hover-purple: #a200ff;
     --dark-bg: #0a0a0a;
@@ -111,7 +109,7 @@ body {
 }
 
 .floating-shape.rounded-square {
-    border-radius: 20px;
+    border-radius: 30px;
 }
 
 .floating-shape.ellipse {
