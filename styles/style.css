@@ -1,0 +1,97 @@
+/* Bauhaus Design System */
+
+/* Import modern geometric font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* CSS Custom Properties for Bauhaus color palette */
+:root {
+    --bauhaus-red: #be1e2d;
+    --bauhaus-yellow: #ffde17;
+    --bauhaus-blue: #21409a;
+    --bauhaus-black: #000000;
+    --bauhaus-white: #ffffff;
+}
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Futura', 'Arial', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--bauhaus-black);
+    background: var(--bauhaus-white);
+    overflow-x: hidden;
+}
+
+/* Basic shape classes */
+.circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--bauhaus-red);
+    margin: 20px auto;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.circle:hover {
+    transform: scale(1.1);
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    background: var(--bauhaus-blue);
+    margin: 20px auto;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.square:hover {
+    transform: scale(1.1);
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid var(--bauhaus-yellow);
+    margin: 20px auto;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.triangle:hover {
+    transform: scale(1.1);
+}
+
+/* Color variations for shapes */
+.circle.red { background: var(--bauhaus-red); }
+.circle.yellow { background: var(--bauhaus-yellow); }
+.circle.blue { background: var(--bauhaus-blue); }
+.circle.black { background: var(--bauhaus-black); }
+.circle.white { background: var(--bauhaus-white); border: 2px solid var(--bauhaus-black); }
+
+.square.red { background: var(--bauhaus-red); }
+.square.yellow { background: var(--bauhaus-yellow); }
+.square.blue { background: var(--bauhaus-blue); }
+.square.black { background: var(--bauhaus-black); }
+.square.white { background: var(--bauhaus-white); border: 2px solid var(--bauhaus-black); }
+
+.triangle.red { border-bottom-color: var(--bauhaus-red); }
+.triangle.yellow { border-bottom-color: var(--bauhaus-yellow); }
+.triangle.blue { border-bottom-color: var(--bauhaus-blue); }
+.triangle.black { border-bottom-color: var(--bauhaus-black); }
+.triangle.white { 
+    border-bottom-color: var(--bauhaus-white); 
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid var(--bauhaus-white);
+    box-shadow: inset 0 0 0 2px var(--bauhaus-black);
+} 
