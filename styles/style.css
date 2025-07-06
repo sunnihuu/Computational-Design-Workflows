@@ -10,6 +10,9 @@
     --bauhaus-blue: #21409a;
     --bauhaus-black: #000000;
     --bauhaus-white: #ffffff;
+    --bauhaus-orange: #f7931e;
+    --bauhaus-gray: #c6c6c6;
+    --bauhaus-offwhite: #f8f6f2;
 }
 
 /* Reset and base styles */
@@ -24,8 +27,48 @@ body {
     font-weight: 400;
     line-height: 1.6;
     color: var(--bauhaus-black);
-    background: var(--bauhaus-white);
+    background: var(--bauhaus-offwhite);
     overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.18;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="none"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noiseFilter)"/></svg>');
+    background-size: 200px 200px;
+}
+
+/* Main playground container */
+#playground {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+/* Performance optimization: Hardware acceleration */
+.circle,
+.square,
+.triangle,
+.line {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 /* Basic shape classes */
@@ -34,26 +77,26 @@ body {
     height: 100px;
     border-radius: 50%;
     background: var(--bauhaus-red);
-    margin: 20px auto;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    position: relative;
 }
 
 .circle:hover {
-    transform: scale(1.1);
+    transform: translateZ(0) scale(1.1);
 }
 
 .square {
     width: 100px;
     height: 100px;
     background: var(--bauhaus-blue);
-    margin: 20px auto;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    position: relative;
 }
 
 .square:hover {
-    transform: scale(1.1);
+    transform: translateZ(0) scale(1.1);
 }
 
 .triangle {
@@ -62,13 +105,36 @@ body {
     border-left: 50px solid transparent;
     border-right: 50px solid transparent;
     border-bottom: 100px solid var(--bauhaus-yellow);
-    margin: 20px auto;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    position: relative;
 }
 
 .triangle:hover {
-    transform: scale(1.1);
+    transform: translateZ(0) scale(1.1);
+}
+
+/* New line shape */
+.line {
+    width: 120px;
+    height: 8px;
+    background: var(--bauhaus-black);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+}
+
+.line:hover {
+    transform: translateZ(0) scale(1.1);
+}
+
+/* Click animation with performance optimization */
+.circle.clicked,
+.square.clicked,
+.triangle.clicked,
+.line.clicked {
+    transform: translateZ(0) scale(0.9);
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Color variations for shapes */
@@ -94,4 +160,572 @@ body {
     border-right: 50px solid transparent;
     border-bottom: 100px solid var(--bauhaus-white);
     box-shadow: inset 0 0 0 2px var(--bauhaus-black);
+}
+
+.line.red { background: var(--bauhaus-red); }
+.line.yellow { background: var(--bauhaus-yellow); }
+.line.blue { background: var(--bauhaus-blue); }
+.line.black { background: var(--bauhaus-black); }
+.line.white { background: var(--bauhaus-white); border: 2px solid var(--bauhaus-black); }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #playground {
+        gap: 20px;
+        padding: 10px;
+    }
+    
+    .circle,
+    .square {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .triangle {
+        border-left: 40px solid transparent;
+        border-right: 40px solid transparent;
+        border-bottom: 80px solid var(--bauhaus-yellow);
+    }
+    
+    .line {
+        width: 100px;
+        height: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    #playground {
+        gap: 15px;
+        flex-direction: column;
+    }
+    
+    .circle,
+    .square {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .triangle {
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        border-bottom: 60px solid var(--bauhaus-yellow);
+    }
+    
+    .line {
+        width: 80px;
+        height: 5px;
+    }
+}
+
+/* Bauhaus Design System - Grid Tiles */
+
+#bauhaus-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    width: 100vw;
+    height: 100vh;
+    gap: 0;
+    justify-content: stretch;
+    align-items: stretch;
+    margin: 0;
+    background: var(--bauhaus-offwhite);
+}
+
+.tile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    position: relative;
+}
+
+/* Circle */
+.circle-tile {
+    border-radius: 50%;
+    width: 80%;
+    height: 80%;
+    background: currentColor;
+}
+
+/* Square */
+.square-tile {
+    width: 80%;
+    height: 80%;
+    background: currentColor;
+}
+
+/* Triangle */
+.triangle-tile {
+    width: 0;
+    height: 0;
+    border-left: 40% solid transparent;
+    border-right: 40% solid transparent;
+    border-bottom: 80% solid currentColor;
+    background: none;
+}
+
+/* Half Circle */
+.half-circle-tile {
+    width: 80%;
+    height: 40%;
+    background: currentColor;
+    border-top-left-radius: 80% 80%;
+    border-top-right-radius: 80% 80%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Quarter Circle */
+.quarter-circle-tile {
+    width: 80%;
+    height: 80%;
+    background: currentColor;
+    border-top-left-radius: 80% 80%;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Diamond */
+.diamond-tile {
+    width: 56%;
+    height: 56%;
+    background: currentColor;
+    transform: rotate(45deg);
+}
+
+/* Stripes */
+.stripes-tile {
+    width: 80%;
+    height: 80%;
+    background: repeating-linear-gradient(
+        to bottom,
+        currentColor,
+        currentColor 10%,
+        transparent 10%,
+        transparent 20%
+    );
+}
+
+/* Line */
+.line-tile {
+    width: 90%;
+    height: 12%;
+    background: currentColor;
+    border-radius: 6px;
+}
+
+/* Color classes */
+.red { color: var(--bauhaus-red); }
+.yellow { color: var(--bauhaus-yellow); }
+.orange { color: var(--bauhaus-orange); }
+.gray { color: var(--bauhaus-gray); }
+.blue { color: var(--bauhaus-blue); }
+.black { color: var(--bauhaus-black); }
+
+@media (max-width: 900px) {
+    #bauhaus-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(12, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    #bauhaus-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(24, 1fr);
+    }
+}
+
+/* Cyberminimalism Style */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+:root {
+    --cyber-bg: #000;
+    --cyber-neon-orange: #ff9900;
+    --cyber-offwhite: #f8f6f2;
+}
+
+body {
+    font-family: 'Orbitron', 'Space Mono', 'Futura', 'Arial', sans-serif;
+    background: var(--cyber-bg);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: #fff;
+    letter-spacing: 0.04em;
+    /* Circular gradient in top right */
+    background: radial-gradient(circle at 90% 0%, var(--cyber-neon-orange) 0%, var(--cyber-offwhite) 40%, var(--cyber-bg) 80%);
+}
+
+#bauhaus-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 100vw;
+    height: 100vh;
+    gap: 2vw;
+    justify-content: stretch;
+    align-items: stretch;
+    margin: 0;
+    background: var(--cyber-bg);
+}
+
+.tile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.tile:hover {
+    transform: scale(1.08) rotate(-2deg);
+    box-shadow: 0 0 24px 6px var(--cyber-neon-blue), 0 0 8px 2px var(--cyber-neon-pink);
+    z-index: 2;
+}
+
+/* Neon Shapes */
+.circle-tile {
+    border-radius: 50%;
+    width: 70%;
+    height: 70%;
+    border: 3px solid var(--cyber-neon-blue);
+    background: transparent;
+    box-shadow: 0 0 24px 2px var(--cyber-neon-blue), 0 0 8px 2px var(--cyber-neon-pink) inset;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.circle-tile:hover {
+    border-color: var(--cyber-neon-pink);
+    box-shadow: 0 0 32px 8px var(--cyber-neon-pink), 0 0 12px 4px var(--cyber-neon-blue) inset;
+}
+
+.square-tile {
+    width: 70%;
+    height: 70%;
+    border: 3px solid var(--cyber-neon-green);
+    background: transparent;
+    box-shadow: 0 0 24px 2px var(--cyber-neon-green), 0 0 8px 2px var(--cyber-neon-purple) inset;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.square-tile:hover {
+    border-color: var(--cyber-neon-purple);
+    box-shadow: 0 0 32px 8px var(--cyber-neon-purple), 0 0 12px 4px var(--cyber-neon-green) inset;
+}
+
+.triangle-tile {
+    width: 0;
+    height: 0;
+    border-left: 35% solid transparent;
+    border-right: 35% solid transparent;
+    border-bottom: 70% solid var(--cyber-neon-pink);
+    background: none;
+    filter: drop-shadow(0 0 16px var(--cyber-neon-pink));
+    transition: filter 0.3s;
+}
+.triangle-tile:hover {
+    filter: drop-shadow(0 0 32px var(--cyber-neon-blue));
+}
+
+.half-circle-tile {
+    width: 70%;
+    height: 35%;
+    border-top-left-radius: 70% 70%;
+    border-top-right-radius: 70% 70%;
+    background: var(--cyber-neon-purple);
+    box-shadow: 0 0 16px 2px var(--cyber-neon-purple);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.half-circle-tile:hover {
+    background: var(--cyber-neon-green);
+    box-shadow: 0 0 32px 8px var(--cyber-neon-green);
+}
+
+.diamond-tile {
+    width: 50%;
+    height: 50%;
+    background: var(--cyber-neon-green);
+    transform: rotate(45deg);
+    box-shadow: 0 0 16px 2px var(--cyber-neon-green);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.diamond-tile:hover {
+    background: var(--cyber-neon-pink);
+    box-shadow: 0 0 32px 8px var(--cyber-neon-pink);
+}
+
+.stripes-tile {
+    width: 70%;
+    height: 70%;
+    background: repeating-linear-gradient(
+        to bottom,
+        var(--cyber-neon-blue),
+        var(--cyber-neon-blue) 10%,
+        transparent 10%,
+        transparent 20%
+    );
+    border: 2px solid var(--cyber-neon-blue);
+    box-shadow: 0 0 16px 2px var(--cyber-neon-blue);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.stripes-tile:hover {
+    border-color: var(--cyber-neon-green);
+    box-shadow: 0 0 32px 8px var(--cyber-neon-green);
+}
+
+.line-tile {
+    width: 80%;
+    height: 10%;
+    background: var(--cyber-neon-pink);
+    border-radius: 6px;
+    box-shadow: 0 0 16px 2px var(--cyber-neon-pink);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.line-tile:hover {
+    background: var(--cyber-neon-blue);
+    box-shadow: 0 0 32px 8px var(--cyber-neon-blue);
+}
+
+.quarter-circle-tile {
+    width: 70%;
+    height: 70%;
+    background: var(--cyber-neon-blue);
+    border-top-left-radius: 70% 70%;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: 0 0 16px 2px var(--cyber-neon-blue);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.quarter-circle-tile:hover {
+    background: var(--cyber-neon-green);
+    box-shadow: 0 0 32px 8px var(--cyber-neon-green);
+}
+
+@media (max-width: 900px) {
+    #bauhaus-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    #bauhaus-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+    }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto+Slab:wght@700&display=swap');
+
+:root {
+    --black: #000;
+    --white: #fff;
+    --gray: #22232a;
+    --gradient-orange: #ff9900;
+    --gradient-offwhite: #f8f6f2;
+    --neon-orange-gradient: linear-gradient(135deg, #ff9900, #f8f6f2);
+    --neon-green: #39ff14;
+}
+
+body {
+    font-family: 'Inter', 'Roboto Slab', 'Space Grotesk', 'Arial', sans-serif;
+    background: var(--black);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.18;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="none"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noiseFilter)"/></svg>');
+    background-size: 200px 200px;
+}
+
+#floating-shapes {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.floating-shape {
+    position: absolute;
+    opacity: 0.7;
+    pointer-events: none;
+    will-change: transform;
+    transition: transform 8s linear, width 8s linear, height 8s linear;
+    background: var(--neon-orange-gradient) !important;
+    isolation: isolate;
+}
+.floating-shape::after {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: var(--neon-green);
+    opacity: 0.7;
+    mix-blend-mode: lighten;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.floating-shape.circle {
+    border-radius: 50%;
+}
+.floating-shape.square {
+    border-radius: 0.7vw;
+}
+.floating-shape.rect {
+    border-radius: 0.7vw;
+}
+.floating-shape.line {
+    width: 120px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--neon-orange-gradient) !important;
+    opacity: 0.5;
+}
+.floating-shape.triangle {
+    background: var(--neon-orange-gradient) !important;
+    width: 100px;
+    height: 100px;
+    opacity: 0.7;
+    clip-path: path('M 0 100 Q 0 0 100 0 L 100 100 Z');
+    /* This creates a right triangle with the bottom-left corner rounded */
+    border-radius: 0 30px 0 0;
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    grid-template-rows: repeat(2, minmax(180px, 1fr));
+    gap: 2vw;
+    width: 80vw;
+    height: 70vh;
+    max-width: 1100px;
+    max-height: 700px;
+    z-index: 20;
+}
+
+.bento-cell {
+    background: var(--black);
+    border-radius: 2.5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2vw;
+    box-sizing: border-box;
+}
+
+.bento-title h1 {
+    font-family: 'Inter', 'Space Grotesk', 'Arial', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5em 0;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-align: left;
+    line-height: 1.1;
+}
+.bento-title .bento-line {
+    display: block;
+    margin-bottom: 0.1em;
+}
+.bento-title p {
+    font-size: 1.1rem;
+    color: var(--white);
+    margin: 0;
+    text-align: left;
+}
+
+.bento-text h2 {
+    font-family: 'Roboto Slab', 'Inter', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5em 0;
+    color: var(--white);
+    letter-spacing: 0.06em;
+}
+.bento-text p {
+    font-size: 1rem;
+    color: var(--white);
+    margin: 0;
+}
+
+.bento-shape {
+    background: var(--neon-orange-gradient) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bento-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.bento-square {
+    width: 70px;
+    height: 70px;
+    border-radius: 0.7vw;
+}
+.bento-rect {
+    width: 100px;
+    height: 40px;
+    border-radius: 0.7vw;
+}
+
+.bento-gradient {
+    width: 100%;
+    height: 100%;
+    border-radius: 2vw;
+    background: radial-gradient(circle at 80% 20%, var(--gradient-orange) 0%, var(--gradient-offwhite) 60%, var(--black) 100%);
+}
+
+/* Flat, no morphism, no shadows, no outlines */
+
+@media (max-width: 900px) {
+    .bento-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, minmax(120px, 1fr));
+        width: 96vw;
+        height: 90vh;
+    }
+}
+
+@media (max-width: 600px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(6, minmax(80px, 1fr));
+        width: 98vw;
+        height: 98vh;
+        gap: 3vw;
+    }
+    .bento-cell {
+        border-radius: 4vw;
+        padding: 4vw;
+    }
 } 
