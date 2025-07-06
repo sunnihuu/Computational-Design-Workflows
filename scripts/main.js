@@ -158,4 +158,54 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Bauhaus Interactive Shapes initialized with performance optimizations');
     console.log('Click on shapes to change colors and hear sounds!');
     console.log('Shapes: Circle, Square, Triangle, Line');
+});
+
+// New York Clock and Temperature functionality
+
+// Function to update New York time
+function updateNYClock() {
+    const now = new Date();
+    const nyTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+    
+    const hours = nyTime.getHours().toString().padStart(2, '0');
+    const minutes = nyTime.getMinutes().toString().padStart(2, '0');
+    const seconds = nyTime.getSeconds().toString().padStart(2, '0');
+    
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    document.getElementById('ny-clock').textContent = timeString;
+}
+
+// Function to get Manhattan weather using zip code
+async function updateNYTemperature() {
+    try {
+        const API_KEY = '5dfd6e6199a1141e47733773dafc4ac5';
+        const zip = '10025'; // Upper West Side, Manhattan, New York zip code
+        const API_ENDPOINT = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&APPID=${API_KEY}&units=imperial`;
+        
+        const response = await fetch(API_ENDPOINT);
+        
+        if (response.ok) {
+            const data = await response.json();
+            const temp = Math.round(data.main.temp);
+            const description = data.weather[0].description;
+            document.getElementById('ny-temperature').textContent = `${temp}°F NYC`;
+        } else {
+            document.getElementById('ny-temperature').textContent = 'NYC Weather';
+        }
+    } catch (error) {
+        // Fallback if API fails
+        document.getElementById('ny-temperature').textContent = 'NYC Weather';
+        console.error('Weather API error:', error);
+    }
+}
+
+// Initialize clock and temperature
+document.addEventListener('DOMContentLoaded', () => {
+    // Update clock immediately and then every second
+    updateNYClock();
+    setInterval(updateNYClock, 1000);
+    
+    // Update temperature immediately and then every 5 minutes
+    updateNYTemperature();
+    setInterval(updateNYTemperature, 5 * 60 * 1000);
 }); 
