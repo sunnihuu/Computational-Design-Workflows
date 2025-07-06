@@ -5,6 +5,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('GSAPP Computational Design Workflows landing page loaded!');
     
+    // Hamburger Menu Functionality
+    console.log('Hamburger menu loaded!');
+    
     // Hamburger menu functionality
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const menuNav = document.getElementById('menuNav');
