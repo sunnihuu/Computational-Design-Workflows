@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyberminimal Floating Shapes</title>
+    <title>Computational Design Workflows</title>
     <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Redo button -->
+    <button id="redo-button" class="redo-button">↻ Redo</button>
+    
+    <!-- Text elements -->
+    <div class="text-element top-left">2024 Summer GSAPP CDP</div>
+    <div class="text-element top-right">Computational Design Workflows</div>
     <div id="floating-shapes"></div>
-    <main class="bento-grid">
-        <section class="bento-cell bento-title">
-            <h1><span class="bento-line">Summer 2025</span><br><span class="bento-line">GSAPP CDP</span></h1>
-            <p>Computational Design Workflows</p>
-            <p>Sunni Hu</p>
-        </section>
-    </main>
+    
+    <!-- New York Clock and Temperature -->
+    <div class="text-element bottom-left" id="ny-clock">Loading...</div>
+    <div class="text-element bottom-right" id="ny-temperature">Loading...</div>
+    
     <script src="scripts/floating-shapes.js"></script>
+    <script src="scripts/main.js"></script>
 </body>
 </html>
