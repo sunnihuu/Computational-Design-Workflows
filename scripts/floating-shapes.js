@@ -2,7 +2,7 @@
 
 const SHAPE_TYPES = ['circle', 'rounded-square', 'ellipse', 'diamond', 'blob'];
 const SHAPE_COUNT = 5; // Exactly 5 shapes
-const MAX_SHAPES = 20; // Maximum number of shapes allowed
+const MAX_SHAPES = 50; // Maximum number of shapes allowed
 const MIN_SIZE = 120;
 const MAX_SIZE = 160;
 const MIN_SPEED = 0.3;
@@ -19,6 +19,31 @@ const SHAPE_COLOR = '#00f0ff';
 let allShapes = []; // Store all shapes globally
 let currentSpeedMultiplier = 1.0; // Current speed multiplier
 let animationId = null; // Store animation frame ID
+
+// --- CURSOR TEXT LOGIC ---
+let cursorText = null;
+let cursorTextVisible = false;
+
+function showCursorText(e) {
+    if (!cursorText) return;
+    if (!cursorTextVisible) {
+        cursorText.style.display = 'block';
+        cursorText.style.opacity = '1';
+        cursorTextVisible = true;
+    }
+    // Offset so it doesn't cover the cursor
+    cursorText.style.left = (e.clientX + 18) + 'px';
+    cursorText.style.top = (e.clientY + 18) + 'px';
+}
+
+function hideCursorText() {
+    if (!cursorText) return;
+    if (cursorTextVisible) {
+        cursorText.style.opacity = '0';
+        setTimeout(() => { cursorText.style.display = 'none'; }, 200);
+        cursorTextVisible = false;
+    }
+}
 
 function randomBetween(a, b) {
     return Math.random() * (b - a) + a;
@@ -66,6 +91,17 @@ function createShape(type = null, sizeOverride = null) {
     
     // Add click event listener
     shape.addEventListener('click', handleShapeClick);
+    
+    // Attach hover listeners
+    shape.addEventListener('mouseenter', (e) => {
+        showCursorText(e);
+        // Track mousemove while hovering
+        shape.addEventListener('mousemove', showCursorText);
+    });
+    shape.addEventListener('mouseleave', (e) => {
+        hideCursorText();
+        shape.removeEventListener('mousemove', showCursorText);
+    });
     
     return shape;
 }
@@ -199,6 +235,9 @@ function animateShapes(shapes) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize cursor text element
+    cursorText = document.getElementById('cursor-text');
+    
     const container = document.getElementById('floating-shapes');
     const shapes = [];
     
