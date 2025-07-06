@@ -14,6 +14,7 @@
   --bright-bg: #FFE5D9;
   --accent-pink: #FF8FA3;
   --accent-cyan: #00D4FF;
+  --fun-blue: #4A90E2;
 }
 
 /* Reset and base styles */
@@ -47,9 +48,9 @@ body {
   position: fixed;
   top: 2rem;
   left: 2rem;
-  width: 3.5rem;
-  height: 3.5rem;
-  background: var(--bauhaus-red);
+  width: 4rem;
+  height: 4rem;
+  background: var(--fun-blue);
   border: none;
   cursor: pointer;
   display: flex;
@@ -59,14 +60,14 @@ body {
   gap: 0.25rem;
   transition: all 0.3s ease;
   z-index: 1001;
-  clip-path: polygon(0 0, calc(100% - 0.5rem) 0, 100% 0.5rem, 100% 100%, 0.5rem 100%, 0 calc(100% - 0.5rem));
-  box-shadow: 0 4px 20px rgba(230, 57, 70, 0.3);
+  border-radius: 50%;
+  box-shadow: 0 6px 25px rgba(74, 144, 226, 0.4);
 }
 
 .hamburger-btn:hover {
-  background: var(--bauhaus-orange);
-  transform: scale(1.05);
-  box-shadow: 0 6px 25px rgba(230, 57, 70, 0.4);
+  background: #357ABD;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 30px rgba(74, 144, 226, 0.6);
 }
 
 .hamburger-btn span {
@@ -75,6 +76,7 @@ body {
   background: var(--bauhaus-white);
   transition: all 0.3s ease;
   transform-origin: center;
+  border-radius: 1px;
 }
 
 /* Hamburger button animation */
@@ -90,24 +92,42 @@ body {
   transform: rotate(-45deg) translate(0.25rem, -0.25rem);
 }
 
-/* Menu Navigation */
+/* Menu Navigation - Cutout Circular Shape */
 .menu-nav {
   position: fixed;
-  top: 0;
-  left: -350px;
-  width: 350px;
-  height: 100vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 400px;
+  height: 400px;
   background: linear-gradient(135deg, var(--bauhaus-blue) 0%, var(--bauhaus-black) 100%);
-  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  border-radius: 50%;
+  opacity: 0;
+  visibility: hidden;
 }
 
+/* Cutout effect for circular menu */
 .menu-nav::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: var(--bright-bg);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.menu-nav::after {
   content: '';
   position: absolute;
   top: 0;
@@ -117,22 +137,13 @@ body {
   background: var(--bauhaus-red);
   clip-path: polygon(0 0, 100% 0, 100% 100%);
   opacity: 0.3;
-}
-
-.menu-nav::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100px;
-  height: 100px;
-  background: var(--bauhaus-yellow);
-  clip-path: polygon(0 100%, 100% 100%, 0 0);
-  opacity: 0.3;
+  border-radius: 0 50% 0 0;
 }
 
 .menu-nav.active {
-  left: 0;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  visibility: visible;
 }
 
 .menu-list {
@@ -143,46 +154,57 @@ body {
   text-align: center;
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .menu-list li {
-  margin: 2rem 0;
+  margin: 0;
 }
 
 .menu-item {
   display: block;
   color: var(--bauhaus-white);
   text-decoration: none;
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   padding: 1.5rem 2rem;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   position: relative;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .menu-item::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   width: 0;
-  height: 0.125rem;
+  height: 0;
   background: var(--bauhaus-yellow);
-  transition: width 0.3s ease;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  z-index: -1;
 }
 
 .menu-item:hover {
-  color: var(--bauhaus-yellow);
+  color: var(--bauhaus-black);
   border-color: var(--bauhaus-yellow);
-  transform: translateX(1rem);
+  transform: scale(1.1) rotate(2deg);
+  background: var(--bauhaus-yellow);
+  box-shadow: 0 10px 30px rgba(244, 162, 97, 0.4);
 }
 
 .menu-item:hover::before {
-  width: 1.5rem;
+  width: 100%;
+  height: 100%;
 }
 
 /* Landing Container */
@@ -393,27 +415,35 @@ body {
 }
 
 .cta-button {
-  background: linear-gradient(45deg, var(--bauhaus-red), var(--bauhaus-orange));
+  background: var(--fun-blue);
   color: var(--bauhaus-white);
   border: none;
-  padding: 1.5rem 3rem;
-  font-size: 1.25rem;
+  width: 120px;
+  height: 120px;
+  font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   cursor: pointer;
   transition: all 0.3s ease;
-  clip-path: polygon(0 0, calc(100% - 1rem) 0, 100% 1rem, 100% 100%, 1rem 100%, 0 calc(100% - 1rem));
-  box-shadow: 0 8px 30px rgba(230, 57, 70, 0.3);
+  border-radius: 50%;
+  box-shadow: 0 8px 30px rgba(74, 144, 226, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+  padding: 1rem;
 }
 
 .cta-button:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 12px 40px rgba(230, 57, 70, 0.4);
+  transform: translateY(-10px) scale(1.1);
+  box-shadow: 0 15px 40px rgba(74, 144, 226, 0.6);
+  background: #357ABD;
 }
 
 .cta-button:active {
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-5px) scale(1.05);
 }
 
 /* Geometric Accents */
@@ -472,19 +502,39 @@ body {
   .geo-2 { width: 60px; height: 60px; }
   .geo-3 { width: 75px; height: 75px; }
   .geo-4 { width: 45px; height: 45px; }
+  
+  .menu-nav {
+    width: 350px;
+    height: 350px;
+  }
+  
+  .menu-nav::before {
+    width: 250px;
+    height: 250px;
+  }
 }
 
 @media (max-width: 768px) {
   .hamburger-btn {
     top: 1.5rem;
     left: 1.5rem;
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;
+    height: 3.5rem;
   }
   
   .menu-nav {
-    width: 100vw;
-    left: -100vw;
+    width: 300px;
+    height: 300px;
+  }
+  
+  .menu-nav::before {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .menu-item {
+    font-size: 1.5rem;
+    padding: 1rem 1.5rem;
   }
   
   .landing-container {
@@ -517,8 +567,9 @@ body {
   }
   
   .cta-button {
-    padding: 1.25rem 2.5rem;
-    font-size: 1.125rem;
+    width: 100px;
+    height: 100px;
+    font-size: 0.875rem;
   }
 }
 
@@ -540,4 +591,19 @@ body {
   .geo-2 { width: 50px; height: 50px; }
   .geo-3 { width: 60px; height: 60px; }
   .geo-4 { width: 35px; height: 35px; }
+  
+  .menu-nav {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .menu-nav::before {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .menu-item {
+    font-size: 1.25rem;
+    padding: 0.75rem 1rem;
+  }
 }
