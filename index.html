@@ -10,12 +10,8 @@
   <meta charset="UTF-8">
   <!-- This sets the character encoding to UTF-8, which supports special characters and emojis -->
   
-  <title>Computational Design Workflows</title>
+  <title>Sunni Hu - Computational Design Workflows</title>
   <!-- This is the title that appears in the browser tab and bookmarks -->
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barriecito&display=swap" rel="stylesheet"> 
   
   <link rel="stylesheet" href="style.css">
   <!-- This links our CSS file to style the page - the href points to our style.css file -->
@@ -23,6 +19,10 @@
 
 <body>
   <!-- The body contains all the visible content that users will see on the page -->
+  
+  <!-- Geometric decorative elements -->
+  <div class="geometric-accent top-right"></div>
+  <div class="geometric-accent bottom-left"></div>
   
   <header>
     <!-- The header is typically used for navigation and site branding -->
@@ -47,23 +47,36 @@
   </header>
 
   <main>
-  
-    <div class="project-subtitle">Sunni Hu</div>
-    <!-- This div displays the student's name as a subtitle -->
-    <!-- class="project-subtitle" allows us to style this with CSS -->
+    <div class="course-info">
+      <h1>Computational Design Workflows</h1>
+      <p class="course-meta">Summer 2025 • Columbia GSAPP</p>
+      <p class="course-description">Exploring computational design methodologies and digital fabrication workflows in architectural practice.</p>
+    </div>
     
-    <p>Click the button below to see JavaScript in action:</p>
-    <!-- Instructions for the user -->
+    <div class="student-info">
+      <button id="nameButton" class="name-button">Sunni Hu</button>
+      <p class="student-description">Graduate student in Computational Design Practices at Columbia University's Graduate School of Architecture, Planning and Preservation.</p>
+    </div>
     
-    <button id="demoButton">Click Me!</button>
-    <!-- This creates a clickable button -->
-    <!-- id="demoButton" gives this button a unique identifier so JavaScript can find it -->
-    <!-- The text "Click Me!" is what users will see on the button -->
-    
-    <div id="messageDisplay"></div>
-    <!-- This div will be used by JavaScript to show messages -->
-    <!-- id="messageDisplay" gives this div a unique identifier -->
-    <!-- It starts empty but JavaScript will add content to it -->
+    <div class="course-content">
+      <section class="project-section">
+        <h2>Course Projects</h2>
+        <div class="project-grid">
+          <div class="project-card">
+            <h3>Digital Fabrication</h3>
+            <p>Exploring parametric design and digital manufacturing techniques.</p>
+          </div>
+          <div class="project-card">
+            <h3>Algorithmic Design</h3>
+            <p>Developing computational algorithms for architectural form generation.</p>
+          </div>
+          <div class="project-card">
+            <h3>Interactive Systems</h3>
+            <p>Creating responsive architectural systems using real-time data.</p>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
   <!-- End of main content area -->
   
