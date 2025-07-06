@@ -1,25 +1,14 @@
 <!DOCTYPE html>
-<!-- This tells the browser this is an HTML5 document - always include this at the top -->
-<html lang="en">
-<!-- The html tag is the root element that contains everything on the page -->
-<!-- lang="en" tells the browser this page is in English -->
-
+<html lang="eng">
 <head>
-  <!-- The head section contains information about the page, not visible content -->
-  
-  <meta charset="UTF-8">
-  <!-- This sets the character encoding to UTF-8, which supports special characters and emojis -->
-  
+  <meta charset="UTF-8"><meta>
   <title>Sunni Hu - Computational Design Workflows</title>
-  <!-- This is the title that appears in the browser tab and bookmarks -->
-  
-  <link rel="stylesheet" href="style.css">
-  <!-- This links our CSS file to style the page - the href points to our style.css file -->
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- The body contains all the visible content that users will see on the page -->
-  
+  <script src="script.js"></script>
+
   <!-- Geometric decorative elements -->
   <div class="geometric-accent top-right"></div>
   <div class="geometric-accent bottom-left"></div>
@@ -41,67 +30,10 @@
     </nav>
   </div>
   
-  <header>
-    <!-- The header is typically used for navigation and site branding -->
-    
-    <div class="left">Columbia GSAPP</div>
-    <!-- This div creates a container for the left side of the header -->
-    <!-- class="left" allows us to style this specific div with CSS -->
-    
-    <div class="center">
-      <!-- This div creates a container for the center of the header -->
-      Computational Design Practices<br>
-      <!-- This is the main text in the center -->
-      <!-- <br> creates a line break, moving the next text to a new line -->
-      <span>Computational Design Workflows</span>
-      <!-- span is an inline element that groups text without creating a new line -->
-      <!-- class="center" allows us to style this span differently -->
-    </div>
-    
-    <div class="right"><a href="#">Archive</a></div>
-    <!-- This div creates a container for the right side of the header -->
-    <!-- <a href="#">About</a> creates a clickable link (currently goes nowhere with #) -->
+<header> <div class="left">Columbia GSAPP</div>
+    <div class="center">Computational Design Practices</div>
+    <div class="top-right">Computational Design Workflows</div>
   </header>
-
-  <main>
-    <div class="course-info">
-      <h1>Computational Design Workflows</h1>
-      <p class="course-meta">Summer 2025 • Columbia GSAPP</p>
-      <p class="course-description">Exploring computational design methodologies and digital fabrication workflows in architectural practice.</p>
-    </div>
-    
-    <div class="student-info">
-      <button id="nameButton" class="name-button">Sunni Hu</button>
-      <p class="student-description">Graduate student in Computational Design Practices at Columbia University's Graduate School of Architecture, Planning and Preservation.</p>
-    </div>
-    
-    <div class="course-content">
-      <section class="project-section">
-        <h2>Course Projects</h2>
-        <div class="project-grid">
-          <div class="project-card">
-            <h3>Digital Fabrication</h3>
-            <p>Exploring parametric design and digital manufacturing techniques.</p>
-          </div>
-          <div class="project-card">
-            <h3>Algorithmic Design</h3>
-            <p>Developing computational algorithms for architectural form generation.</p>
-          </div>
-          <div class="project-card">
-            <h3>Interactive Systems</h3>
-            <p>Creating responsive architectural systems using real-time data.</p>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-  <!-- End of main content area -->
-  
-  <script src="script.js"></script>
-  <!-- This links our JavaScript file to the HTML page -->
-  <!-- The script tag is placed at the end of the body so the HTML loads first -->
-  <!-- src="script.js" tells the browser to load and run our JavaScript file -->
 </body>
 <!-- End of body - all visible content goes above this line -->
 </html>
-<!-- End of HTML document -->
