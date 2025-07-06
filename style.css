@@ -26,6 +26,175 @@ body {
   line-height: 1.6;
   font-weight: 400;
   letter-spacing: -0.01em;
+  overflow-x: hidden;
+}
+
+/* Hamburger Menu Styles */
+.hamburger-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 100vh;
+}
+
+.hamburger-btn {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  width: 3rem;
+  height: 3rem;
+  background: var(--bauhaus-blue);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.3s ease;
+  z-index: 1001;
+  clip-path: polygon(0 0, calc(100% - 0.5rem) 0, 100% 0.5rem, 100% 100%, 0.5rem 100%, 0 calc(100% - 0.5rem));
+}
+
+.hamburger-btn:hover {
+  background: var(--bauhaus-red);
+  transform: scale(1.05);
+}
+
+.hamburger-btn span {
+  width: 1.5rem;
+  height: 0.125rem;
+  background: var(--bauhaus-white);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Hamburger button animation */
+.hamburger-btn.active span:nth-child(1) {
+  transform: rotate(45deg) translate(0.25rem, 0.25rem);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(0.25rem, -0.25rem);
+}
+
+/* Menu Navigation */
+.menu-nav {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--bauhaus-blue) 0%, var(--bauhaus-black) 100%);
+  transition: left 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: var(--bauhaus-red);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  opacity: 0.3;
+}
+
+.menu-nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  background: var(--bauhaus-yellow);
+  clip-path: polygon(0 100%, 100% 100%, 0 0);
+  opacity: 0.3;
+}
+
+.menu-nav.active {
+  left: 0;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.menu-list li {
+  margin: 1.5rem 0;
+}
+
+.menu-item {
+  display: block;
+  color: var(--bauhaus-white);
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 1rem 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.menu-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0.125rem;
+  background: var(--bauhaus-yellow);
+  transition: width 0.3s ease;
+}
+
+.menu-item:hover {
+  color: var(--bauhaus-yellow);
+  border-color: var(--bauhaus-yellow);
+  transform: translateX(1rem);
+}
+
+.menu-item:hover::before {
+  width: 1rem;
+}
+
+/* Overlay for menu background */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Geometric header with Bauhaus principles */
@@ -38,6 +207,13 @@ header {
   color: var(--bauhaus-white);
   position: relative;
   overflow: hidden;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust header when menu is open */
+header.menu-open {
+  margin-left: 300px;
 }
 
 /* Geometric accent elements */
@@ -126,6 +302,13 @@ main {
   display: grid;
   grid-template-columns: 1fr;
   gap: 4rem;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust main content when menu is open */
+main.menu-open {
+  margin-left: 300px;
 }
 
 /* Course information section */
@@ -322,6 +505,23 @@ p {
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .hamburger-btn {
+    top: 1rem;
+    left: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .menu-nav {
+    width: 250px;
+    left: -250px;
+  }
+  
+  header.menu-open,
+  main.menu-open {
+    margin-left: 0;
+  }
+  
   header {
     grid-template-columns: 1fr;
     gap: 1rem;
