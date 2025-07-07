@@ -66,7 +66,7 @@ body {
     width: 100vw;
     height: 100vh;
     pointer-events: auto; /* Enable pointer events for clicking */
-    z-index: 1;
+    z-index: -1;
     cursor: pointer; /* Show pointer cursor when hovering over empty areas */
 }
 
@@ -160,4 +160,9 @@ body {
     bottom: 30px;
     right: 30px;
     text-align: right;
-} 
+}
+
+
+
+
+

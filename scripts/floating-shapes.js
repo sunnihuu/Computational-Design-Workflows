@@ -4,7 +4,7 @@ const SHAPE_TYPES = ['circle', 'rounded-square', 'ellipse', 'diamond', 'blob'];
 const SHAPE_COUNT = 5; // Exactly 5 shapes
 const MAX_SHAPES = 25; // Maximum number of shapes allowed
 const MIN_SIZE = 120;
-const MAX_SIZE = 160;
+const MAX_SIZE = 350;
 const MIN_SPEED = 0.3;
 const MAX_SPEED = 2.0;
 
@@ -64,8 +64,8 @@ function createShape(type = null, sizeOverride = null) {
         height = size;
     }
     
-    const left = randomBetween(50, window.innerWidth - width - 90);
-    const top = randomBetween(50, window.innerHeight - height - 50);
+    const left = randomBetween(0, window.innerWidth - width);
+    const top = randomBetween(0, window.innerHeight - height);
     const rotate = randomBetween(-15, 15); // Small random rotation
     const opacity = randomBetween(0.7, 1.0); // High opacity for visibility
     
@@ -213,13 +213,41 @@ function animateShapes(shapes) {
             left += shape._vx;
             top += shape._vy;
             
-            // Bounce on edges
-            if (left <= 50 || left + width >= window.innerWidth - 50) shape._vx *= -1;
-            if (top <= 50 || top + height >= window.innerHeight - 50) shape._vy *= -1;
+            // Bounce on edges (actual viewport boundaries) and change size
+            let hitEdge = false;
+            if (left <= 0 || left + width >= window.innerWidth) {
+                shape._vx *= -1;
+                hitEdge = true;
+            }
+            if (top <= 0 || top + height >= window.innerHeight) {
+                shape._vy *= -1;
+                hitEdge = true;
+            }
             
-            // Clamp to viewport with padding
-            left = Math.max(50, Math.min(window.innerWidth - width - 50, left));
-            top = Math.max(50, Math.min(window.innerHeight - height - 50, top));
+            // Change size when hitting edge
+            if (hitEdge) {
+                const newSize = randomBetween(MIN_SIZE, MAX_SIZE);
+                let newWidth = newSize, newHeight = newSize;
+                
+                // Set dimensions based on shape type
+                if (shape._shapeType === 'ellipse') {
+                    newWidth = newSize * 1.5;
+                    newHeight = newSize * 0.8;
+                } else if (shape._shapeType === 'blob') {
+                    newWidth = newSize;
+                    newHeight = newSize;
+                }
+                
+                shape._size = newSize;
+                shape._width = newWidth;
+                shape._height = newHeight;
+                shape.style.width = `${newWidth}px`;
+                shape.style.height = `${newHeight}px`;
+            }
+            
+            // Clamp to viewport boundaries
+            left = Math.max(0, Math.min(window.innerWidth - width, left));
+            top = Math.max(0, Math.min(window.innerHeight - height, top));
             
             // Rotate slowly
             let rot = parseFloat(shape.style.transform.replace(/[^-0-9.]/g, '')) || 0;
