@@ -1,5 +1,4 @@
 // Floating neon shapes for cyberminimalist site with bouncing edge behavior and diverse shapes
-
 const SHAPE_TYPES = ['circle', 'rounded-square', 'ellipse', 'diamond', 'blob'];
 const SHAPE_COUNT = 5; // Exactly 5 shapes
 const MAX_SHAPES = 25; // Maximum number of shapes allowed
@@ -19,6 +18,29 @@ const SHAPE_COLOR = '#00f0ff';
 let allShapes = []; // Store all shapes globally
 let currentSpeedMultiplier = 1.0; // Current speed multiplier
 let animationId = null; // Store animation frame ID
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize cursor text element
+    cursorText = document.getElementById('cursor-text');
+    
+    const container = document.getElementById('floating-shapes');
+    const shapes = [];
+    
+    // Create exactly 5 shapes, one of each type
+    for (let i = 0; i < SHAPE_TYPES.length; i++) {
+        const shape = createShape(SHAPE_TYPES[i]);
+        container.appendChild(shape);
+        shapes.push(shape);
+    }
+    
+    allShapes = shapes;
+    animateShapes(shapes);
+    
+    // Add redo button functionality
+    const redoButton = document.getElementById('redo-button');
+    redoButton.addEventListener('click', resetToOriginal);
+});
+
 
 // --- CURSOR TEXT LOGIC ---
 let cursorText = null;
@@ -261,25 +283,3 @@ function animateShapes(shapes) {
     }
     animationId = requestAnimationFrame(step);
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize cursor text element
-    cursorText = document.getElementById('cursor-text');
-    
-    const container = document.getElementById('floating-shapes');
-    const shapes = [];
-    
-    // Create exactly 5 shapes, one of each type
-    for (let i = 0; i < SHAPE_TYPES.length; i++) {
-        const shape = createShape(SHAPE_TYPES[i]);
-        container.appendChild(shape);
-        shapes.push(shape);
-    }
-    
-    allShapes = shapes;
-    animateShapes(shapes);
-    
-    // Add redo button functionality
-    const redoButton = document.getElementById('redo-button');
-    redoButton.addEventListener('click', resetToOriginal);
-});
