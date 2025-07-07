@@ -55,14 +55,6 @@ function updateNYClock() {
     }
   }
   
-  // Test presence of required DOM elements (optional)
-  function testElements() {
-    const clockElement = document.getElementById('ny-clock');
-    const tempElement = document.getElementById('ny-temperature');
-    console.log('Clock element:', clockElement);
-    console.log('Temperature element:', tempElement);
-  }
-  
   // Initialize clock and weather updates after DOM content is loaded
   document.addEventListener('DOMContentLoaded', () => {
     // testElements(); // Uncomment for debugging

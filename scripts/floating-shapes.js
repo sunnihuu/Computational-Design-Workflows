@@ -2,7 +2,7 @@
 
 const SHAPE_TYPES = ['circle', 'rounded-square', 'ellipse', 'diamond', 'blob'];
 const SHAPE_COUNT = 5; // Exactly 5 shapes
-const MAX_SHAPES = 50; // Maximum number of shapes allowed
+const MAX_SHAPES = 25; // Maximum number of shapes allowed
 const MIN_SIZE = 120;
 const MAX_SIZE = 160;
 const MIN_SPEED = 0.3;
