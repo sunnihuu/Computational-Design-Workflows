@@ -4,26 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computational Design Workflows</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/website.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <script src="scripts/floating-shapes.js"></script>
-    <script src="scripts/main.js"></script>
 </head>
 <body>
+    <!-- Hamburger menu button -->
+    <button id="hamburger-menu" class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
     <!-- Redo button -->
     <button id="redo-button" class="redo-button">↻</button>
     
     <!-- Text elements -->
     <div class="text-element top-left">2025 Summer GSAPP CDP</div>
     <div class="text-element top-right">Computational Design Workflows</div>
-    <div id="floating-shapes"></div>
+    
+    <!-- Floating shapes layer (separate) -->
+    <div id="floating-shapes-layer"></div>
     
     <!-- New York Clock and Temperature -->
     <div class="text-element bottom-left" id="ny-clock">Loading...</div>
     <div class="text-element bottom-right" id="ny-temperature">Loading...</div>
 
-    <div id="cursor-text" style="display:none; position:fixed; z-index:2000; pointer-events:none; color:white; font-size:14px; font-family:'Roboto',sans-serif; font-weight:300; transition:opacity 0.2s; opacity:0;">
-        click me!
-    </div>
+    <!-- Cursor tooltip -->
+    <div id="cursor-text">click me!</div>
+
+    <!-- Scripts -->
+    <script src="scripts/floating-shapes-layer.js"></script>
+    <script src="scripts/website.js"></script>
 </body>
 </html>
