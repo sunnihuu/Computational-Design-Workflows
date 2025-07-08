@@ -174,4 +174,34 @@ body {
     background: var(--text-white);
     border-radius: 1px;
     transition: all var(--transition-duration) ease;
+}
+
+/* Redo button */
+.redo-button {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(162, 0, 255, 0.2);
+    border: 2px solid var(--hover-purple);
+    color: var(--text-white);
+    font-family: inherit;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all var(--transition-duration) ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(162, 0, 255, var(--shadow-intensity));
+}
+
+.redo-button:hover {
+    background: rgba(162, 0, 255, 0.4);
+    box-shadow: 0 0 25px rgba(162, 0, 255, 0.5);
+    transform: translateX(-50%) scale(1.05);
+}
+
+.redo-button:active {
+    transform: translateX(-50%) scale(0.95);
 } 
