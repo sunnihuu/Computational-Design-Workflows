@@ -1,0 +1,270 @@
+/* Computational Design Workflows - Class Website */
+
+/* CSS Custom Properties */
+:root {
+    --neon-cyan: #00f0ff;
+    --hover-purple: #a200ff;
+    --dark-bg: #0a0a0a;
+    --text-white: #ffffff;
+    --blur-amount: 8px;
+    --shadow-intensity: 0.3;
+    --transition-duration: 0.3s;
+}
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    background: var(--dark-bg);
+    overflow: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Hamburger menu button */
+.hamburger-menu {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(162, 0, 255, 0.2);
+    border: 2px solid var(--hover-purple);
+    color: var(--text-white);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all var(--transition-duration) ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(162, 0, 255, var(--shadow-intensity));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.hamburger-menu:hover {
+    background: rgba(162, 0, 255, 0.4);
+    box-shadow: 0 0 25px rgba(162, 0, 255, 0.5);
+    transform: translateX(-50%) scale(1.05);
+}
+
+.hamburger-menu:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+.hamburger-menu span {
+    width: 20px;
+    height: 2px;
+    background: var(--text-white);
+    border-radius: 1px;
+    transition: all var(--transition-duration) ease;
+}
+
+/* Hamburger menu animation when active */
+.hamburger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Menu container */
+.menu-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 450px;
+    background: rgba(162, 0, 255, 0.1);
+    border: 2px solid var(--hover-purple);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 30px rgba(162, 0, 255, 0.3);
+    z-index: 999;
+    display: none;
+    opacity: 0;
+    transition: opacity var(--transition-duration) ease;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-white);
+    font-family: inherit;
+    font-size: 18px;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+/* Menu content list */
+.menu-content-list {
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-item {
+    padding: 15px 20px;
+    margin: 8px 0;
+    background: rgba(162, 0, 255, 0.2);
+    border: 1px solid rgba(162, 0, 255, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-duration) ease;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(5px);
+}
+
+.menu-item:hover {
+    background: rgba(162, 0, 255, 0.4);
+    border-color: var(--hover-purple);
+    transform: translateX(10px);
+    box-shadow: 0 0 15px rgba(162, 0, 255, 0.3);
+}
+
+.menu-item:active {
+    transform: translateX(10px) scale(0.98);
+}
+
+/* Redo button */
+.redo-button {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(162, 0, 255, 0.2);
+    border: 2px solid var(--hover-purple);
+    color: var(--text-white);
+    font-family: inherit;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all var(--transition-duration) ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(162, 0, 255, var(--shadow-intensity));
+}
+
+.redo-button:hover {
+    background: rgba(162, 0, 255, 0.4);
+    box-shadow: 0 0 25px rgba(162, 0, 255, 0.5);
+    transform: translateX(-50%) scale(1.05);
+}
+
+.redo-button:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+/* Floating shapes layer */
+#floating-shapes-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: auto;
+    z-index: 1;
+    cursor: pointer;
+}
+
+/* Floating shape base styles */
+.floating-shape {
+    position: absolute;
+    opacity: 1;
+    pointer-events: auto;
+    will-change: transform;
+    transition: transform 8s linear, width 8s linear, height 8s linear, background-color var(--transition-duration) ease;
+    isolation: isolate;
+    filter: blur(var(--blur-amount));
+    box-shadow: 0 0 20px rgba(0, 240, 255, var(--shadow-intensity));
+    cursor: pointer;
+}
+
+.floating-shape:hover {
+    background-color: var(--hover-purple) !important;
+    box-shadow: 0 0 20px rgba(162, 0, 255, 0.5);
+}
+
+/* Shape variations */
+.floating-shape.circle {
+    border-radius: 50%;
+}
+
+.floating-shape.rounded-square {
+    border-radius: 30px;
+}
+
+.floating-shape.ellipse {
+    border-radius: 50%;
+}
+
+.floating-shape.diamond {
+    transform: rotate(45deg);
+    border-radius: 0;
+}
+
+.floating-shape.blob {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+/* Text elements */
+.text-element {
+    position: fixed;
+    color: var(--text-white);
+    font-family: inherit;
+    font-size: 18px;
+    z-index: 1000;
+    pointer-events: none;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+}
+
+.text-element.top-left {
+    top: 30px;
+    left: 30px;
+}
+
+.text-element.top-right {
+    top: 30px;
+    right: 30px;
+    text-align: right;
+}
+
+.text-element.bottom-left {
+    bottom: 30px;
+    left: 30px;
+}
+
+.text-element.bottom-right {
+    bottom: 30px;
+    right: 30px;
+    text-align: right;
+}
+
+/* Cursor tooltip */
+#cursor-text {
+    position: fixed;
+    z-index: 2000;
+    pointer-events: none;
+    color: var(--text-white);
+    font-size: 14px;
+    font-family: inherit;
+    transition: opacity var(--transition-duration);
+    opacity: 0;
+    display: none;
+} 
