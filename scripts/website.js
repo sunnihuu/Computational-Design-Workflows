@@ -31,11 +31,37 @@ class CDWWebsite {
                 // Hide menu when clicking outside
                 document.addEventListener('click', (e) => {
                     if (burgerMenu.classList.contains('open') && !burgerMenu.contains(e.target) && e.target !== hamburger) {
+                        // Close any open submenu
+                        const openSub = burgerMenu.querySelector('.has-submenu.open');
+                        if (openSub) openSub.classList.remove('open');
                         burgerMenu.classList.remove('open');
                         hamburger.classList.remove('open');
                         setTimeout(() => {
                             burgerMenu.style.display = 'none';
                         }, 350);
+                    }
+                });
+                // Submenu toggle logic
+                const spatialCanvases = burgerMenu.querySelector('.has-submenu > a');
+                if (spatialCanvases) {
+                    spatialCanvases.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const parentLi = spatialCanvases.parentElement;
+                        // Close other open submenus
+                        burgerMenu.querySelectorAll('.has-submenu.open').forEach(li => {
+                            if (li !== parentLi) li.classList.remove('open');
+                        });
+                        parentLi.classList.toggle('open');
+                    });
+                }
+                // Optional: close submenu when clicking another main menu item
+                burgerMenu.querySelectorAll('.menu-page').forEach(link => {
+                    if (!link.closest('.has-submenu')) {
+                        link.addEventListener('click', () => {
+                            const openSub = burgerMenu.querySelector('.has-submenu.open');
+                            if (openSub) openSub.classList.remove('open');
+                        });
                     }
                 });
                 // Menu page click handlers

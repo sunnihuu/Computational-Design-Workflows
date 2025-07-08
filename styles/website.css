@@ -105,6 +105,7 @@ body {
 .text-element.bottom-left {
     bottom: 30px;
     left: 30px;
+    pointer-events: auto;
 }
 
 .text-element.bottom-right {
@@ -277,6 +278,78 @@ body {
     transform: scale(0.96);
 }
 
+/* Inline submenu styles for burger menu */
+.has-submenu {
+    position: static;
+}
+.submenu {
+    display: block;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, max-height 0.35s cubic-bezier(0.68,-0.55,0.27,1.55);
+    position: static;
+    left: unset;
+    top: unset;
+    transform: none;
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0.2em 0 0.2em 1.5em;
+    margin: 0.2em 0 0.2em 0;
+    z-index: 1;
+    text-align: center;
+    padding-left: 0;
+}
+.has-submenu.open > .submenu {
+    opacity: 1;
+    max-height: 200px;
+    pointer-events: auto;
+}
+.submenu li {
+    margin: 0.2em 0;
+    list-style: none;
+    position: relative;
+    padding-left: 0;
+    display: block;
+    text-align: center;
+}
+.submenu li::before {
+    content: "\2022 "; /* Unicode bullet character */
+    position: absolute;
+    left: -1.2em;
+    color: var(--text-white);
+    opacity: 0.7;
+    font-size: 1em;
+    transition: color var(--transition-duration);
+}
+.submenu a {
+    font-size: 1.05em;
+    padding: 2px 0;
+    border-radius: 0;
+    background: none;
+    transition: color var(--transition-duration);
+    display: inline;
+    width: auto;
+    text-align: center;
+    color: var(--text-white);
+}
+.submenu a:hover {
+    background: none;
+    color: var(--neon-cyan);
+}
+.submenu a::before {
+    content: none !important;
+}
+.submenu li:hover::before,
+.submenu a:hover {
+    color: var(--neon-cyan) !important;
+}
+
 /* Redo button */
 .redo-button {
     position: fixed;
@@ -295,6 +368,8 @@ body {
     transition: all var(--transition-duration) ease;
     backdrop-filter: blur(10px);
     box-shadow: 0 0 15px rgba(162, 0, 255, var(--shadow-intensity));
+    text-decoration: none;
+    display: inline-block;
 }
 
 .redo-button:hover {
@@ -305,4 +380,46 @@ body {
 
 .redo-button:active {
     transform: translateX(-50%) scale(0.95);
+}
+
+#button-container {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  display: flex;
+  gap: 12px;
+  pointer-events: auto;
+}
+#my-canvas {
+  z-index: 1;
+  position: relative;
+  /* pointer-events: none; */
+}
+#button-container button {
+  width: 50px;
+  height: 50px;
+  background: rgba(162, 0, 255, 0.2);
+  color: var(--hover-purple);
+  border: 2px solid var(--hover-purple);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  font-weight: 600;
+  box-shadow: 0 0 15px rgba(162, 0, 255, 0.3);
+  cursor: pointer;
+  transition: all var(--transition-duration) ease;
+  backdrop-filter: blur(10px);
+  padding: 0;
+}
+#button-container button:hover {
+  background: rgba(162, 0, 255, 0.4);
+  color: #fff;
+  box-shadow: 0 0 25px rgba(162, 0, 255, 0.5);
+  transform: scale(1.05);
+}
+#button-container button:active {
+  transform: scale(0.95);
 } 
