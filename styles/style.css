@@ -30,7 +30,7 @@ body {
 /* Redo button */
 .redo-button {
     position: fixed;
-    top: 30px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(162, 0, 255, 0.2);
