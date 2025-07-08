@@ -18,13 +18,25 @@
     <nav id="burger-menu-dropdown" class="burger-menu-dropdown" style="display: none;">
         <ul>
             <li><a href="#" class="menu-page" data-page="1"><span>Hello!</span></a></li>
-            <li><a href="#" class="menu-page" data-page="1"><span>Spatial Canvases</span></a></li>
+            <li class="has-submenu">
+                <a href="#" class="menu-page" data-page="1"><span>Spatial Canvases</span></a>
+                <ul class="submenu">
+                    <li><a href="2d.html" class="submenu-page" data-page="2d"><span>2D</span></a></li>
+                    <li><a href="#" class="submenu-page" data-page="3d"><span>3D</span></a></li>
+                </ul>
+            </li>
             <li><a href="#" class="menu-page" data-page="2"><span>more</span></a></li>
         </ul>
     </nav>
    
     <!-- Redo button -->
     <button id="redo-button" class="redo-button">↻</button>
+    
+    <!-- Add play and reset buttons in a container at the upper left -->
+    <div id="button-container" style="position: absolute; top: 24px; left: 24px; z-index: 10; display: flex; gap: 12px;">
+      <button id="play-btn" aria-label="Play">&#9654;</button>
+      <button id="reset-btn" aria-label="Reset">&#8635;</button>
+    </div>
     
     <!-- Text elements -->
     <div class="text-element top-left">
