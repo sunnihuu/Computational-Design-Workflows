@@ -4,7 +4,7 @@ class FloatingShapesLayer {
         this.config = {
             types: ['circle', 'rounded-square', 'ellipse', 'diamond', 'blob'],
             count: 5,
-            maxCount: 25,
+            maxCount: 15,
             minSize: 120,
             maxSize: 350,
             color: '#00f0ff',
