@@ -15,6 +15,34 @@ class CDWWebsite {
         document.addEventListener('DOMContentLoaded', () => {
             this.startClock();
             this.startWeatherUpdates();
+            // Burger menu logic
+            const hamburger = document.getElementById('hamburger-menu');
+            const burgerMenu = document.getElementById('burger-menu-dropdown');
+            if (hamburger && burgerMenu) {
+                hamburger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = burgerMenu.style.display === 'none' || !burgerMenu.classList.contains('open');
+                    burgerMenu.style.display = 'block';
+                    setTimeout(() => {
+                        burgerMenu.classList.toggle('open', isOpen);
+                    }, 10);
+                    hamburger.classList.toggle('open', isOpen);
+                });
+                // Hide menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (burgerMenu.classList.contains('open') && !burgerMenu.contains(e.target) && e.target !== hamburger) {
+                        burgerMenu.classList.remove('open');
+                        hamburger.classList.remove('open');
+                        setTimeout(() => {
+                            burgerMenu.style.display = 'none';
+                        }, 350);
+                    }
+                });
+                // Menu page click handlers
+                burgerMenu.querySelectorAll('.menu-page').forEach(link => {
+                    link.onclick = null;
+                });
+            }
         });
     }
     
