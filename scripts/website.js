@@ -8,99 +8,14 @@ class CDWWebsite {
                 updateInterval: 5 * 60 * 1000 // 5 minutes
             }
         };
-        
-        this.state = {
-            menuOpen: false
-        };
-        
         this.init();
     }
     
     init() {
         document.addEventListener('DOMContentLoaded', () => {
-            this.setupHamburgerMenu();
             this.startClock();
             this.startWeatherUpdates();
         });
-    }
-    
-    setupHamburgerMenu() {
-        const hamburgerButton = document.getElementById('hamburger-menu');
-        if (hamburgerButton) {
-            hamburgerButton.addEventListener('click', () => this.toggleMenu());
-        }
-    }
-    
-    toggleMenu() {
-        this.state.menuOpen = !this.state.menuOpen;
-        
-        if (this.state.menuOpen) {
-            this.showMenu();
-        } else {
-            this.hideMenu();
-        }
-    }
-    
-    showMenu() {
-        // Create menu container if it doesn't exist
-        let menuContainer = document.getElementById('menu-container');
-        if (!menuContainer) {
-            menuContainer = document.createElement('div');
-            menuContainer.id = 'menu-container';
-            menuContainer.className = 'menu-container';
-            
-            // Add content list
-            const contentList = document.createElement('ul');
-            contentList.className = 'menu-content-list';
-            
-            const menuItems = [
-                '2D & 3D Spatial Composition',
-                'Parametric Modeling Techniques',
-                'Algorithmic Form Generation',
-                'Digital Fabrication Methods',
-                'Building Information Modeling',
-                'Generative Design Workflows',
-                'Performance-Based Design',
-                'Interactive Prototyping',
-                'Advanced Scripting & Automation'
-            ];
-            
-            menuItems.forEach(item => {
-                const listItem = document.createElement('li');
-                listItem.className = 'menu-item';
-                listItem.textContent = item;
-                contentList.appendChild(listItem);
-            });
-            
-            menuContainer.appendChild(contentList);
-            document.body.appendChild(menuContainer);
-        }
-        
-        // Show the menu
-        menuContainer.style.display = 'flex';
-        menuContainer.style.opacity = '1';
-        
-        // Animate hamburger button
-        const hamburgerButton = document.getElementById('hamburger-menu');
-        if (hamburgerButton) {
-            hamburgerButton.classList.add('active');
-        }
-    }
-    
-    hideMenu() {
-        const menuContainer = document.getElementById('menu-container');
-        if (menuContainer) {
-            menuContainer.style.opacity = '0';
-            setTimeout(() => {
-                menuContainer.style.display = 'none';
-            }, 300);
-        }
-        
-        // Reset hamburger button
-        const hamburgerButton = document.getElementById('hamburger-menu');
-        if (hamburgerButton) {
-            hamburgerButton.classList.remove('active');
-        }
     }
     
     startClock() {
