@@ -203,6 +203,16 @@ const CanvasUtils = {
 
 };
 
+// Three.js Scene for First Canvas
+let scene, camera, renderer, cube;
+let animationId;
+let isMouseDown = false;
+let mouseX = 0;
+let mouseY = 0;
+let cameraDistance = 5;
+let cameraAngleX = 0;
+let cameraAngleY = 0;
+
 // 3D Canvas Setup
 document.addEventListener('DOMContentLoaded', function() {
   const canvas = document.getElementById('my-canvas');
@@ -210,21 +220,180 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const playBtn = document.getElementById('play-btn');
   const resetBtn = document.getElementById('reset-btn');
-  const ctx = canvas.getContext('2d');
   
-  // Clear canvas initially
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Initialize Three.js scene
+  function initThreeJS() {
+    // Scene setup
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf0f0f0);
+    
+    // Camera setup
+    camera = new THREE.PerspectiveCamera(75, canvas.width / canvas.height, 0.1, 1000);
+    camera.position.z = 5;
+    
+    // Renderer setup
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setSize(canvas.width, canvas.height);
+    renderer.setClearColor(0xf0f0f0);
+    
+    // Create a rotating cube
+    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    const material = new THREE.MeshPhongMaterial({ 
+      color: 0xa200ff,
+      shininess: 100,
+      transparent: true,
+      opacity: 0.8
+    });
+    cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+    
+    // Add lighting
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+    
+    const pointLight = new THREE.PointLight(0x00f0ff, 1, 100);
+    pointLight.position.set(-5, -5, 5);
+    scene.add(pointLight);
+    
+    // Add some additional geometric shapes
+    const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const sphereMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0x00f0ff,
+      transparent: true,
+      opacity: 0.7
+    });
+    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    sphere.position.set(3, 0, 0);
+    scene.add(sphere);
+    
+    const torusGeometry = new THREE.TorusGeometry(0.8, 0.3, 16, 100);
+    const torusMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0xff6b6b,
+      transparent: true,
+      opacity: 0.6
+    });
+    const torus = new THREE.Mesh(torusGeometry, torusMaterial);
+    torus.position.set(-3, 0, 0);
+    scene.add(torus);
+  }
+  
+  // Update camera position based on mouse interaction
+  function updateCamera() {
+    const x = cameraDistance * Math.sin(cameraAngleY) * Math.cos(cameraAngleX);
+    const y = cameraDistance * Math.sin(cameraAngleX);
+    const z = cameraDistance * Math.cos(cameraAngleY) * Math.cos(cameraAngleX);
+    
+    camera.position.set(x, y, z);
+    camera.lookAt(0, 0, 0);
+  }
+  
+  // Animation loop
+  function animate() {
+    animationId = requestAnimationFrame(animate);
+    
+    if (cube) {
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+    }
+    
+    // Rotate all objects in scene
+    scene.children.forEach(child => {
+      if (child.type === 'Mesh') {
+        child.rotation.x += 0.005;
+        child.rotation.y += 0.005;
+      }
+    });
+    
+    renderer.render(scene, camera);
+  }
+  
+  // Initialize Three.js
+  initThreeJS();
+  
+  // Set up mouse event listeners
+  canvas.addEventListener('mousedown', (event) => {
+    isMouseDown = true;
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    canvas.style.cursor = 'grabbing';
+  });
+  
+  canvas.addEventListener('mousemove', (event) => {
+    if (isMouseDown) {
+      const deltaX = event.clientX - mouseX;
+      const deltaY = event.clientY - mouseY;
+      
+      cameraAngleY += deltaX * 0.01;
+      cameraAngleX += deltaY * 0.01;
+      
+      // Clamp vertical rotation to prevent flipping
+      cameraAngleX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, cameraAngleX));
+      
+      updateCamera();
+      renderer.render(scene, camera);
+      
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+    }
+  });
+  
+  canvas.addEventListener('mouseup', () => {
+    isMouseDown = false;
+    canvas.style.cursor = 'grab';
+  });
+  
+  canvas.addEventListener('mouseleave', () => {
+    isMouseDown = false;
+    canvas.style.cursor = 'grab';
+  });
+  
+  // Set initial cursor style
+  canvas.style.cursor = 'grab';
+  
+  // Render initial static scene
+  renderer.render(scene, camera);
   
   if (playBtn) {
     playBtn.onclick = function() {
-      // Play button functionality - currently empty
-      console.log('Play button clicked');
+      // Start animation
+      if (!animationId) {
+        animate();
+      }
+      console.log('Three.js animation started');
     };
   }
+  
   if (resetBtn) {
     resetBtn.onclick = function() {
-      // Reset button functionality - clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Stop animation and reset scene
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+      
+      // Reset cube rotation
+      if (cube) {
+        cube.rotation.set(0, 0, 0);
+      }
+      
+      // Reset all objects
+      scene.children.forEach(child => {
+        if (child.type === 'Mesh') {
+          child.rotation.set(0, 0, 0);
+        }
+      });
+      
+      // Reset camera position
+      cameraAngleX = 0;
+      cameraAngleY = 0;
+      updateCamera();
+      renderer.render(scene, camera);
+      
+      console.log('Three.js scene reset');
     };
   }
   
