@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2D Spatial Canvases</title>
+    <title>3D Spatial Canvases</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
                 <a href="#" class="menu-page" data-page="1"><span>Spatial Canvases</span></a>
                 <ul class="submenu">
                     <li><a href="2d.html" class="submenu-page" data-page="2d"><span>2D</span></a></li>
-                    <li><a href="#" class="submenu-page" data-page="3d"><span>3D</span></a></li>
+                    <li><a href="3d.html" class="submenu-page" data-page="3d"><span>3D</span></a></li>
                 </ul>
             </li>
             <li><a href="#" class="menu-page" data-page="2"><span>more</span></a></li>
@@ -33,7 +33,7 @@
     </nav>
     
     <!-- Text elements -->
-    <div class="text-element top-left">2D Spatial Canvases</div>
+    <div class="text-element top-left">3D Spatial Canvases</div>
     <div class="text-element top-right">Computational Design Workflows</div>
     
     <!-- Main content area -->
@@ -59,12 +59,12 @@
                 <canvas id="my-canvas" width="900" height="500" style="background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10);"></canvas>
                 <!-- Text card for first canvas -->
                 <div id="text-card-1" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(162, 0, 255, 0.1); border: 2px solid #a200ff; color: #a200ff; font-family: 'Roboto', sans-serif; font-size: 14px; padding: 15px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(162, 0, 255, 0.2); backdrop-filter: blur(10px); z-index: 100; max-width: 250px;">
-                    <div style="font-weight: 600; margin-bottom: 8px;">Hand-Tracking Drawing</div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">3D Hand-Tracking Drawing</div>
                     <div style="font-size: 12px; line-height: 1.4;">
                         1. Click play<br>
                         2. Show your face<br>
                         3. Point your finger<br>
-                        4. Start drawing!
+                        4. Start drawing in 3D!
                     </div>
                 </div>
             </div>
@@ -88,9 +88,9 @@
                 </div>
                 <!-- Text card for second canvas -->
                 <div id="text-card-2" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(162, 0, 255, 0.1); border: 2px solid #a200ff; color: #a200ff; font-family: 'Roboto', sans-serif; font-size: 14px; padding: 15px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(162, 0, 255, 0.2); backdrop-filter: blur(10px); z-index: 100; max-width: 250px;">
-                    <div style="font-weight: 600; margin-bottom: 8px;">Second Canvas</div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">3D Second Canvas</div>
                     <div style="font-size: 12px; line-height: 1.4;">
-                        Ready for your next creation!<br>
+                        Ready for your next 3D creation!<br>
                         Click play to get started.
                     </div>
                 </div>
@@ -109,7 +109,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
-    <script src="scripts/2d.js"></script>
+    <script src="scripts/3d.js"></script>
     <script src="scripts/website.js"></script>
 </body>
 </html> 
