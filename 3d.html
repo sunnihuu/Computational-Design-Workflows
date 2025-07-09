@@ -57,16 +57,7 @@
             <!-- Canvases -->
             <div style="position: relative;">
                 <canvas id="my-canvas" width="900" height="500" style="background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10);"></canvas>
-                <!-- Text card for first canvas -->
-                <div id="text-card-1" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(162, 0, 255, 0.1); border: 2px solid #a200ff; color: #a200ff; font-family: 'Roboto', sans-serif; font-size: 14px; padding: 15px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(162, 0, 255, 0.2); backdrop-filter: blur(10px); z-index: 100; max-width: 250px;">
-                    <div style="font-weight: 600; margin-bottom: 8px;">3D Hand-Tracking Drawing</div>
-                    <div style="font-size: 12px; line-height: 1.4;">
-                        1. Click play<br>
-                        2. Show your face<br>
-                        3. Point your finger<br>
-                        4. Start drawing in 3D!
-                    </div>
-                </div>
+
             </div>
             
             <!-- Second Canvas -->
@@ -109,6 +100,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="scripts/3d.js"></script>
     <script src="scripts/website.js"></script>
 </body>
