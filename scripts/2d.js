@@ -638,11 +638,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Draw pixel human shape
     function drawPixelHuman() {
-      // Draw purple circle at player position
-      ctx2.fillStyle = '#800080';
-      ctx2.beginPath();
-      ctx2.arc(canvas2State.player.x, canvas2State.player.y, canvas2State.player.radius, 0, 2 * Math.PI);
-      ctx2.fill();
+      // Draw hand emoji at player position
+      ctx2.font = '60px Arial';
+      ctx2.textAlign = 'center';
+      ctx2.textBaseline = 'middle';
+      ctx2.fillText('🖐', canvas2State.player.x, canvas2State.player.y);
     }
     
     // Button event listeners for second canvas
