@@ -399,27 +399,116 @@ body {
 #button-container button {
   width: 50px;
   height: 50px;
-  background: rgba(162, 0, 255, 0.2);
+  background: linear-gradient(135deg, rgba(162, 0, 255, 0.3), rgba(0, 240, 255, 0.2));
   color: var(--hover-purple);
   border: 2px solid var(--hover-purple);
-  border-radius: 50%;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.7rem;
   font-weight: 600;
-  box-shadow: 0 0 15px rgba(162, 0, 255, 0.3);
+  box-shadow: 
+    0 0 15px rgba(162, 0, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all var(--transition-duration) ease;
   backdrop-filter: blur(10px);
   padding: 0;
+  position: relative;
+  overflow: hidden;
 }
+
+#button-container button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
 #button-container button:hover {
-  background: rgba(162, 0, 255, 0.4);
+  background: linear-gradient(135deg, rgba(162, 0, 255, 0.5), rgba(0, 240, 255, 0.3));
   color: #fff;
-  box-shadow: 0 0 25px rgba(162, 0, 255, 0.5);
-  transform: scale(1.05);
+  box-shadow: 
+    0 0 25px rgba(162, 0, 255, 0.5),
+    0 8px 32px rgba(162, 0, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  transform: scale(1.05) translateY(-2px);
+  border-radius: 20px;
 }
+
+#button-container button:hover::before {
+  left: 100%;
+}
+
 #button-container button:active {
-  transform: scale(0.95);
+  transform: scale(0.95) translateY(0);
+  box-shadow: 
+    0 0 15px rgba(162, 0, 255, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced styles for second canvas buttons */
+#button-container-2 button {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, rgba(162, 0, 255, 0.3), rgba(0, 240, 255, 0.2));
+  color: var(--hover-purple);
+  border: 2px solid var(--hover-purple);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  font-weight: 600;
+  box-shadow: 
+    0 0 15px rgba(162, 0, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all var(--transition-duration) ease;
+  backdrop-filter: blur(10px);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+#button-container-2 button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+#button-container-2 button:hover {
+  background: linear-gradient(135deg, rgba(162, 0, 255, 0.5), rgba(0, 240, 255, 0.3));
+  color: #fff;
+  box-shadow: 
+    0 0 25px rgba(162, 0, 255, 0.5),
+    0 8px 32px rgba(162, 0, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  transform: scale(1.05) translateY(-2px);
+  border-radius: 20px;
+}
+
+#button-container-2 button:hover::before {
+  left: 100%;
+}
+
+#button-container-2 button:active {
+  transform: scale(0.95) translateY(0);
+  box-shadow: 
+    0 0 15px rgba(162, 0, 255, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
 } 
