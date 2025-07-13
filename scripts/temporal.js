@@ -1,215 +1,215 @@
 // Temporal Structures JavaScript
-// Single canvas with time-based animations
+// D3.js Force-directed Graph
 
-// Canvas setup
-const canvas = document.getElementById('my-canvas');
-const ctx = canvas.getContext('2d');
+// SVG setup
+let svg, width = 900, height = 500;
+
+function initializeSVG() {
+    svg = d3.select("#my-canvas");
+    if (svg.empty()) {
+        console.error('SVG element #my-canvas not found!');
+        return false;
+    }
+    console.log('SVG element found:', svg.node());
+    return true;
+}
 
 // Button elements
-const playBtn = document.getElementById('play-btn');
-const resetBtn = document.getElementById('reset-btn');
+let playBtn, resetBtn, textCard;
 
-// Text card
-const textCard = document.getElementById('text-card-1');
+function initializeElements() {
+    playBtn = document.getElementById('play-btn');
+    resetBtn = document.getElementById('reset-btn');
+    textCard = document.getElementById('text-card-1');
+    
+    if (!playBtn || !resetBtn || !textCard) {
+        console.error('Required elements not found:', {
+            playBtn: !!playBtn,
+            resetBtn: !!resetBtn,
+            textCard: !!textCard
+        });
+        return false;
+    }
+    
+    console.log('All elements found successfully');
+    return true;
+}
 
 // Animation state
 let isPlaying = false;
-let animationId;
+let simulation;
 
-// Time-based variables
-let time = 0;
-const timeScale = 0.02;
-
-// Temporal Animation
-class TemporalAnimation {
-    constructor() {
-        this.particles = [];
-        this.patterns = [];
-        this.time = 0;
-        this.init();
+// Generate random data for the force-directed graph
+function generateGraphData() {
+    const nodes = [];
+    const links = [];
+    
+    // Create nodes
+    const numNodes = 20;
+    for (let i = 0; i < numNodes; i++) {
+        nodes.push({
+            id: i,
+            group: Math.floor(Math.random() * 4)
+        });
     }
-
-    init() {
-        // Create particles for temporal animation
-        for (let i = 0; i < 50; i++) {
-            this.particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2,
-                size: Math.random() * 4 + 2,
-                hue: Math.random() * 360,
-                phase: Math.random() * Math.PI * 2
+    
+    // Create links
+    const numLinks = 30;
+    for (let i = 0; i < numLinks; i++) {
+        const source = Math.floor(Math.random() * numNodes);
+        const target = Math.floor(Math.random() * numNodes);
+        if (source !== target) {
+            links.push({
+                source: source,
+                target: target,
+                value: Math.random() * 5 + 1
             });
         }
+    }
+    
+    return { nodes, links };
+}
 
-        // Create time-based patterns
-        this.patterns = [
-            { type: 'wave', x: 100, y: 100, amplitude: 50, frequency: 0.02 },
-            { type: 'spiral', x: 300, y: 200, radius: 30, speed: 0.03 },
-            { type: 'pulse', x: 500, y: 150, size: 20, speed: 0.05 },
-            { type: 'oscillate', x: 700, y: 250, range: 40, speed: 0.04 }
-        ];
+// Specify the color scale
+const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+// Create force simulation
+function createForceGraph() {
+    if (!initializeSVG()) {
+        console.error('Failed to initialize SVG');
+        return;
+    }
+    
+    const data = generateGraphData();
+    console.log('Generated data:', data);
+    
+    // Clear existing content
+    svg.selectAll("*").remove();
+    
+    // The force simulation mutates links and nodes, so create a copy
+    // so that re-evaluating this cell produces the same result.
+    const links = data.links.map(d => ({...d}));
+    const nodes = data.nodes.map(d => ({...d}));
+
+    // Create a simulation with several forces.
+    simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(d => d.id))
+        .force("charge", d3.forceManyBody())
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .on("tick", ticked);
+
+    // Add a line for each link, and a circle for each node.
+    const link = svg.append("g")
+        .attr("stroke", "#999")
+        .attr("stroke-opacity", 0.6)
+        .selectAll()
+        .data(links)
+        .join("line")
+        .attr("stroke-width", d => Math.sqrt(d.value));
+
+    const node = svg.append("g")
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1.5)
+        .selectAll()
+        .data(nodes)
+        .join("circle")
+        .attr("r", 5)
+        .attr("fill", d => color(d.group));
+
+    node.append("title")
+        .text(d => d.id);
+
+    // Add a drag behavior.
+    node.call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+
+    // Set the position attributes of links and nodes each time the simulation ticks.
+    function ticked() {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        node
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
     }
 
-    update() {
-        this.time += timeScale;
-        
-        // Update particles
-        this.particles.forEach(particle => {
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-            
-            // Wrap around edges
-            if (particle.x < 0) particle.x = canvas.width;
-            if (particle.x > canvas.width) particle.x = 0;
-            if (particle.y < 0) particle.y = canvas.height;
-            if (particle.y > canvas.height) particle.y = 0;
-            
-            // Oscillate size based on time
-            particle.size = 2 + Math.sin(this.time + particle.phase) * 3;
-        });
+    // Reheat the simulation when drag starts, and fix the subject position.
+    function dragstarted(event) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
     }
 
-    draw() {
-        // Clear canvas
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw particles
-        this.particles.forEach(particle => {
-            ctx.save();
-            ctx.globalAlpha = 0.7;
-            ctx.fillStyle = `hsl(${particle.hue}, 70%, 60%)`;
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-        });
-        
-        // Draw time-based connections
-        this.particles.forEach((particle, i) => {
-            this.particles.slice(i + 1).forEach(otherParticle => {
-                const distance = Math.sqrt(
-                    Math.pow(particle.x - otherParticle.x, 2) + 
-                    Math.pow(particle.y - otherParticle.y, 2)
-                );
-                
-                if (distance < 100) {
-                    const alpha = (100 - distance) / 100 * 0.3;
-                    ctx.strokeStyle = `rgba(162, 0, 255, ${alpha})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(particle.x, particle.y);
-                    ctx.lineTo(otherParticle.x, otherParticle.y);
-                    ctx.stroke();
-                }
-            });
-        });
-
-        // Draw patterns
-        this.patterns.forEach(pattern => {
-            ctx.save();
-            ctx.strokeStyle = '#a200ff';
-            ctx.lineWidth = 2;
-            
-            switch (pattern.type) {
-                case 'wave':
-                    this.drawWave(pattern);
-                    break;
-                case 'spiral':
-                    this.drawSpiral(pattern);
-                    break;
-                case 'pulse':
-                    this.drawPulse(pattern);
-                    break;
-                case 'oscillate':
-                    this.drawOscillate(pattern);
-                    break;
-            }
-            
-            ctx.restore();
-        });
+    // Update the subject (dragged node) position during drag.
+    function dragged(event) {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
     }
 
-    drawWave(pattern) {
-        ctx.beginPath();
-        for (let x = 0; x < 200; x++) {
-            const y = pattern.y + Math.sin(x * 0.02 + this.time * pattern.frequency) * pattern.amplitude;
-            if (x === 0) {
-                ctx.moveTo(pattern.x + x, y);
-            } else {
-                ctx.lineTo(pattern.x + x, y);
-            }
-        }
-        ctx.stroke();
-    }
-
-    drawSpiral(pattern) {
-        ctx.beginPath();
-        for (let angle = 0; angle < Math.PI * 4; angle += 0.1) {
-            const radius = pattern.radius + angle * 5;
-            const x = pattern.x + Math.cos(angle + this.time * pattern.speed) * radius;
-            const y = pattern.y + Math.sin(angle + this.time * pattern.speed) * radius;
-            if (angle === 0) {
-                ctx.moveTo(x, y);
-            } else {
-                ctx.lineTo(x, y);
-            }
-        }
-        ctx.stroke();
-    }
-
-    drawPulse(pattern) {
-        const size = pattern.size + Math.sin(this.time * pattern.speed) * 15;
-        ctx.beginPath();
-        ctx.arc(pattern.x, pattern.y, size, 0, Math.PI * 2);
-        ctx.stroke();
-    }
-
-    drawOscillate(pattern) {
-        const offset = Math.sin(this.time * pattern.speed) * pattern.range;
-        ctx.beginPath();
-        ctx.moveTo(pattern.x - 50, pattern.y + offset);
-        ctx.lineTo(pattern.x + 50, pattern.y - offset);
-        ctx.stroke();
+    // Restore the target alpha so the simulation cools after dragging ends.
+    // Unfix the subject position now that it's no longer being dragged.
+    function dragended(event) {
+        if (!event.active) simulation.alphaTarget(0);
+        event.subject.fx = null;
+        event.subject.fy = null;
     }
 }
 
-// Initialize animation
-const temporalAnimation = new TemporalAnimation();
+// Setup event listeners
+function setupEventListeners() {
+    playBtn.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+            playBtn.innerHTML = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="6" width="4" height="16" fill="currentColor"/><rect x="16" y="6" width="4" height="16" fill="currentColor"/></svg>';
+            textCard.style.display = 'none';
+            if (simulation) {
+                simulation.alpha(1).restart();
+            }
+        } else {
+            playBtn.innerHTML = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="9,6 22,14 9,22" fill="currentColor"/></svg>';
+            textCard.style.display = 'block';
+            if (simulation) {
+                simulation.stop();
+            }
+        }
+    });
 
-// Animation loop
-function animate() {
-    if (isPlaying) {
-        temporalAnimation.update();
-        temporalAnimation.draw();
-    }
-    animationId = requestAnimationFrame(animate);
-}
-
-// Event listeners
-playBtn.addEventListener('click', () => {
-    isPlaying = !isPlaying;
-    if (isPlaying) {
-        playBtn.innerHTML = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="6" width="4" height="16" fill="currentColor"/><rect x="16" y="6" width="4" height="16" fill="currentColor"/></svg>';
-        textCard.style.display = 'none';
-    } else {
+    resetBtn.addEventListener('click', () => {
+        isPlaying = false;
         playBtn.innerHTML = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="9,6 22,14 9,22" fill="currentColor"/></svg>';
         textCard.style.display = 'block';
+        if (simulation) {
+            simulation.stop();
+        }
+        createForceGraph();
+    });
+}
+
+// Wait for DOM and D3.js to be ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if D3.js is loaded
+    if (typeof d3 === 'undefined') {
+        console.error('D3.js is not loaded!');
+        return;
     }
-});
-
-resetBtn.addEventListener('click', () => {
-    isPlaying = false;
-    playBtn.innerHTML = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="9,6 22,14 9,22" fill="currentColor"/></svg>';
-    textCard.style.display = 'block';
-    temporalAnimation.init();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
-
-// Start animation loop
-animate();
-
-// Initial draw
-temporalAnimation.draw(); 
+    
+    console.log('D3.js version:', d3.version);
+    
+    // Initialize elements
+    if (!initializeElements()) {
+        console.error('Failed to initialize elements');
+        return;
+    }
+    
+    console.log('Creating force-directed graph...');
+    createForceGraph();
+    console.log('Force-directed graph created successfully!');
+    
+    // Add event listeners after initialization
+    setupEventListeners();
+}); 
