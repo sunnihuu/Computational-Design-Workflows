@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporal Structures</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/website.css">
+</head>
+<body>
+    <!-- Hamburger menu button -->
+    <button id="hamburger-menu" class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <!-- Burger menu dropdown -->
+    <nav id="burger-menu-dropdown" class="burger-menu-dropdown" style="display: none;">
+        <ul>
+            <li><a href="index.html" class="menu-page" data-page="1"><span>Hello!</span></a></li>
+            <li class="has-submenu">
+                <a href="#" class="menu-page" data-page="1"><span>Spatial Canvases</span></a>
+                <ul class="submenu">
+                    <li><a href="2d.html" class="submenu-page" data-page="2d"><span>2D</span></a></li>
+                    <li><a href="3d.html" class="submenu-page" data-page="3d"><span>3D</span></a></li>
+                </ul>
+            </li>
+            <li><a href="temporal.html" class="menu-page" data-page="2"><span>Temporal Structures</span></a></li>
+        </ul>
+    </nav>
+    
+    <!-- Text elements -->
+    <div class="text-element top-left">Temporal Structures</div>
+    <div class="text-element top-right">Computational Design Workflows</div>
+    
+    <!-- Main content area -->
+    <div class="main-content">
+        <div class="content-container">
+            <!-- Button container -->
+            <div id="button-container" class="button-container">
+                <button id="play-btn" aria-label="Play">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="9,6 22,14 9,22" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button id="reset-btn" aria-label="Reset">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.5 14c0-4.142-3.358-7.5-7.5-7.5-2.21 0-4.2 0.9-5.65 2.35M6.5 6.5v5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        <path d="M6.5 14c0 4.142 3.358 7.5 7.5 7.5 2.21 0 4.2-0.9 5.65-2.35" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Canvas -->
+            <div class="canvas-container">
+                <canvas id="my-canvas" width="900" height="500" class="canvas"></canvas>
+            </div>
+            
+            <!-- Back to Home button -->
+            <a href="index.html" class="back-to-home-button">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="scripts/common.js"></script>
+    <script src="scripts/website.js"></script>
+</body>
+</html> 
