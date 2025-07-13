@@ -48,11 +48,23 @@ class CDWWebsite {
                         e.preventDefault();
                         e.stopPropagation();
                         const parentLi = spatialCanvases.parentElement;
+                        console.log('Spatial Canvases clicked, parent:', parentLi);
+                        
                         // Close other open submenus
                         burgerMenu.querySelectorAll('.has-submenu.open').forEach(li => {
                             if (li !== parentLi) li.classList.remove('open');
                         });
+                        
                         parentLi.classList.toggle('open');
+                        console.log('Submenu open state:', parentLi.classList.contains('open'));
+                        
+                        // Debug: check if submenu is visible
+                        const submenu = parentLi.querySelector('.submenu');
+                        if (submenu) {
+                            console.log('Submenu found:', submenu);
+                            console.log('Submenu display:', submenu.style.display);
+                            console.log('Submenu opacity:', submenu.style.opacity);
+                        }
                     });
                 }
                 // Optional: close submenu when clicking another main menu item
@@ -67,6 +79,14 @@ class CDWWebsite {
                 // Menu page click handlers
                 burgerMenu.querySelectorAll('.menu-page').forEach(link => {
                     link.onclick = null;
+                });
+                
+                // Debug 2D and 3D button clicks
+                burgerMenu.querySelectorAll('.submenu-page').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        console.log('Submenu page clicked:', link.getAttribute('data-page'));
+                        console.log('Link href:', link.getAttribute('href'));
+                    });
                 });
             }
         });

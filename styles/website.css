@@ -327,19 +327,19 @@ body {
     border: none;
     border-radius: 0;
     box-shadow: none;
-    padding: 0.2em 0 0.2em 1.5em;
+    padding: 0;
     margin: 0.2em 0 0.2em 0;
     z-index: 1;
     text-align: center;
-    padding-left: 0;
 }
 .has-submenu.open > .submenu {
     opacity: 1;
     max-height: 200px;
     pointer-events: auto;
+    padding: 0.5em 0;
 }
 .submenu li {
-    margin: 0.2em 0;
+    margin: 0.5em 0;
     list-style: none;
     position: relative;
     padding-left: 0;
@@ -347,13 +347,7 @@ body {
     text-align: center;
 }
 .submenu li::before {
-    content: "\2022 "; /* Unicode bullet character */
-    position: absolute;
-    left: -1.2em;
-    color: var(--text-white);
-    opacity: 0.7;
-    font-size: 1em;
-    transition: color var(--transition-duration);
+    content: none; /* Remove bullet points for button-style items */
 }
 .submenu a {
     font-size: 1.05em;
@@ -379,30 +373,30 @@ body {
 }
 
 /* Enhanced styles for 2D and 3D buttons in hamburger menu */
-.submenu a[data-page="2d"],
-.submenu a[data-page="3d"] {
-    display: inline-block;
-    padding: 8px 16px;
-    margin: 4px 0;
-    background: linear-gradient(135deg, rgba(162, 0, 255, 0.2), rgba(0, 240, 255, 0.1));
-    border: 1px solid rgba(162, 0, 255, 0.4);
-    border-radius: 12px;
-    color: var(--text-white);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1.1em;
-    transition: all var(--transition-duration) ease;
-    backdrop-filter: blur(8px);
+.submenu a.submenu-page[data-page="2d"],
+.submenu a.submenu-page[data-page="3d"] {
+    display: inline-block !important;
+    padding: 8px 16px !important;
+    margin: 4px 0 !important;
+    background: linear-gradient(135deg, rgba(162, 0, 255, 0.2), rgba(0, 240, 255, 0.1)) !important;
+    border: 1px solid rgba(162, 0, 255, 0.4) !important;
+    border-radius: 12px !important;
+    color: var(--text-white) !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 1.1em !important;
+    transition: all var(--transition-duration) ease !important;
+    backdrop-filter: blur(8px) !important;
     box-shadow: 
         0 0 10px rgba(162, 0, 255, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-    min-width: 80px;
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    min-width: 80px !important;
 }
 
-.submenu a[data-page="2d"]::before,
-.submenu a[data-page="3d"]::before {
+.submenu a.submenu-page[data-page="2d"]::before,
+.submenu a.submenu-page[data-page="3d"]::before {
     content: '';
     position: absolute;
     top: 0;
@@ -413,49 +407,49 @@ body {
     transition: left 0.6s ease;
 }
 
-.submenu a[data-page="2d"]:hover,
-.submenu a[data-page="3d"]:hover {
-    background: linear-gradient(135deg, rgba(162, 0, 255, 0.4), rgba(0, 240, 255, 0.2));
-    border-color: var(--neon-cyan);
-    color: var(--neon-cyan);
-    transform: scale(1.05) translateY(-2px);
+.submenu a.submenu-page[data-page="2d"]:hover,
+.submenu a.submenu-page[data-page="3d"]:hover {
+    background: linear-gradient(135deg, rgba(162, 0, 255, 0.4), rgba(0, 240, 255, 0.2)) !important;
+    border-color: var(--neon-cyan) !important;
+    color: var(--neon-cyan) !important;
+    transform: scale(1.05) translateY(-2px) !important;
     box-shadow: 
         0 0 20px rgba(162, 0, 255, 0.4),
         0 4px 16px rgba(0, 240, 255, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
-.submenu a[data-page="2d"]:hover::before,
-.submenu a[data-page="3d"]:hover::before {
+.submenu a.submenu-page[data-page="2d"]:hover::before,
+.submenu a.submenu-page[data-page="3d"]:hover::before {
     left: 100%;
 }
 
-.submenu a[data-page="2d"]:active,
-.submenu a[data-page="3d"]:active {
-    transform: scale(0.95) translateY(0);
+.submenu a.submenu-page[data-page="2d"]:active,
+.submenu a.submenu-page[data-page="3d"]:active {
+    transform: scale(0.95) translateY(0) !important;
     box-shadow: 
         0 0 10px rgba(162, 0, 255, 0.3),
-        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* Special styling for 2D button */
-.submenu a[data-page="2d"] {
-    background: linear-gradient(135deg, rgba(162, 0, 255, 0.25), rgba(0, 240, 255, 0.15));
-    border-color: rgba(162, 0, 255, 0.5);
+.submenu a.submenu-page[data-page="2d"] {
+    background: linear-gradient(135deg, rgba(162, 0, 255, 0.25), rgba(0, 240, 255, 0.15)) !important;
+    border-color: rgba(162, 0, 255, 0.5) !important;
 }
 
-.submenu a[data-page="2d"]:hover {
-    background: linear-gradient(135deg, rgba(162, 0, 255, 0.45), rgba(0, 240, 255, 0.25));
+.submenu a.submenu-page[data-page="2d"]:hover {
+    background: linear-gradient(135deg, rgba(162, 0, 255, 0.45), rgba(0, 240, 255, 0.25)) !important;
 }
 
 /* Special styling for 3D button */
-.submenu a[data-page="3d"] {
-    background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(162, 0, 255, 0.25));
-    border-color: rgba(0, 240, 255, 0.5);
+.submenu a.submenu-page[data-page="3d"] {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(162, 0, 255, 0.25)) !important;
+    border-color: rgba(0, 240, 255, 0.5) !important;
 }
 
-.submenu a[data-page="3d"]:hover {
-    background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(162, 0, 255, 0.45));
+.submenu a.submenu-page[data-page="3d"]:hover {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(162, 0, 255, 0.45)) !important;
 }
 
 /* Redo button */
