@@ -15,6 +15,7 @@ class CDWWebsite {
         document.addEventListener('DOMContentLoaded', () => {
             this.startClock();
             this.startWeatherUpdates();
+            
             // Burger menu logic
             const hamburger = document.getElementById('hamburger-menu');
             const burgerMenu = document.getElementById('burger-menu-dropdown');
