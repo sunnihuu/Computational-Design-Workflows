@@ -39,34 +39,11 @@
     <!-- Main content area -->
     <div style="display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; width: 100vw; overflow-x: auto; overflow-y: auto; padding-bottom: 100px;">
         <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 24px; margin-top: 200px;">
-            <!-- Button container -->
-            <div id="button-container">
-                <button id="play-btn" aria-label="Play">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="9,6 22,14 9,22" fill="currentColor"/>
-                    </svg>
-                </button>
-                <button id="reset-btn" aria-label="Reset">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21.5 14c0-4.142-3.358-7.5-7.5-7.5-2.21 0-4.2 0.9-5.65 2.35M6.5 6.5v5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        <path d="M6.5 14c0 4.142 3.358 7.5 7.5 7.5 2.21 0 4.2-0.9 5.65-2.35" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    </svg>
-                </button>
-            </div>
+
             
             <!-- SVG Container -->
             <div style="position: relative;">
                 <svg id="my-canvas" width="900" height="500" style="background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10);"></svg>
-                <!-- Text card for canvas -->
-                <div id="text-card-1" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(162, 0, 255, 0.1); border: 2px solid #a200ff; color: #a200ff; font-family: 'Roboto', sans-serif; font-size: 14px; padding: 15px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(162, 0, 255, 0.2); backdrop-filter: blur(10px); z-index: 100; max-width: 300px;">
-                    <div style="font-weight: 600; margin-bottom: 8px;">Temporal Structures Map</div>
-                    <div style="font-size: 12px; line-height: 1.4;">
-                        1. Click play<br>
-                        2. Watch temporal connections<br>
-                        3. Drag nodes to explore<br>
-                        4. Discover time patterns!
-                    </div>
-                </div>
             </div>
             
             <!-- Back to Home button -->
@@ -76,6 +53,11 @@
 
     <!-- Scripts -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        // Debug: Check if multiple scripts are running
+        console.log('Temporal HTML loaded');
+        window.temporalLoaded = true;
+    </script>
     <script src="scripts/temporal.js"></script>
     <script src="scripts/website.js"></script>
 </body>
