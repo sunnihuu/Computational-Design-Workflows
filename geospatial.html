@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New York City Map - Mapbox Examples</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/geospatial.css">
+</head>
+<body>
+
+    <main>
+        <div class="project-title">New York City Interactive Maps</div>
+        <div class="project-subtitle">Mapbox Visualization Examples</div>
+
+        <div class="section-title">Digital Object 4: Geospatial Structures</div>
+        <p>This section explores geospatial data visualization using Mapbox GL JS, demonstrating how to create interactive maps with markers, line features, and polygon regions. These examples show how to represent different types of spatial data and create engaging user experiences.</p>
+
+        <!-- Section for first Mapbox sketch (mapBox_Sketch_01.js) -->
+        <div class="section-title">Mapbox Foundation: Interactive Map with Markers</div>
+        <p>A basic Mapbox example demonstrating core mapping concepts. This interactive map shows New York City with clickable markers for key landmarks. Features include basic map controls, marker placement with popups, zoom controls, and coordinate display on click. This example provides the foundation for more advanced geospatial visualizations.</p>
+        
+
+        <div id="mapbox-container-3"></div>
+        
+        <div class="controls">
+            <input type="text" id="searchFeature" placeholder="Search neighborhoods...">
+            <button id="resetFilters">Reset Search</button>
+            <button id="fitToData">Fit to Data</button>
+        </div>
+
+    </main>
+    
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="scripts/geospatial_mapBox.js"></script>
+</body>
+</html> 
