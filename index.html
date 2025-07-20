@@ -8,28 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Hamburger menu button -->
-    <button id="hamburger-menu" class="hamburger-menu base-button">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <!-- Burger menu dropdown -->
-    <nav id="burger-menu-dropdown" class="burger-menu-dropdown" style="display: none;">
-        <ul>
-            <li><a href="#" class="menu-page" data-page="1"><span>Hello!</span></a></li>
-            <li class="has-submenu">
-                <a href="#" class="menu-page" data-page="1"><span>Spatial Canvases</span></a>
-                <ul class="submenu">
-                    <li><a href="2d.html" class="submenu-page" data-page="2d"><span>2D</span></a></li>
-                    <li><a href="3d.html" class="submenu-page" data-page="3d"><span>3D</span></a></li>
-                </ul>
-            </li>
-            <li><a href="temporal.html" class="menu-page" data-page="temporal"><span>Temporal Structures</span></a></li>
-            <li><a href="relational.html" class="menu-page" data-page="relational"><span>Relational Structures</span></a></li>
-
-        </ul>
-    </nav>
+    <!-- Main navigation links (formerly hamburger menu) -->
+    <div class="main-nav">
+      <ul>
+        <li><a href="#" class="menu-page" data-page="1"><span>Hello!</span></a></li>
+        <li>
+          <span>Spatial Canvases</span>
+          <ul>
+            <li><a href="2d.html" class="submenu-page" data-page="2d"><span>2D</span></a></li>
+            <li><a href="3d.html" class="submenu-page" data-page="3d"><span>3D</span></a></li>
+          </ul>
+        </li>
+        <li><a href="temporal.html" class="menu-page" data-page="temporal"><span>Temporal Structures</span></a></li>
+        <li><a href="relational.html" class="menu-page" data-page="relational"><span>Relational Structures</span></a></li>
+        <li><a href="geospatial.html" target="_self">Geospatial Structures</a></li>
+      </ul>
+    </div>
     
     <!-- Redo button -->
     <button id="redo-button" class="redo-button base-button">↻</button>
@@ -41,18 +35,11 @@
     </div>
     <div class="text-element top-right">Computational Design Workflows</div>
     
-    <!-- Floating shapes layer (separate) -->
-    <div id="floating-shapes-layer"></div>
-    
     <!-- New York Clock and Temperature -->
     <div class="text-element bottom-left" id="ny-clock">Loading...</div>
     <div class="text-element bottom-right" id="ny-temperature">Loading...</div>
 
-    <!-- Cursor tooltip -->
-    <div id="cursor-text">click me!</div>
-
     <!-- Scripts -->
-    <script src="scripts/floating-shapes-layer.js"></script>
     <script src="scripts/website.js"></script>
 </body>
 </html>

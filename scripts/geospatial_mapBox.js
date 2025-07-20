@@ -13,70 +13,28 @@ map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
 map.addControl(new mapboxgl.ScaleControl({ maxWidth: 80, unit: 'metric' }), 'bottom-left');
 
 map.on('load', () => {
- 
-  map.addSource('manhattan', {
-    type: 'geojson',
-    data: 'manhattan.geojson'
-  });
-  map.addLayer({
-    id: 'manhattan-fill',
-    type: 'fill',
-    source: 'manhattan',
-    paint: {
-      'fill-color': '#888',
-      'fill-opacity': 0.3
-    }
-  });
-  map.addLayer({
-    id: 'manhattan-outline',
-    type: 'line',
-    source: 'manhattan',
-    paint: {
-      'line-color': '#333',
-      'line-width': 2
-    }
-  });
-
-  // 加载并显示曼哈顿的农贸市场点
+  // Remove the red test marker. Only add farmers market points from GeoJSON.
   fetch('manhattan_farmers_markets.geojson')
     .then(response => response.json())
     .then(data => {
       if (!data.features || !Array.isArray(data.features) || data.features.length === 0) {
-        console.error('GeoJSON loaded but features array is empty!');
         return;
       }
-      let validCount = 0;
       data.features.forEach((feature, index) => {
         const coordinates = feature.geometry.coordinates;
-        const properties = feature.properties;
-        // 检查经度在[-180,180]，纬度在[-90,90]
-        if (
-          coordinates &&
-          coordinates.length === 2 &&
-          !isNaN(coordinates[0]) &&
-          !isNaN(coordinates[1]) &&
-          coordinates[0] >= -180 && coordinates[0] <= 180 &&
-          coordinates[1] >= -90 && coordinates[1] <= 90
-        ) {
-          validCount++;
-          new mapboxgl.Marker({ color: '#4CAF50', scale: 0.8 })
-            .setLngLat(coordinates)
-            .setPopup(new mapboxgl.Popup().setHTML(
-              `<h3>${properties.market_name}</h3>
-               <p><strong>地址:</strong> ${properties.street_address || ''}</p>
-               <p><strong>营业时间:</strong> ${properties.days_of_operation || ''} ${properties.hours_of_operations || ''}</p>
-               <p><strong>接受EBT:</strong> ${properties.accepts_ebt || ''}</p>
-               <p><strong>全年营业:</strong> ${properties.open_year_round || ''}</p>`
-            ))
-            .addTo(map);
-        } else {
-          console.warn(`Skipping invalid coordinates for feature ${index + 1}:`, coordinates);
-        }
+        const lng = Number(coordinates[0]);
+        const lat = Number(coordinates[1]);
+        new mapboxgl.Marker({ color: '#4CAF50', scale: 0.8 })
+          .setLngLat([lng, lat])
+          .setPopup(new mapboxgl.Popup().setHTML(
+            `<h3>${feature.properties.market_name}</h3>
+             <p><strong>Address:</strong> ${feature.properties.street_address || ''}</p>
+             <p><strong>Hours:</strong> ${feature.properties.days_of_operation || ''} ${feature.properties.hours_of_operations || ''}</p>
+             <p><strong>Accepts EBT:</strong> ${feature.properties.accepts_ebt || ''}</p>
+             <p><strong>Open Year-Round:</strong> ${feature.properties.open_year_round || ''}</p>`
+          ))
+          .addTo(map);
       });
-      console.log(`Successfully added ${validCount} valid farmers market markers`);
-    })
-    .catch(error => {
-      console.error('Fetch or parse error:', error);
     });
 }); 
 
