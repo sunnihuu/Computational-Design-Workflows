@@ -1,0 +1,743 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.000253,
+          40.744349
+        ]
+      },
+      "properties": {
+        "market_name": "PS 11 Farm Market",
+        "street_address": "320 W. 21st St.",
+        "days_of_operation": "Wednesday",
+        "hours_of_operations": "8AM - 10AM",
+        "accepts_ebt": "No",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.991023,
+          40.72982
+        ]
+      },
+      "properties": {
+        "market_name": "Astor Place Greenmarket",
+        "street_address": "E. 8th St. & Lafayette",
+        "days_of_operation": "Tuesday",
+        "hours_of_operations": "8AM - 5PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.010966,
+          40.716303
+        ]
+      },
+      "properties": {
+        "market_name": "Tribeca Greenmarket",
+        "street_address": "Greenwich & Chambers streets",
+        "days_of_operation": "Wednesday & Saturday",
+        "hours_of_operations": "8AM - 2PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.942027,
+          40.842296
+        ]
+      },
+      "properties": {
+        "market_name": "Fort Washington Greenmarket",
+        "street_address": "168th St. & Ft. Washington Ave.",
+        "days_of_operation": "Tuesday",
+        "hours_of_operations": "8AM - 4PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.951795,
+          40.81172
+        ]
+      },
+      "properties": {
+        "market_name": "Uptown Good Food Farm Stand",
+        "street_address": "330 St. Nicholas Ave. (St. Nicholas Miracle Garden)",
+        "days_of_operation": "Thursday",
+        "hours_of_operations": "4PM - 7PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.983534,
+          40.726054
+        ]
+      },
+      "properties": {
+        "market_name": "Tompkins Square Greenmarket",
+        "street_address": "7th St. & Ave. A",
+        "days_of_operation": "Sunday",
+        "hours_of_operations": "9AM - 4PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94128,
+          40.797577
+        ]
+      },
+      "properties": {
+        "market_name": "PS 57 Farmstand",
+        "street_address": "115th St. & 3rd Ave. (SW corner)",
+        "days_of_operation": "Wednesday",
+        "hours_of_operations": "9:30AM - 3PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.920896,
+          40.869001
+        ]
+      },
+      "properties": {
+        "market_name": "Inwood Park Greenmarket",
+        "street_address": "Isham St bet Seaman Ave. & Cooper St.",
+        "days_of_operation": "Saturday",
+        "hours_of_operations": "8AM - 3PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.986928,
+          40.712905
+        ]
+      },
+      "properties": {
+        "market_name": "Gouverneur Health Farmstand",
+        "street_address": "Madison St. bet Clinton & Jefferson Sts.",
+        "days_of_operation": "Thursday",
+        "hours_of_operations": "9AM - 2PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.937811,
+          40.845948
+        ]
+      },
+      "properties": {
+        "market_name": "175th Street Greenmarket",
+        "street_address": "W. 175th St. bet. Wadsworth Ave. & Broadway",
+        "days_of_operation": "Thursday",
+        "hours_of_operations": "8AM - 4PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.949186,
+          40.802699
+        ]
+      },
+      "properties": {
+        "market_name": "Harvest Home Lenox Avenue Farm Stand",
+        "street_address": "Lenox Ave. bet. W. 117 & 118 Sts.",
+        "days_of_operation": "Saturday",
+        "hours_of_operations": "8AM - 3PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.951262,
+          40.774292
+        ]
+      },
+      "properties": {
+        "market_name": "82nd Street Greenmarket",
+        "street_address": "E. 82nd St. bet 1st & York Aves",
+        "days_of_operation": "Saturday",
+        "hours_of_operations": "9AM - 2:30PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.003769,
+          40.705865
+        ]
+      },
+      "properties": {
+        "market_name": "Fulton Stall Market (indoor farmers market)",
+        "street_address": "91 South St.",
+        "days_of_operation": "Monday-Saturday",
+        "hours_of_operations": "11:30AM - 5PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.93991,
+          40.815403
+        ]
+      },
+      "properties": {
+        "market_name": "Harvest Home Harlem Hospital Farmers Market",
+        "street_address": "W. 137th St. & Lenox Ave.",
+        "days_of_operation": "Friday",
+        "hours_of_operations": "8AM - 3PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95191,
+          40.798038
+        ]
+      },
+      "properties": {
+        "market_name": "Harlem Meer Farmstand",
+        "street_address": "Central Park N & Malcom X Blvd",
+        "days_of_operation": "Saturdays",
+        "hours_of_operations": "10AM - 2PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.990329,
+          40.737133
+        ]
+      },
+      "properties": {
+        "market_name": "Union Square Greenmarket",
+        "street_address": "Union Square W. & 17th St.",
+        "days_of_operation": "\"Monday",
+        "hours_of_operations": " Wednesday",
+        "accepts_ebt": "01/01/2023 12:00:00 AM",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.005687,
+          40.737553
+        ]
+      },
+      "properties": {
+        "market_name": "Abingdon Square Greenmarket",
+        "street_address": "Hudson St. & W 12th St.",
+        "days_of_operation": "Saturday",
+        "hours_of_operations": "8AM - 2PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.926314,
+          40.865881
+        ]
+      },
+      "properties": {
+        "market_name": "NYP Youth Market - Broadway",
+        "street_address": "4781-4783 Broadway",
+        "days_of_operation": "Wednesday",
+        "hours_of_operations": "9AM - 3PM",
+        "accepts_ebt": "No",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.950171,
+          40.819407
+        ]
+      },
+      "properties": {
+        "market_name": "Market in the Heights at CCNY",
+        "street_address": "138th St. & Convent Ave.",
+        "days_of_operation": "Saturday (once a month)",
+        "hours_of_operations": "9AM - 4PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97818,
+          40.731498
+        ]
+      },
+      "properties": {
+        "market_name": "Stuyvesant Town Greenmarket",
+        "street_address": "South end of Stuyvesant Town Oval",
+        "days_of_operation": "Sunday",
+        "hours_of_operations": "9:30AM - 4PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.010662,
+          40.711466
+        ]
+      },
+      "properties": {
+        "market_name": "Greenmarket at the Oculus",
+        "street_address": "Church at Fulton St.",
+        "days_of_operation": "Tuesday",
+        "hours_of_operations": "8AM - 5PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.01429,
+          40.704549
+        ]
+      },
+      "properties": {
+        "market_name": "Bowling Green Greenmarket",
+        "street_address": "Broadway at Battery Place",
+        "days_of_operation": "Tuesday & Thursday",
+        "hours_of_operations": "8AM - 2PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.946351,
+          40.802317
+        ]
+      },
+      "properties": {
+        "market_name": "Children's Aid  Go!Healthy Food Box + Farmstand - Milbank Center",
+        "street_address": "14-32 W. 118th St.",
+        "days_of_operation": "Wednesday",
+        "hours_of_operations": "2PM - 4:30PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.945267,
+          40.781968
+        ]
+      },
+      "properties": {
+        "market_name": "94th Street Greenmarket",
+        "street_address": "E. 94th St. & 1st Ave.",
+        "days_of_operation": "Sunday",
+        "hours_of_operations": "9AM - 4PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.997825,
+          40.711958
+        ]
+      },
+      "properties": {
+        "market_name": "Two Bridges Youth Market",
+        "street_address": "50 Madison St.",
+        "days_of_operation": "Sunday",
+        "hours_of_operations": "10:30AM - 3:30PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.939118,
+          40.839441
+        ]
+      },
+      "properties": {
+        "market_name": "NYP Youth Market - Audobon",
+        "street_address": "21 Audobon Ave.",
+        "days_of_operation": "Thursday",
+        "hours_of_operations": "9AM - 3PM",
+        "accepts_ebt": "No",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.988559,
+          40.769117
+        ]
+      },
+      "properties": {
+        "market_name": "57th Street Greenmarket",
+        "street_address": "W. 57th St. & 10th Ave.",
+        "days_of_operation": "Saturday",
+        "hours_of_operations": "8AM - 3PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.823647,
+          109.0
+        ]
+      },
+      "properties": {
+        "market_name": "Grass Roots Farmers' Market",
+        "street_address": "\"W. 145th St. bet Edgecombe & Bradhurst Aves",
+        "days_of_operation": "-73.943844",
+        "hours_of_operations": "Tuesday & Saturday",
+        "accepts_ebt": "11/28/2023 12:00:00 AM",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.82394,
+          109.0
+        ]
+      },
+      "properties": {
+        "market_name": "Bro Sis Green Youth Market",
+        "street_address": "\"Amsterdam bet W. 143rd & 144th Sts.",
+        "days_of_operation": "-73.948552",
+        "hours_of_operations": "Wednesday",
+        "accepts_ebt": "11/22/2023 12:00:00 AM",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.947722,
+          40.809344
+        ]
+      },
+      "properties": {
+        "market_name": "Market in the Heights at 125",
+        "street_address": "163 West 125th St.",
+        "days_of_operation": "Saturday (once a month)",
+        "hours_of_operations": "9AM - 4PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98196,
+          40.773709
+        ]
+      },
+      "properties": {
+        "market_name": "Tucker Square Greenmarket",
+        "street_address": "Columbus & 66th St.",
+        "days_of_operation": "Thursday & Saturday",
+        "hours_of_operations": "8AM - 3PM (Thursday); 8AM - 4PM (Saturday)",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.952595,
+          40.789386
+        ]
+      },
+      "properties": {
+        "market_name": "Mount Sinai Greenmarket",
+        "street_address": "Madison Ave. & 99th St.",
+        "days_of_operation": "Wednesday",
+        "hours_of_operations": "8AM - 3PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.998488,
+          40.745293
+        ]
+      },
+      "properties": {
+        "market_name": "Chelsea's Down to Earth Farmers Market",
+        "street_address": "W. 23rd St. bet 8th & 9th Aves.",
+        "days_of_operation": "Saturday",
+        "hours_of_operations": "9AM - 2PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96807,
+          40.794003
+        ]
+      },
+      "properties": {
+        "market_name": "97th Street Greenmarket",
+        "street_address": "97th St. bet Columbus & Amsterdam Aves",
+        "days_of_operation": "Friday",
+        "hours_of_operations": "8AM - 2PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.946589,
+          40.784943
+        ]
+      },
+      "properties": {
+        "market_name": "Harvest Home Metropolitan Hospital Farmers Market",
+        "street_address": "E. 97th St. & 2nd Ave.",
+        "days_of_operation": "Friday",
+        "hours_of_operations": "8AM - 3PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.987817,
+          40.719322
+        ]
+      },
+      "properties": {
+        "market_name": "Project EATS Farm Stand at Essex Crossing",
+        "street_address": "115 Delancey St.",
+        "days_of_operation": "Wednesday-Sunday",
+        "hours_of_operations": "11AM  - 7PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.968154,
+          40.752122
+        ]
+      },
+      "properties": {
+        "market_name": "Dag Hammarskjold Greenmarket",
+        "street_address": "47th St. & 2nd Ave.",
+        "days_of_operation": "Wednesday",
+        "hours_of_operations": "8AM - 3PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.964265,
+          40.807145
+        ]
+      },
+      "properties": {
+        "market_name": "Columbia Greenmarket",
+        "street_address": "Broadway & 114th St.",
+        "days_of_operation": "Thursdays & Sundays",
+        "hours_of_operations": "8AM - 4PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.975244,
+          40.782295
+        ]
+      },
+      "properties": {
+        "market_name": "79th Street Greenmarket",
+        "street_address": "79th St. & Columbus Ave.",
+        "days_of_operation": "Sunday",
+        "hours_of_operations": "9AM - 4PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.984258,
+          40.71521
+        ]
+      },
+      "properties": {
+        "market_name": "Lower East Side Farmstand",
+        "street_address": "Grand St. bet Pitt and Willett Sts. (outside of Abrons Arts Center)",
+        "days_of_operation": "Thursday",
+        "hours_of_operations": "8:30AM - 3PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "No"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.959647,
+          40.801155
+        ]
+      },
+      "properties": {
+        "market_name": "Morningside Park's Down to Earth Farmers Market",
+        "street_address": "W. 110th St. & Manhattan Ave.",
+        "days_of_operation": "Saturday",
+        "hours_of_operations": "9AM - 2PM",
+        "accepts_ebt": "Yes",
+        "open_year_round": "Yes"
+      }
+    }
+  ]
+}
