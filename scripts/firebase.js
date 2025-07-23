@@ -42,12 +42,17 @@ const firebaseConfig = {
   // We need to get references to the HTML elements we want to update
   // This is like getting "handles" to the parts of the webpage we want to change
   
-  const yesButton = document.getElementById('vote-yes');
-  const noButton = document.getElementById('vote-no');
-  const yesCount = document.getElementById('yes-count');
-  const noCount = document.getElementById('no-count');
+  const shadeButton = document.getElementById('vote-shade');
+  const manageableButton = document.getElementById('vote-manageable');
+  const hotButton = document.getElementById('vote-hot');
+  const avoidButton = document.getElementById('vote-avoid');
+  const shadeCount = document.getElementById('shade-count');
+  const manageableCount = document.getElementById('manageable-count');
+  const hotCount = document.getElementById('hot-count');
+  const avoidCount = document.getElementById('avoid-count');
   const totalVotes = document.getElementById('total-votes');
   const connectionStatus = document.getElementById('connection-status');
+  const neighborhoodInput = document.getElementById('neighborhood');
 
   // ========================================
   // STEP 3: SET UP REAL-TIME DATABASE LISTENERS
@@ -55,33 +60,30 @@ const firebaseConfig = {
   // Firebase Realtime Database can automatically update your app when data changes
   // We use .on('value') to listen for any changes to our poll data
   
-  // Listen for changes to the 'yes' votes in the database
-  // This function runs every time the 'yes' vote count changes in Firebase
-  database.ref('poll/yes').on('value', function(snapshot) {
-    // snapshot.val() gets the current value from the database
-    const count = snapshot.val() || 0; // If no value exists, default to 0
-    
-    // Update the display on our webpage
-    yesCount.textContent = count;
-    
-    // Update the total votes display
+  // Listen for changes to each poll option in the database
+  database.ref('poll/shade').on('value', function(snapshot) {
+    const count = snapshot.val() || 0;
+    shadeCount.textContent = count;
     updateTotalVotes();
-    
-    console.log('Yes votes updated:', count); // For debugging
+    console.log('Shade votes updated:', count);
   });
-
-  // Listen for changes to the 'no' votes in the database
-  // This function runs every time the 'no' vote count changes in Firebase
-  database.ref('poll/no').on('value', function(snapshot) {
-    const count = snapshot.val() || 0; // If no value exists, default to 0
-    
-    // Update the display on our webpage
-    noCount.textContent = count;
-    
-    // Update the total votes display
+  database.ref('poll/manageable').on('value', function(snapshot) {
+    const count = snapshot.val() || 0;
+    manageableCount.textContent = count;
     updateTotalVotes();
-    
-    console.log('No votes updated:', count); // For debugging
+    console.log('Manageable votes updated:', count);
+  });
+  database.ref('poll/hot').on('value', function(snapshot) {
+    const count = snapshot.val() || 0;
+    hotCount.textContent = count;
+    updateTotalVotes();
+    console.log('Hot votes updated:', count);
+  });
+  database.ref('poll/avoid').on('value', function(snapshot) {
+    const count = snapshot.val() || 0;
+    avoidCount.textContent = count;
+    updateTotalVotes();
+    console.log('Avoid votes updated:', count);
   });
 
   // ========================================
@@ -90,53 +92,46 @@ const firebaseConfig = {
   // When users click the vote buttons, we need to update the database
   // Firebase will then automatically update all other connected users
   
-  // Handle "Yes" vote button clicks
-  yesButton.addEventListener('click', function() {
-    console.log('Yes button clicked'); // For debugging
-    
-    // Get the current count from the database and increment it
-    // We use .once('value') to get the current value once, then update it
-    database.ref('poll/yes').once('value')
-      .then(function(snapshot) {
-        const currentCount = snapshot.val() || 0; // Current count, or 0 if none exists
-        const newCount = currentCount + 1; // Add 1 to the current count
-        
-        // Update the database with the new count
-        // This will trigger the .on('value') listener above, updating all connected users
-        return database.ref('poll/yes').set(newCount);
-      })
-      .then(function() {
-        console.log('Yes vote recorded successfully');
-        showVoteConfirmation('Yes');
-      })
-      .catch(function(error) {
-        console.error('Error recording vote:', error);
-        showError('Failed to record vote. Please try again.');
-      });
+  // Handle vote button clicks for each option
+  shadeButton.addEventListener('click', function() {
+    handleVote('shade', 'Comfortable / lots of shade');
+  });
+  manageableButton.addEventListener('click', function() {
+    handleVote('manageable', 'A bit hot but manageable');
+  });
+  hotButton.addEventListener('click', function() {
+    handleVote('hot', 'Very hot / no shade');
+  });
+  avoidButton.addEventListener('click', function() {
+    handleVote('avoid', 'I avoid walking outdoors');
   });
 
-  // Handle "No" vote button clicks
-  noButton.addEventListener('click', function() {
-    console.log('No button clicked'); // For debugging
-    
-    // Get the current count from the database and increment it
-    database.ref('poll/no').once('value')
+  function handleVote(optionKey, optionLabel) {
+    // Optionally, get the neighborhood value
+    const neighborhood = neighborhoodInput ? neighborhoodInput.value.trim() : '';
+    database.ref('poll/' + optionKey).once('value')
       .then(function(snapshot) {
-        const currentCount = snapshot.val() || 0; // Current count, or 0 if none exists
-        const newCount = currentCount + 1; // Add 1 to the current count
-        
-        // Update the database with the new count
-        return database.ref('poll/no').set(newCount);
+        const currentCount = snapshot.val() || 0;
+        const newCount = currentCount + 1;
+        return database.ref('poll/' + optionKey).set(newCount);
       })
       .then(function() {
-        console.log('No vote recorded successfully');
-        showVoteConfirmation('No');
+        // Optionally, store the neighborhood with a timestamp (not required for vote count)
+        if (neighborhood) {
+          const entry = {
+            neighborhood: neighborhood,
+            option: optionLabel,
+            timestamp: Date.now()
+          };
+          database.ref('responses').push(entry);
+        }
+        showVoteConfirmation(optionLabel);
       })
       .catch(function(error) {
         console.error('Error recording vote:', error);
         showError('Failed to record vote. Please try again.');
       });
-  });
+  }
 
   // ========================================
   // STEP 5: HELPER FUNCTIONS
@@ -149,12 +144,11 @@ const firebaseConfig = {
    * This function runs whenever either vote count changes
    */
   function updateTotalVotes() {
-    // Get the current values from our display elements
-    const yesVotes = parseInt(yesCount.textContent) || 0;
-    const noVotes = parseInt(noCount.textContent) || 0;
-    const total = yesVotes + noVotes;
-    
-    // Update the total display
+    const shadeVotes = parseInt(shadeCount.textContent) || 0;
+    const manageableVotes = parseInt(manageableCount.textContent) || 0;
+    const hotVotes = parseInt(hotCount.textContent) || 0;
+    const avoidVotes = parseInt(avoidCount.textContent) || 0;
+    const total = shadeVotes + manageableVotes + hotVotes + avoidVotes;
     totalVotes.textContent = total;
   }
 
@@ -252,14 +246,14 @@ const firebaseConfig = {
   // Set up any initial state when the page loads
   
   // Initialize vote counts to 0 if they don't exist in the database
-  // This ensures we start with a clean slate
   database.ref('poll').once('value')
     .then(function(snapshot) {
       if (!snapshot.exists()) {
-        // If no poll data exists, initialize it with zeros
         return database.ref('poll').set({
-          yes: 0,
-          no: 0
+          shade: 0,
+          manageable: 0,
+          hot: 0,
+          avoid: 0
         });
       }
     })
