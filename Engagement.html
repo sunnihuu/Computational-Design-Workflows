@@ -2,96 +2,117 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Complete UI Elements Example</title>
+    <title>My UI Elements Page</title>
     <link rel="stylesheet" href="styles/engagement.css">
 </head>
 <body>
     <header>
-        <h1>Interactive Form Example</h1>
+        <h1>My Interactive Page</h1>
     </header>
     
     <main>
-        <!-- Buttons -->
-        <section>
-            <h2>Buttons</h2>
-            <button class="btn-primary">Primary Action</button>
-            <button class="btn-secondary">Secondary Action</button>
-            <button class="btn-outline">Outline Style</button>
-        </section>
-        
-        <!-- Text Inputs -->
-        <section>
-            <h2>Text Inputs</h2>
-            <div class="input-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" placeholder="Enter your name">
-            </div>
-            <div class="input-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" placeholder="Enter your email">
-            </div>
-        </section>
-        
-        <!-- Sliders -->
-        <section>
-            <h2>Sliders</h2>
-            <div class="slider-group">
-                <label for="volume">Volume:</label>
-                <input type="range" id="volume" min="0" max="100" value="50">
-                <span class="slider-value" id="volume-value">50</span>
-            </div>
-        </section>
-        
-        <!-- Checkboxes and Radio Buttons -->
-        <section>
-            <h2>Selections</h2>
-            <div class="checkbox-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="newsletter">
-                    <span class="checkmark"></span>
-                    Subscribe to newsletter
-                </label>
-            </div>
-            
-            <div class="radio-group">
-                <label class="radio-label">
-                    <input type="radio" name="preference" id="pref1" value="option1">
-                    <span class="radio-mark"></span>
-                    Option 1
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="preference" id="pref2" value="option2">
-                    <span class="radio-mark"></span>
-                    Option 2
-                </label>
-            </div>
-        </section>
-        
-        <!-- Dropdown -->
-        <section>
-            <h2>Dropdown</h2>
-            <div class="select-group">
-                <label for="country">Country:</label>
-                <select id="country">
-                    <option value="">Select a country...</option>
-                    <option value="us">United States</option>
-                    <option value="ca">Canada</option>
-                    <option value="uk">United Kingdom</option>
-                </select>
-            </div>
-        </section>
-        
-        <!-- Output Display -->
-        <section>
-            <h2>Live Output</h2>
-            <div id="output-display">
-                <div id="values-display">
-                    Interact with the elements above to see their values here.
-                </div>
-            </div>
-        </section>
+<!-- Basic button -->
+<button class="btn-primary">Click Me</button>
+
+<!-- Secondary button -->
+<button class="btn-secondary">Secondary Action</button>
+
+<!-- Outline button -->
+<button class="btn-outline">Outline Style</button>
+
+<!-- Disabled button -->
+<button class="btn-disabled" disabled>Disabled</button>
+<!-- Text input -->
+<div class="input-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Enter your name">
+</div>
+
+<!-- Email input -->
+<div class="input-group">
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Enter your email">
+</div>
+
+<!-- Password input -->
+<div class="input-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter password">
+</div>
+
+<!-- Textarea for longer text -->
+<div class="input-group">
+    <label for="message">Message:</label>
+    <textarea id="message" placeholder="Enter your message"></textarea>
+</div>
+<div class="slider-group">
+    <label for="volume">Volume (0-100):</label>
+    <input type="range" id="volume" min="0" max="100" value="50">
+    <span class="slider-value" id="volume-value">50</span>
+</div>
+
+<div class="slider-group">
+    <label for="brightness">Brightness (0-255):</label>
+    <input type="range" id="brightness" min="0" max="255" value="128">
+    <span class="slider-value" id="brightness-value">128</span>
+</div>
+
+<!-- Checkboxes -->
+<div class="checkbox-group">
+    <label class="checkbox-label">
+        <input type="checkbox" id="option1">
+        <span class="checkmark"></span>
+        Option 1
+    </label>
+    
+    <label class="checkbox-label">
+        <input type="checkbox" id="option2">
+        <span class="checkmark"></span>
+        Option 2
+    </label>
+</div>
+
+<!-- Radio buttons -->
+<div class="radio-group">
+    <label class="radio-label">
+        <input type="radio" name="choice" id="choice1" value="option1">
+        <span class="radio-mark"></span>
+        Choice 1
+    </label>
+    
+    <label class="radio-label">
+        <input type="radio" name="choice" id="choice2" value="option2">
+        <span class="radio-mark"></span>
+        Choice 2
+    </label>
+    
+    <label class="radio-label">
+        <input type="radio" name="choice" id="choice3" value="option3">
+        <span class="radio-mark"></span>
+        Choice 3
+    </label>
+</div>
+
+
+<div class="select-group">
+    <label for="country">Choose your country:</label>
+    <select id="country">
+        <option value="">Select a country...</option>
+        <option value="us">United States</option>
+        <option value="ca">Canada</option>
+        <option value="uk">United Kingdom</option>
+        <option value="au">Australia</option>
+    </select>
+</div>
+
+<div id="output-display">
+    <h3>Current Values:</h3>
+    <div id="values-display">
+        Interact with the elements above to see their values here.
+    </div>
+</div>
     </main>
     
-    <script src="scripts/Engagement.js"></script>
+    <script src="Engagement.js"></script>
 </body>
 </html>
