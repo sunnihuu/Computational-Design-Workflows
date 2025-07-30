@@ -4,44 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computational Design Workflows</title>
-    <link rel="stylesheet" href="styles/website.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/home-simple.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Main navigation links (formerly hamburger menu) -->
-    <div class="main-nav">
-      <ul>
-        <li><a href="#" class="menu-page" data-page="1"><span>Hello!</span></a></li>
-        <li>
-          <span>Spatial Canvases</span>
-          <ul>
-            <li><a href="2d.html" class="submenu-page" data-page="2d"><span>2D</span></a></li>
-            <li><a href="3d.html" class="submenu-page" data-page="3d"><span>3D</span></a></li>
-          </ul>
-        </li>
-        <li><a href="temporal.html" data-page="temporal"><span>Temporal Structures</span></a></li>
-        <li><a href="relational.html" data-page="relational"><span>Relational Structures</span></a></li>
-        <li><a href="geospatial.html" target="_self">Geospatial Structures</a></li>
-        <li><a href="engagement.html" target="_self">Engagement Components</a></li>
-        <li><a href="firebase.html" target="_self">Firebase Poll App</a></li>
-      </ul>
-    </div>
-    
-    <!-- Redo button -->
-    <button id="redo-button" class="redo-button base-button">↻</button>
-    
-    <!-- Text elements -->
-    <div class="text-element top-left">
-        2025 Summer GSAPP CDP<br>
-        <span class="subtitle">Sunni Hu ☀️</span>
-    </div>
-    <div class="text-element top-right">Computational Design Workflows</div>
-    
-    <!-- New York Clock and Temperature -->
-    <div class="text-element bottom-left" id="ny-clock">Loading...</div>
-    <div class="text-element bottom-right" id="ny-temperature">Loading...</div>
+    <!-- Simple Home Page -->
+    <main class="content-area">
+      <!-- Home Section -->
+      <section id="home-section" class="content-section">
+        <div class="section-content">
+          <div class="hero-container">
+            <h1 class="hero-title">Computational Design Workflows</h1>
+            <p class="hero-subtitle">2025 Summer GSAPP CDP</p>
+            <p class="hero-description">A portfolio of computational design experiments exploring the intersection of data, space, and interaction. Each workflow demonstrates different approaches to visualization, spatial computing, and user engagement.</p>
+            
+            <!-- Feature cards with links to separate HTML files -->
+            <div class="feature-grid">
+              <a href="2d.html" class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3 class="feature-title">2D Spatial Canvases</h3>
+                <p class="feature-description">Hand-tracking interactions and drawing experiences</p>
+              </a>
+              
+              <a href="3d.html" class="feature-card">
+                <div class="feature-icon">🧊</div>
+                <h3 class="feature-title">3D Spatial Canvases</h3>
+                <p class="feature-description">Three-dimensional interactive visualizations</p>
+              </a>
+              
+              <a href="temporal.html" class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3 class="feature-title">Temporal Structures</h3>
+                <p class="feature-description">Time-based data visualizations and patterns</p>
+              </a>
+              
+              <a href="relational.html" class="feature-card">
+                <div class="feature-icon">�</div>
+                <h3 class="feature-title">Relational Networks</h3>
+                <p class="feature-description">Ontological analysis and network visualizations</p>
+              </a>
+              
+              <a href="geospatial.html" class="feature-card">
+                <div class="feature-icon">�️</div>
+                <h3 class="feature-title">Geospatial Maps</h3>
+                <p class="feature-description">Interactive mapping and spatial data exploration</p>
+              </a>
+              
+              <a href="Engagement.html" class="feature-card">
+                <div class="feature-icon">🎛️</div>
+                <h3 class="feature-title">UI Components</h3>
+                <p class="feature-description">Interactive elements and engagement patterns</p>
+              </a>
+              
+              <a href="firebase.html" class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Real-time Polling</h3>
+                <p class="feature-description">Urban heatwalk community survey app</p>
+              </a>
+            </div>
+            
+            <!-- Author info -->
+            <div class="author-info">
+              <p>Created by <strong>Sunni Hu ☀️</strong></p>
+              <p class="program-info">2025 Summer GSAPP Computational Design Practices</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
-    <!-- Scripts -->
-    <script src="scripts/website.js"></script>
+    <!-- Simple JavaScript for link interactions -->
+    <script>
+      // Add smooth hover effects and click animations
+      document.addEventListener('DOMContentLoaded', function() {
+        const featureCards = document.querySelectorAll('.feature-card');
+        
+        featureCards.forEach(card => {
+          card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+          });
+          
+          card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+          });
+          
+          card.addEventListener('click', function(e) {
+            // Add a subtle click animation
+            this.style.transform = 'translateY(-4px) scale(0.98)';
+            setTimeout(() => {
+              // Let the browser navigate to the href
+            }, 150);
+          });
+        });
+      });
+    </script>
 </body>
 </html>
