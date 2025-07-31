@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Spatial Canvases</title>
+    <title>2D Spatial Canvases</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/website.css">
+    <link rel="stylesheet" href="../styles/website.css">
 </head>
 <body>
+    <a href="index.html" class="header-element top-left">Computational Design Workflows
+      <br>2025 Summer GSAPP CDP</a>
     <!-- Hamburger menu button -->
     <button id="hamburger-menu" class="hamburger-menu base-button">
         <span></span>
@@ -34,7 +36,7 @@
     </nav>
     
     <!-- Text elements -->
-    <div class="text-element top-left">3D Spatial Canvases</div>
+    <div class="text-element top-left">2D Spatial Canvases</div>
     <div class="text-element top-right">Computational Design Workflows</div>
     
     <!-- Main content area -->
@@ -58,7 +60,16 @@
             <!-- Canvases -->
             <div style="position: relative;">
                 <canvas id="my-canvas" width="900" height="500" style="background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10);"></canvas>
-
+                <!-- Text card for first canvas -->
+                <div id="text-card-1" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(162, 0, 255, 0.1); border: 2px solid #a200ff; color: #a200ff; font-family: 'Roboto', sans-serif; font-size: 14px; padding: 15px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(162, 0, 255, 0.2); backdrop-filter: blur(10px); z-index: 100; max-width: 250px;">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Hand-Tracking Drawing</div>
+                    <div style="font-size: 12px; line-height: 1.4;">
+                        1. Click play<br>
+                        2. Show your face<br>
+                        3. Point your finger<br>
+                        4. Start drawing!
+                    </div>
+                </div>
             </div>
             
             <!-- Second Canvas -->
@@ -78,7 +89,16 @@
                         </svg>
                     </button>
                 </div>
-
+                <!-- Text card for second canvas -->
+                <div id="text-card-2" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(162, 0, 255, 0.1); border: 2px solid #a200ff; color: #a200ff; font-family: 'Roboto', sans-serif; font-size: 14px; padding: 15px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(162, 0, 255, 0.2); backdrop-filter: blur(10px); z-index: 100; max-width: 300px;">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Collect the Squares Game</div>
+                    <div style="font-size: 12px; line-height: 1.4;">
+                        1. Click play<br>
+                        2. Use arrow keys<br>
+                        3. Move and collect<br>
+                        4. Reach all to win!
+                    </div>
+                </div>
             </div>
             
 
@@ -94,8 +114,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="scripts/3d.js"></script>
-    <script src="scripts/website.js"></script>
+    <script src="../scripts/2d.js"></script>
+    <script src="../scripts/website.js"></script>
 </body>
 </html> 

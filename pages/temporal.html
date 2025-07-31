@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relational Structures</title>
+    <title>Temporal Structures</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/website.css">
+    <link rel="stylesheet" href="../styles/website.css">
 </head>
 <body>
+    <a href="index.html" class="header-element top-left">Computational Design Workflows
+      <br>2025 Summer GSAPP CDP</a>
     <!-- Hamburger menu button -->
     <button id="hamburger-menu" class="hamburger-menu base-button">
         <span></span>
@@ -29,35 +31,36 @@
                 </ul>
             </li>
             <li><a href="temporal.html" class="menu-page" data-page="temporal"><span>Temporal Structures</span></a></li>
-            <li><a href="relational.html" class="menu-page" data-page="relational"><span>Relational Structures</span></a></li>
         </ul>
     </nav>
     
     <!-- Text elements -->
-    <div class="text-element top-left">Relational Structures</div>
+    <div class="text-element top-left">Temporal Structures</div>
     <div class="text-element top-right">Computational Design Workflows</div>
     
     <!-- Main content area -->
     <div style="display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; width: 100vw; overflow-x: auto; overflow-y: auto; padding-bottom: 100px;">
         <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 24px; margin-top: 200px;">
-            <!-- Diagram Title -->
-            <h2 style="font-family: 'Roboto', 'Inter', sans-serif; font-size: 1.3rem; font-weight: 700; color: #fff; text-align: center; margin-bottom: 8px; margin-top: 0; letter-spacing: 0.01em;">Ontological Analysis for The Observatory of Economic Complexity (OEC)</h2>
-            <!-- Diagram Description -->
-            <div style="font-family: 'Roboto', 'Inter', sans-serif; font-size: 1rem; color: #fff; text-align: center; margin-bottom: 18px; max-width: 700px;">A visual map of the core entities, modules, and relationships that structure the Observatory of Economic Complexity platform. Click and drag to explore the network.</div>
-            <!-- Visualization Container -->
-            <div id="d3-canvas" style="width:900px; height:500px; background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10); position: relative;"></div>
+
+            
+            <!-- SVG Container -->
+            <div style="position: relative;">
+                <svg id="my-canvas" width="900" height="500" style="background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10);"></svg>
+            </div>
+            
             <!-- Back to Home button -->
             <a href="index.html" class="unified-button base-button back-to-home-button" style="margin-top: 40px;">Back to Home</a>
         </div>
     </div>
+
     <!-- Scripts -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
         // Debug: Check if multiple scripts are running
-        console.log('Relational HTML loaded');
-        window.relationalLoaded = true;
+        console.log('Temporal HTML loaded');
+        window.temporalLoaded = true;
     </script>
-    <script src="scripts/relational.js"></script>
-    <script src="scripts/website.js"></script>
+    <script src="../scripts/temporal.js"></script>
+    <script src="../scripts/website.js"></script>
 </body>
 </html> 

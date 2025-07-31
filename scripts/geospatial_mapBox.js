@@ -14,7 +14,7 @@ map.addControl(new mapboxgl.ScaleControl({ maxWidth: 80, unit: 'metric' }), 'bot
 
 map.on('load', () => {
   // Remove the red test marker. Only add farmers market points from GeoJSON.
-  fetch('manhattan_farmers_markets.geojson')
+  fetch('../data/manhattan_farmers_markets.geojson')
     .then(response => response.json())
     .then(data => {
       if (!data.features || !Array.isArray(data.features) || data.features.length === 0) {
@@ -35,6 +35,10 @@ map.on('load', () => {
           ))
           .addTo(map);
       });
+    })
+    .catch(error => {
+      console.error('Error loading farmers market data:', error);
+      showMapError('无法加载农贸市场数据');
     });
 }); 
 
