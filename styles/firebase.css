@@ -1,13 +1,53 @@
 /* Import Google Fonts - this loads the Roboto font family from Google's servers */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+/* Header Element Styles */
+.header-element {
+  position: fixed;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.2rem;
+  font-weight: 300;
+  font-style: italic;
+  color: #000;
+  z-index: 1000;
+  padding: 1rem;
+  text-decoration: underline;
+  transition: all 0.3s ease;
+}
+
+.header-element:hover {
+  color: #ff00cc;
+}
+
+.top-left {
+  top: 0;
+  left: 0;
+}
+
+/* Page title positioning */
+.page-title {
+  position: fixed;
+  top: 7rem;
+  left: 1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-style: Medium;
+  color: #000;
+  background: #e8e8e8;
+  padding: 0.5rem;
+  z-index: 90;
+}
 
 /* Style the entire body of the webpage */
 body {
-  font-family: 'Roboto', sans-serif;  /* Set the font to Roboto, with sans-serif as backup */
-  background-color: #ffffff;          /* Set background color to white */
-  color: #111;                        /* Set text color to dark gray (almost black) */
+  font-family: "IBM Plex Mono", monospace;  /* Set the font to IBM Plex Mono to match engagement page */
+  background-color: #e8e8e8;          /* Set background color to match other pages */
+  color: #000;                        /* Set text color to black for consistency */
   margin: 0;                          /* Remove default spacing around the body */
   padding: 0;                         /* Remove default internal spacing */
+  line-height: 1.6;                   /* Add consistent line height */
 }
 
 /* Style the header section at the top of the page */
@@ -46,30 +86,36 @@ header .right a {
 
 /* Style the main content area */
 main {
-  max-width: 800px;                   /* Limit the maximum width to 800 pixels */
-  margin: 60px auto;                  /* Add 60px top/bottom margin, center horizontally */
-  padding: 0 20px;                    /* Add 20px left/right padding, no top/bottom */
+  max-width: 900px;                   /* Limit the maximum width to 900 pixels */
+  margin: 140px auto 60px auto;       /* Add top margin for header clearance, center horizontally */
+  padding: 0 40px;                    /* Add horizontal padding */
 }
 
 /* Style the project year/date */
 .project-meta {
   font-size: 14px;                    /* Set font size to 14 pixels */
-  color: #999;                        /* Set text color to light gray */
+  color: #666;                        /* Set text color to medium gray */
   margin-bottom: 8px;                 /* Add 8 pixels of space below this element */
+  font-family: "IBM Plex Mono", monospace;
+  font-style: italic;
 }
 
 /* Style the main project title */
 .project-title {
   font-size: 24px;                    /* Set font size to 24 pixels (larger) */
-  font-weight: 400;                   /* Set font weight to normal (not bold) */
+  font-weight: 500;                   /* Set font weight to medium */
   margin-bottom: 4px;                 /* Add 4 pixels of space below this element */
+  font-family: "IBM Plex Mono", monospace;
+  color: #000;
 }
 
 /* Style the project subtitle */
 .project-subtitle {
   font-size: 16px;                    /* Set font size to 16 pixels */
-  color: #999;                        /* Set text color to light gray */
+  color: #666;                        /* Set text color to medium gray */
   margin-bottom: 24px;                /* Add 24 pixels of space below this element */
+  font-family: "IBM Plex Mono", monospace;
+  font-style: italic;
 }
 
 /* Style the advisor information */
@@ -77,15 +123,18 @@ main {
   font-size: 14px;                    /* Set font size to 14 pixels */
   margin-bottom: 40px;                /* Add 40 pixels of space below this element */
   color: #333;                        /* Set text color to dark gray */
+  font-family: "IBM Plex Mono", monospace;
 }
 
 /* Style section titles (like "Abstract", "Motivation") */
 .section-title {
-  font-weight: 700;                   /* Make the text bold */
+  font-weight: 500;                   /* Make the text medium weight */
   text-transform: uppercase;          /* Convert text to all capital letters */
   margin-top: 40px;                   /* Add 40 pixels of space above this element */
   margin-bottom: 12px;                /* Add 12 pixels of space below this element */
   font-size: 14px;                    /* Set font size to 14 pixels */
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.5px;
 }
 
 /* Style all paragraph elements */
@@ -93,7 +142,8 @@ p {
   font-size: 16px;                    /* Set font size to 16 pixels */
   line-height: 1.6;                   /* Set space between lines to 1.6 times the font size */
   margin-bottom: 24px;                /* Add 24 pixels of space below each paragraph */
-  color: #111;                        /* Set text color to dark gray (almost black) */
+  color: #000;                        /* Set text color to black */
+  font-family: "IBM Plex Mono", monospace;
 }
 
 /* ======================================== */
@@ -115,7 +165,8 @@ p {
   font-size: 20px;                    /* Larger font for the question */
   font-weight: 500;                   /* Medium font weight */
   margin-bottom: 24px;                /* Space below the question */
-  color: #333;                        /* Dark gray text */
+  color: #000;                        /* Black text for consistency */
+  font-family: "IBM Plex Mono", monospace;
 }
 
 /* Vote buttons container */
@@ -135,65 +186,49 @@ p {
   justify-content: center;             /* Center content vertically */
   min-width: 120px;                   /* Minimum button width */
   padding: 20px 24px;                 /* Internal spacing */
-  border: none;                        /* No border */
-  border-radius: 8px;                 /* Rounded corners */
+  border: 1px solid #333;             /* Dark border like engagement page */
+  border-radius: 4px;                 /* Consistent border radius */
   font-size: 16px;                    /* Font size */
-  font-weight: 500;                   /* Medium font weight */
+  font-weight: 400;                   /* Normal font weight */
   cursor: pointer;                    /* Hand cursor on hover */
   transition: all 0.3s ease;          /* Smooth transitions */
-  font-family: 'Roboto', sans-serif;  /* Consistent font */
+  font-family: "IBM Plex Mono", monospace;  /* IBM Plex Mono font */
   position: relative;                 /* For hover effects */
   overflow: hidden;                   /* Hide overflow for effects */
+  background-color: rgba(255, 255, 255, 0.9);  /* Semi-transparent white background */
+  color: #000;                        /* Black text */
+  margin: 5px;                        /* Consistent margin */
 }
 
-/* Yes button specific styling */
-.vote-yes {
-  background: linear-gradient(135deg, #4CAF50, #45a049); /* Green gradient */
-  color: white;                       /* White text */
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); /* Green shadow */
+/* Vote button hover effects - similar to engagement page */
+.vote-btn:hover {
+  background-color: #000;             /* Black background on hover */
+  color: #fff;                        /* White text on hover */
+  transform: scale(1.02);             /* Slight scale effect */
 }
 
-.vote-yes:hover {
-  transform: translateY(-2px);        /* Lift effect on hover */
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4); /* Enhanced shadow */
-}
-
-.vote-yes:active {
-  transform: translateY(0);           /* Return to normal on click */
-}
-
-/* No button specific styling */
-.vote-no {
-  background: linear-gradient(135deg, #f44336, #d32f2f); /* Red gradient */
-  color: white;                       /* White text */
-  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3); /* Red shadow */
-}
-
-.vote-no:hover {
-  transform: translateY(-2px);        /* Lift effect on hover */
-  box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4); /* Enhanced shadow */
-}
-
-.vote-no:active {
-  transform: translateY(0);           /* Return to normal on click */
+.vote-btn:active {
+  transform: scale(0.98);             /* Scale down when clicked */
 }
 
 /* Vote text styling */
 .vote-text {
-  font-size: 18px;                    /* Larger font for vote text */
-  font-weight: 600;                   /* Bold font weight */
+  font-size: 16px;                    /* Consistent font size */
+  font-weight: 400;                   /* Normal font weight */
   margin-bottom: 8px;                 /* Space below text */
+  font-family: "IBM Plex Mono", monospace;
 }
 
 /* Vote count styling */
 .vote-count {
-  font-size: 24px;                    /* Large font for count */
-  font-weight: 700;                   /* Bold font weight */
-  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
-  padding: 4px 12px;                  /* Internal spacing */
-  border-radius: 20px;                /* Rounded background */
-  min-width: 40px;                    /* Minimum width for count */
+  font-size: 18px;                    /* Medium font for count */
+  font-weight: 500;                   /* Medium font weight */
+  color: #ff00cc;                     /* Pink color for accent */
+  padding: 4px 8px;                   /* Internal spacing */
+  border-radius: 4px;                 /* Rounded background */
+  min-width: 30px;                    /* Minimum width for count */
   display: inline-block;              /* Block display for padding */
+  font-family: "IBM Plex Mono", monospace;
 }
 
 /* Total votes display */
@@ -351,4 +386,90 @@ p {
 /* Apply pulse animation when vote counts update */
 .vote-count.updated {
   animation: pulse 0.3s ease-in-out;
+}
+
+/* Input and form styling to match engagement page */
+.neighborhood-input {
+  margin: 20px 0;
+}
+
+.neighborhood-input label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  font-family: "IBM Plex Mono", monospace;
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+  color: #000;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #ff00cc;
+  box-shadow: 0 0 0 2px rgba(255, 0, 204, 0.2);
+  background-color: #fff;
+}
+
+input[type="text"]::placeholder {
+  color: #666;
+  font-style: italic;
+}
+
+/* Status display styling */
+.status-display {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  font-family: "IBM Plex Mono", monospace;
+  color: #000;
+}
+
+/* Total votes styling */
+.total-votes {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  border: 1px solid #333;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.total-votes p {
+  margin: 0;
+  font-size: 16px;
+  color: #000;
+}
+
+#total-votes {
+  color: #ff00cc;
+  font-weight: 500;
+}
+
+/* Thank you message */
+#thank-you {
+  background-color: rgba(255, 0, 204, 0.1);
+  color: #000;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #ff00cc;
+  font-family: "IBM Plex Mono", monospace;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.hidden {
+  display: none;
 }

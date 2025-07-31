@@ -6,10 +6,9 @@
   position: fixed;
   font-family: "IBM Plex Mono", monospace;
   font-size: 1.2rem;
-  font-weight: 400;
+  font-weight: 300;
   font-style: italic;
   color: #000;
-  background: #e8e8e8;
   z-index: 1000;
   padding: 1rem;
   text-decoration: underline;
@@ -41,11 +40,13 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 400;
     background: #e8e8e8;
-    color: #111;
+    color: #000;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
 header {
@@ -56,6 +57,7 @@ header {
     padding: 24px 40px;
     border-bottom: 1px solid #ccc;
     font-size: 14px;
+    font-family: "IBM Plex Mono", monospace;
 }
 
 header .left {
@@ -87,56 +89,64 @@ header .right a {
 }
 
 main {
-    max-width: 800px;
-    margin: 60px 0;
+    max-width: 900px;
+    margin: 140px auto 60px auto;
     padding: 0 40px;
-    margin-left: auto;
-    margin-right: auto;
+    font-family: "IBM Plex Mono", monospace;
 }
 
 .project-meta {
     font-size: 14px;
-    color: #999;
+    color: #666;
     margin-bottom: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-style: italic;
 }
 
 .project-title {
     font-size: 24px;
-    font-weight: 400;
+    font-weight: 500;
     margin-bottom: 4px;
+    font-family: "IBM Plex Mono", monospace;
+    color: #000;
 }
 
 .project-subtitle {
     font-size: 16px;
-    color: #999;
+    color: #666;
     margin-bottom: 24px;
+    font-family: "IBM Plex Mono", monospace;
+    font-style: italic;
 }
 
 .advisor {
     font-size: 14px;
     margin-bottom: 40px;
     color: #333;
+    font-family: "IBM Plex Mono", monospace;
 }
 
 .section-title {
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     margin-top: 40px;
     margin-bottom: 12px;
     font-size: 14px;
+    font-family: "IBM Plex Mono", monospace;
+    letter-spacing: 0.5px;
 }
 
 p {
     font-size: 16px;
     line-height: 1.6;
     margin-bottom: 24px;
-    color: #111;
+    color: #000;
+    font-family: "IBM Plex Mono", monospace;
 }
 
 #mapbox-container-1, #mapbox-container-2, #mapbox-container-3 {
     width: 100%;
     height: 400px;
-    margin: 40px 0;
     display: block;
     border: 1px solid #ccc;
 }
@@ -150,43 +160,47 @@ p {
 
 .controls button {
     padding: 8px 16px;
-    background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #000;
+    border: 1px solid #333;
     cursor: pointer;
     font-size: 14px;
-    font-family: 'Roboto', sans-serif;
+    font-family: "IBM Plex Mono", monospace;
     font-weight: 400;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
+    border-radius: 4px;
 }
 
 .controls button:hover {
-    background-color: #e5e5e5;
+    background-color: #000;
+    color: #fff;
+    transform: scale(1.02);
 }
 
 .controls button:active {
-    background-color: #d5d5d5;
+    transform: scale(0.98);
 }
 
 /* Style for form elements in controls */
 .controls select,
 .controls input[type="text"] {
     padding: 8px 12px;
-    background-color: #ffffff;
-    color: #333;
-    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #000;
+    border: 1px solid #333;
     border-radius: 4px;
     font-size: 14px;
-    font-family: 'Roboto', sans-serif;
+    font-family: "IBM Plex Mono", monospace;
     font-weight: 400;
-    transition: border-color 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .controls select:focus,
 .controls input[type="text"]:focus {
     outline: none;
-    border-color: #0066cc;
-    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+    border-color: #ff00cc;
+    box-shadow: 0 0 0 2px rgba(255, 0, 204, 0.2);
+    background-color: #fff;
 }
 
 .controls select {
@@ -198,19 +212,23 @@ p {
 }
 
 .info-panel {
-    background: white;
+    background: rgba(255, 255, 255, 0.95);
     padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     max-width: 600px;
     margin: 0 auto;
+    font-family: "IBM Plex Mono", monospace;
+    border: 1px solid #ddd;
 }
 
 .info-panel h3 {
-    color: #333;
+    color: #000;
     margin-bottom: 15px;
-    font-size: 1.3rem;
-    border-bottom: 2px solid #4CAF50;
+    font-size: 1.2rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    border-bottom: 2px solid #ff00cc;
     padding-bottom: 10px;
 }
 
@@ -224,13 +242,16 @@ p {
     border-bottom: 1px solid #eee;
     position: relative;
     padding-left: 25px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
 }
 
 .info-panel li:before {
-    content: "📍";
+    content: "→";
     position: absolute;
     left: 0;
-    color: #4CAF50;
+    color: #ff00cc;
+    font-weight: 500;
 }
 
 .info-panel li:last-child {

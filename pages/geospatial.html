@@ -4,43 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manhattan Farmers Markets Map</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/geospatial.css">
-    <style>
-        #mapbox-container-3 {
-            width: 100%;
-            height: 500px;
-            margin: 40px 0;
-            border: 1px solid #ccc;
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/2d3d.css">
 </head>
 <body>
-    <a href="index.html" class="header-element top-left">Computational Design Workflows
-      <br>2025 Summer GSAPP CDP</a>
-
-    <main>
-        <div class="project-title">New York City Interactive Maps</div>
-        <div class="project-subtitle">Mapbox Visualization Examples</div>
-
-        <div class="section-title">Digital Object 4: Geospatial Structures</div>
-        <p>This section explores geospatial data visualization using Mapbox GL JS, demonstrating how to create interactive maps with markers, line features, and polygon regions. These examples show how to represent different types of spatial data and create engaging user experiences.</p>
-
-        <!-- Section for first Mapbox sketch (mapBox_Sketch_01.js) -->
-        <div class="section-title">Mapbox Foundation: Interactive Map with Markers</div>
-        <p>A basic Mapbox example demonstrating core mapping concepts. This interactive map shows New York City with clickable markers for key landmarks. Features include basic map controls, marker placement with popups, zoom controls, and coordinate display on click. This example provides the foundation for more advanced geospatial visualizations.</p>
-        
-
-        <div id="mapbox-container-3"></div>
-        
-        <div class="controls">
-            <input type="text" id="searchFeature" placeholder="Search neighborhoods...">
-            <button id="resetFilters">Reset Search</button>
-            <button id="fitToData">Fit to Data</button>
+    <a href="index.html" class="header-element top-left">Computational Design Workflows<br>2025 Summer GSAPP CDP</a>
+    
+    <!-- Page title -->
+    <div class="page-title">Geospatial Structures</div>
+    
+    <!-- Main content area -->
+    <div style="display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; width: 100vw; overflow-x: auto; overflow-y: auto; padding-bottom: 100px;">
+        <div style="position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 200px;">
+            <!-- Project Title -->
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 1rem; font-weight: 500; color: #000; text-align: left;">Manhattan Farmers Markets Interactive Map</div>
+            <!-- Project Description -->
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: #000; text-align: left; margin-bottom: 20px; max-width: 650px;">An interactive geospatial visualization of farmers markets across Manhattan. Explore market locations, search by neighborhood, and discover local food sources throughout the city.</div>
+            <!-- Map Container -->
+            <div id="mapbox-container-3" style="width: 900px; height: 500px; background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10); border: none;"></div>
         </div>
-
-    </main>
+    </div>
     
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <script src="../scripts/geospatial_mapBox.js"></script>
