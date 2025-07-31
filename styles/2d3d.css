@@ -1,8 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+/* Header Element Styles */
+.header-element {
+  position: fixed;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.2rem;
+  font-weight: 400;
+  font-style: italic;
+  color: #000;
+  background: #e8e8e8;
+  z-index: 1000;
+  padding: 1rem;
+  text-decoration: underline;
+  transition: all 0.3s ease;
+}
+
+.header-element:hover {
+  color: #ff00cc;
+}
+
+.top-left {
+  top: 0;
+  left: 0;
+}
+
+/* Page title positioning */
+.page-title {
+  position: fixed;
+  top: 7rem;
+  left: 1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-style: Medium;
+  color: #000;
+  background: #e8e8e8;
+  padding: 0.5rem;
+  z-index: 90;
+}
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #ffffff;
+    background: #e8e8e8;
     color: #111;
     margin: 0;
     padding: 0;
@@ -233,4 +273,36 @@ p {
     .info-panel {
         padding: 20px;
     }
+}
+
+/* Circular Button Styles */
+.square-button, .base-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+.square-button:hover, .base-button:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.square-button:active, .base-button:active {
+    transform: scale(0.95);
+}
+
+.square-button svg, .base-button svg {
+    width: 24px;
+    height: 24px;
 } 
