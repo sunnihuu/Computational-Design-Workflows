@@ -13,16 +13,27 @@ map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
 map.addControl(new mapboxgl.ScaleControl({ maxWidth: 80, unit: 'metric' }), 'bottom-left');
 
 map.on('load', () => {
+  console.log('Map loaded, fetching farmers market data...');
   fetch('../data/manhattan_farmers_markets.geojson')
-    .then(response => response.json())
+    .then(response => {
+      console.log('Fetch response:', response);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => {
+      console.log('Data loaded:', data);
       if (!data.features || !Array.isArray(data.features) || data.features.length === 0) {
+        console.error('No features found in data');
         return;
       }
+      console.log(`Adding ${data.features.length} markers to map`);
       data.features.forEach((feature, index) => {
         const coordinates = feature.geometry.coordinates;
         const lng = Number(coordinates[0]);
         const lat = Number(coordinates[1]);
+        console.log(`Adding marker ${index + 1}: ${feature.properties.market_name} at [${lng}, ${lat}]`);
         new mapboxgl.Marker({ color: '#4CAF50', scale: 0.8 })
           .setLngLat([lng, lat])
           .setPopup(new mapboxgl.Popup().setHTML(
@@ -35,4 +46,7 @@ map.on('load', () => {
           .addTo(map);
       });
     })
+    .catch(error => {
+      console.error('Error loading farmers market data:', error);
+    });
 }); 
