@@ -6,24 +6,21 @@
     <title>Manhattan Farmers Markets Map</title>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
     <link rel="stylesheet" href="../styles/2d3d.css">
+    <link rel="stylesheet" href="../styles/engagement.css">
 </head>
 <body>
     <a href="index.html" class="header-element top-left">Computational Design Workflows<br>2025 Summer GSAPP CDP</a>
     
-    <!-- Page title -->
-    <div class="page-title">Geospatial Structures</div>
-    
-    <!-- Main content area -->
-    <div style="display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; width: 100vw; overflow-x: auto; overflow-y: auto; padding-bottom: 100px;">
-        <div style="position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 200px;">
-            <!-- Project Title -->
-            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 1rem; font-weight: 500; color: #000; text-align: left;">Manhattan Farmers Markets Interactive Map</div>
-            <!-- Project Description -->
-            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: #000; text-align: left; margin-bottom: 20px; max-width: 650px;">An interactive geospatial visualization of farmers markets across Manhattan. Explore market locations, search by neighborhood, and discover local food sources throughout the city.</div>
-            <!-- Map Container -->
-            <div id="mapbox-container-3" style="width: 900px; height: 500px; background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10); border: none;"></div>
+    <main>
+        <div class="poll-header">
+            <h1>🗺️ Manhattan Farmers Markets Interactive Map</h1>
+            <h2>Geospatial Visualization of Local Food Sources in NYC</h2>
+            <p>I created this interactive geospatial visualization to map farmers markets across Manhattan, allowing you to explore market locations, search by neighborhood, and discover local food sources throughout the city as part of understanding urban food systems and accessibility.</p>
         </div>
-    </div>
+        
+        <!-- Map Container -->
+        <div id="mapbox-container-3" style="width: 100%; max-width: 900px; height: 500px; background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10); border: none; margin: 0 auto;"></div>
+    </main>
     
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <script src="../scripts/geospatial_mapBox.js"></script>
