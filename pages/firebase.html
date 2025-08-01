@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Urban Heatwalk Poll</title>
+  <title>🥗 Urban Food Choice Poll</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/firebase.css">
 </head>
@@ -11,42 +11,71 @@
     <a href="index.html" class="header-element top-left">Computational Design Workflows<br>2025 Summer GSAPP CDP</a>
     
   <main>
-    <div class="project-title">Urban Heatwalk Poll</div>
-    <div class="project-subtitle">Community Survey on Neighborhood Walkability During Heatwaves</div>
-    <div class="advisor">Share your experience and help us understand how heat affects pedestrian <br>
-      comfort in different neighborhoods.</div>
+    <div class="project-title">🥗 Urban Food Choice Poll</div>
+    <div class="project-subtitle">Community Survey on Food Choices and Transparency in NYC</div>
+    <div class="advisor">I created this Urban Food Choice Poll to understand what New Yorkers prioritize when choosing food and where they hope to see more transparency in the food system, so I can explore how design can support more sustainable eating choices.</div>
     
     <div class="section-title">Survey Question</div>
-    <p>How comfortable is it to walk in your neighborhood during hot summer days?</p>
+    <p>When you choose what to eat, what do you care most about?</p>
     
     <div class="poll-container">
       <div class="poll-question">
-        <h3>Is your neighborhood walkable during a heatwave?</h3>
+        <h3>When you choose what to eat, what do you care most about?</h3>
       </div>
       <div class="vote-buttons">
         <button class="vote-btn" id="vote-shade">
-          <span class="vote-text">Comfortable / lots of shade</span>
+          <span class="vote-text">🥕 Health & Nutrition</span>
           <span class="vote-count" id="shade-count">0</span>
         </button>
         <button class="vote-btn" id="vote-manageable">
-          <span class="vote-text">A bit hot but manageable</span>
+          <span class="vote-text">💵 Price & Affordability</span>
           <span class="vote-count" id="manageable-count">0</span>
         </button>
         <button class="vote-btn" id="vote-hot">
-          <span class="vote-text">Very hot / no shade</span>
+          <span class="vote-text">🌎 Environmental Impact</span>
           <span class="vote-count" id="hot-count">0</span>
         </button>
         <button class="vote-btn" id="vote-avoid">
-          <span class="vote-text">I avoid walking outdoors</span>
+          <span class="vote-text">😋 Taste & Convenience</span>
           <span class="vote-count" id="avoid-count">0</span>
         </button>
       </div>
       <div class="neighborhood-input">
         <label for="neighborhood">Which neighborhood do you live in? (optional)</label>
-        <input type="text" id="neighborhood" name="neighborhood" placeholder="e.g. Clinton Hill" />
+        <input type="text" id="neighborhood" name="neighborhood" placeholder="e.g. Upper West Side" />
       </div>
       <div class="total-votes">
         <p>Total votes: <span id="total-votes">0</span></p>
+      </div>
+    </div>
+    
+    <div class="section-title">Follow-up Question</div>
+    <p>Where do you wish to see more transparency in the food system?</p>
+    
+    <div class="poll-container">
+      <div class="poll-question">
+        <h3>Where do you wish to see more transparency in the food system?</h3>
+      </div>
+      <div class="vote-buttons">
+        <button class="vote-btn" id="vote-supermarket">
+          <span class="vote-text">🛒 At the supermarket</span>
+          <span class="vote-count" id="supermarket-count">0</span>
+        </button>
+        <button class="vote-btn" id="vote-restaurants">
+          <span class="vote-text">🍔 At restaurants & takeout</span>
+          <span class="vote-count" id="restaurants-count">0</span>
+        </button>
+        <button class="vote-btn" id="vote-delivery">
+          <span class="vote-text">🏠 At home / food delivery</span>
+          <span class="vote-count" id="delivery-count">0</span>
+        </button>
+        <button class="vote-btn" id="vote-notsure">
+          <span class="vote-text">❓ Not sure</span>
+          <span class="vote-count" id="notsure-count">0</span>
+        </button>
+      </div>
+      <div class="total-votes">
+        <p>Total votes: <span id="total-votes-2">0</span></p>
       </div>
     </div>
     <div id="thank-you" class="hidden">Thank you for participating!</div>
