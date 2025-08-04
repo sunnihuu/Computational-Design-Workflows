@@ -2,15 +2,33 @@
 // Timeline Visualization
 
 // SVG setup
-let svg, width = 900, height = 500;
+
+// Responsive SVG setup
+let width = 900, height = 500;
+let svg;
+
 
 function initializeSVG() {
-    svg = d3.select("#my-canvas");
-    if (svg.empty()) {
-        console.error('SVG element #my-canvas not found!');
+    // Use the #d3-canvas container for consistency
+    const container = d3.select("#d3-canvas");
+    if (container.empty()) {
+        console.error('Container #d3-canvas not found!');
         return false;
     }
-    console.log('SVG element found:', svg.node());
+    container.selectAll("*").remove();
+    svg = container.append("svg")
+        .attr("id", "my-canvas")
+        .attr("width", width)
+        .attr("height", height);
+    // Add rounded background
+    svg.append("rect")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", "#fafafa")
+        .attr("stroke", "#e0e0e0")
+        .attr("stroke-width", 1)
+        .attr("rx", 16)
+        .attr("ry", 16);
     return true;
 }
 
@@ -63,10 +81,10 @@ const events = [
     }
 ];
 
-// Color scale for categories - updated with new colors
+// Color scale for categories - more vibrant and distinct
 const colorScale = d3.scaleOrdinal()
     .domain(['Research', 'Development', 'Milestone'])
-    .range(['#4CAF50', '#2196F3', '#F44336']); // 🟢 Research, 🔵 Development, 🔴 Milestone
+    .range(['#00C853', '#2979FF', '#FF1744']); // 🟢 Research, 🔵 Development, 🔴 Milestone
 
 // Text wrapping function
 function wrapText(text, width) {
@@ -90,55 +108,20 @@ function wrapText(text, width) {
     return lines;
 }
 
-// Calculate optimal label positions to avoid overlap
+// Calculate staggered label positions for a more dynamic timeline
 function calculateLabelPositions(events, timeScale) {
     const positions = [];
-    const minSpacing = 80; // Reduced spacing
-    
+    const yBase = height - 190;
+    const yStagger = 60;
     events.forEach((event, i) => {
         const x = timeScale(event.date);
-        let y = height - 190; // Start closer to timeline, moved up 70px total
+        // Stagger labels above and below the timeline for clarity
+        let y = (i % 2 === 0) ? yBase : yBase + yStagger;
         let anchor = "middle";
-        
-        let hasOverlap = true;
-        let attempts = 0;
-        const maxAttempts = 10;
-        
-        while (hasOverlap && attempts < maxAttempts) {
-            hasOverlap = false;
-            
-            for (let j = 0; j < i; j++) {
-                const prevX = positions[j].x;
-                const prevY = positions[j].y;
-                
-                const horizontalDistance = Math.abs(x - prevX);
-                const verticalDistance = Math.abs(y - prevY);
-                
-                if (horizontalDistance < 150 && verticalDistance < minSpacing) {
-                    hasOverlap = true;
-                    break;
-                }
-            }
-            
-            if (hasOverlap) {
-                if (attempts % 3 === 0) {
-                    y -= minSpacing; // Move up instead of down
-                } else if (attempts % 3 === 1) {
-                    if (x < width / 2) {
-                        anchor = "start";
-                    } else {
-                        anchor = "end";
-                    }
-                } else {
-                    y = height - 270; // Move to middle area, moved up 70px total
-                }
-                attempts++;
-            }
-        }
-        
-        positions.push({ x, y, anchor });
+        if (x < width / 3) anchor = "start";
+        if (x > width * 2 / 3) anchor = "end";
+        positions.push({ x, y, anchor, up: i % 2 === 0 });
     });
-    
     return positions;
 }
 
@@ -219,10 +202,7 @@ function createTimeline() {
     
     console.log('Creating timeline with events:', events);
     
-    // Clear existing content
-    console.log('Clearing existing content...');
-    svg.selectAll("*").remove();
-    console.log('Content cleared');
+
     
     // Create time scale
     const timeScale = d3.scaleTime()
@@ -294,21 +274,22 @@ function createTimeline() {
     // Calculate optimal positions for labels to avoid overlap
     const labelPositions = calculateLabelPositions(events, timeScale);
 
-    // Add event points with improved styling
+    // Add event points as colored circles only (no emoji)
     svg.selectAll(".event-point")
         .data(events)
         .enter()
-        .append("circle")
-        .attr("class", "event-point")
-        .attr("cx", d => timeScale(d.date))
-        .attr("cy", height - 80)
-        .attr("r", 10)
-        .attr("fill", d => colorScale(d.category))
-        .attr("stroke", "#fff")
-        .attr("stroke-width", 3)
-        .style("cursor", "pointer")
-        .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))")
-        .style("transition", "all 0.3s ease");
+        .append("g")
+        .attr("class", "event-point-group")
+        .attr("transform", d => `translate(${timeScale(d.date)},${height - 80})`)
+        .each(function(d) {
+            const g = d3.select(this);
+            g.append("circle")
+                .attr("r", 14)
+                .attr("fill", colorScale(d.category))
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 4)
+                .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
+        });
 
     // Add connecting lines with improved styling
     svg.selectAll(".connector-line")
@@ -326,7 +307,6 @@ function createTimeline() {
         .style("stroke-dasharray", "5,5");
 
     // Add event labels with calculated positions and text wrapping
-    console.log('Creating event labels...');
     svg.selectAll(".event-label-group")
         .data(events)
         .enter()
@@ -334,10 +314,8 @@ function createTimeline() {
         .attr("class", "event-label-group")
         .attr("transform", (d, i) => `translate(${labelPositions[i].x}, ${labelPositions[i].y})`)
         .each(function(d, i) {
-            console.log(`Creating label for event ${i}: ${d.name}`);
             const group = d3.select(this);
             const anchor = labelPositions[i].anchor;
-            
             // Add event name with text wrapping and improved styling
             const nameLines = wrapText(d.name, 120);
             nameLines.forEach((line, lineIndex) => {
@@ -349,10 +327,10 @@ function createTimeline() {
                     .attr("font-size", "13px")
                     .attr("font-weight", "600")
                     .attr("fill", "#2c3e50")
-                    .attr("font-family", "'Roboto', sans-serif")
+                    .attr("font-family", "IBM Plex Mono, monospace")
                     .text(line)
                     .style("pointer-events", "none")
-                    .style("filter", "drop-shadow(0 1px 2px rgba(255,255,255,0.8))");
+                    .style("text-shadow", "1px 1px 2px rgba(255,255,255,0.8)");
             });
         });
 
@@ -364,7 +342,6 @@ function createTimeline() {
                 .duration(300)
                 .attr("r", 15)
                 .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.3))");
-            
             // Highlight corresponding label
             const index = events.indexOf(d);
             svg.selectAll(".event-label-group")
@@ -374,8 +351,13 @@ function createTimeline() {
                 .duration(300)
                 .attr("font-size", "15px")
                 .attr("fill", "#1a1a1a");
-            
             showTooltip(event, d);
+        })
+        .on("mousemove", function(event) {
+            // Move tooltip with mouse
+            d3.select("body").selectAll(".tooltip")
+                .style("left", (event.pageX + 15) + "px")
+                .style("top", (event.pageY - 15) + "px");
         })
         .on("mouseout", function() {
             d3.select(this)
@@ -383,7 +365,6 @@ function createTimeline() {
                 .duration(300)
                 .attr("r", 10)
                 .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
-            
             // Reset all labels
             svg.selectAll(".event-label-group")
                 .selectAll("text")
@@ -391,7 +372,6 @@ function createTimeline() {
                 .duration(300)
                 .attr("font-size", "13px")
                 .attr("fill", "#2c3e50");
-            
             hideTooltip();
         });
 
@@ -404,9 +384,9 @@ function createTimeline() {
         .attr("font-size", "28px")
         .attr("font-weight", "700")
         .attr("fill", "#1a1a1a")
-        .attr("font-family", "'Roboto', sans-serif")
+        .attr("font-family", "IBM Plex Mono, monospace")
         .text("Economic Complexity Timeline")
-        .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.1))");
+        .style("text-shadow", "1px 1px 2px rgba(255,255,255,0.8)");
 
     // Add subtitle
     svg.append("text")
@@ -417,7 +397,7 @@ function createTimeline() {
         .attr("font-size", "14px")
         .attr("font-weight", "400")
         .attr("fill", "#666")
-        .attr("font-family", "'Roboto', sans-serif")
+        .attr("font-family", "IBM Plex Mono, monospace")
         .text("Research milestones and developments from 2009 to 2023");
 
     // Add legend with improved styling
