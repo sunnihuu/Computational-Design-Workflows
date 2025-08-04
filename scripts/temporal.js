@@ -126,159 +126,123 @@ function calculateLabelPositions(events, timeScale) {
 }
 
 // Show tooltip
-function showTooltip(event, d) {
-    const tooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("position", "absolute")
-        .style("background", "rgba(44, 62, 80, 0.95)")
-        .style("color", "white")
-        .style("padding", "12px 16px")
-        .style("border-radius", "8px")
-        .style("font-size", "13px")
-        .style("font-family", "'Roboto', sans-serif")
-        .style("font-weight", "400")
-        .style("pointer-events", "none")
-        .style("z-index", "1000")
-        .style("box-shadow", "0 4px 12px rgba(0,0,0,0.3)")
-        .style("backdrop-filter", "blur(10px)")
-        .style("border", "1px solid rgba(255,255,255,0.1)");
 
-    // Get description based on event name
-    let description = "";
-    switch(d.name) {
-        case 'Initial research on economic complexity at Harvard':
-            description = 'Started foundational work on understanding economic complexity and product space theory';
-            break;
-        case 'First publication of "Atlas of Economic Complexity"':
-            description = 'Landmark publication introducing the concept of economic complexity to the world';
-            break;
-        case 'Launch of the OEC interactive platform':
-            description = 'Created the Observatory of Economic Complexity as an interactive data visualization tool';
-            break;
-        case 'Team moves to MIT and forms Collective Learning Group':
-            description = 'Established the Collective Learning Group at MIT to advance complexity research';
-            break;
-        case 'Bulk data downloads introduced':
-            description = 'Made economic complexity data freely available for researchers worldwide';
-            break;
-        case 'Redesigned platform with new visual tools':
-            description = 'Enhanced the OEC platform with improved visualizations and user experience';
-            break;
-        case 'ESG and carbon data added':
-            description = 'Expanded research scope to include environmental, social, and governance metrics';
-            break;
-        case 'Multilingual and mobile optimization':
-            description = 'Made the platform accessible globally with multilingual support and mobile optimization';
-            break;
-        default:
-            description = '';
-    }
+    // --- Radial (star) timeline ---
+    const centerX = width / 2;
+    const centerY = height / 2 + 20;
+    const innerRadius = 60;
+    const outerRadius = 180;
+    const angleScale = d3.scaleLinear()
+        .domain([0, events.length])
+        .range([0, 2 * Math.PI]);
 
-    tooltip.html(`
-        <div style="font-weight: 600; margin-bottom: 6px; color: #fff;">${d.name}</div>
-        <div style="font-size: 11px; color: #bdc3c7; margin-bottom: 4px; line-height: 1.4;">${description}</div>
-        <div style="font-size: 11px; color: #bdc3c7; margin-bottom: 4px;">Date: ${d.date.toLocaleDateString()}</div>
-        <div style="font-size: 11px; color: #bdc3c7;">Category: ${d.category}</div>
-    `);
+    // Draw radial lines for each event
+    svg.selectAll(".radial-line")
+        .data(events)
+        .enter()
+        .append("line")
+        .attr("class", "radial-line")
+        .attr("x1", centerX)
+        .attr("y1", centerY)
+        .attr("x2", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * outerRadius)
+        .attr("y2", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * outerRadius)
+        .attr("stroke", d => colorScale(d.category))
+        .attr("stroke-width", 3)
+        .attr("opacity", 0.3);
 
-    tooltip.style("left", (event.pageX + 15) + "px")
-        .style("top", (event.pageY - 15) + "px");
-}
-
-// Hide tooltip
-function hideTooltip() {
-    d3.selectAll(".tooltip").remove();
-}
-
-// Create timeline visualization
-function createTimeline() {
-    console.log('createTimeline function called');
-    
-    if (!initializeSVG()) {
-        console.error('Failed to initialize SVG');
-        return;
-    }
-    
-    console.log('Creating timeline with events:', events);
-    
-
-    
-    // Create time scale
-    const timeScale = d3.scaleTime()
-        .domain(d3.extent(events, d => d.date))
-        .range([100, width - 100]);
-
-    // Create time axis
-    const xAxis = d3.axisBottom(timeScale)
-        .tickFormat(d3.timeFormat('%Y'))
-        .ticks(8);
-
-    // Add axis with improved styling
-    svg.append("g")
-        .attr("class", "x-axis")
-        .attr("transform", `translate(0, ${height - 50})`)
-        .call(xAxis)
-        .selectAll("text")
-        .style("text-anchor", "middle")
-        .style("font-size", "14px")
-        .style("font-weight", "500")
-        .style("fill", "#555")
-        .style("font-family", "'Roboto', sans-serif");
-
-    // Add axis line styling
-    svg.selectAll(".x-axis line")
-        .style("stroke", "#ddd")
-        .style("stroke-width", 1);
-
-    // Add axis path styling
-    svg.selectAll(".x-axis path")
-        .style("stroke", "#ddd")
-        .style("stroke-width", 2);
-
-    // Draw main timeline line with gradient
-    const defs = svg.append("defs");
-    
-    // Create gradient for timeline
-    const timelineGradient = defs.append("linearGradient")
-        .attr("id", "timelineGradient")
-        .attr("x1", "0%")
-        .attr("y1", "0%")
-        .attr("x2", "100%")
-        .attr("y2", "0%");
-    
-    timelineGradient.append("stop")
-        .attr("offset", "0%")
-        .attr("stop-color", "#4CAF50");
-    
-    timelineGradient.append("stop")
-        .attr("offset", "50%")
-        .attr("stop-color", "#2196F3");
-    
-    timelineGradient.append("stop")
-        .attr("offset", "100%")
-        .attr("stop-color", "#F44336");
-
-    // Draw timeline line with gradient and shadow
-    svg.append("line")
-        .attr("class", "timeline-line")
-        .attr("x1", 100)
-        .attr("y1", height - 80)
-        .attr("x2", width - 100)
-        .attr("y2", height - 80)
-        .attr("stroke", "url(#timelineGradient)")
-        .attr("stroke-width", 4)
-        .attr("opacity", 0.8)
-        .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.1))");
-
-    // Calculate optimal positions for labels to avoid overlap
-    const labelPositions = calculateLabelPositions(events, timeScale);
-
-    // Add event points as colored circles only (no emoji)
+    // Draw event nodes
     svg.selectAll(".event-point")
         .data(events)
         .enter()
+        .append("circle")
+        .attr("class", "event-point")
+        .attr("cx", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * outerRadius)
+        .attr("cy", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * outerRadius)
+        .attr("r", 16)
+        .attr("fill", d => colorScale(d.category))
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 4)
+        .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
+
+    // Draw event labels (outside the nodes)
+    svg.selectAll(".event-label-group")
+        .data(events)
+        .enter()
         .append("g")
+        .attr("class", "event-label-group")
+        .attr("transform", (d, i) => {
+            const angle = angleScale(i) - Math.PI/2;
+            const labelRadius = outerRadius + 40;
+            const x = centerX + Math.cos(angle) * labelRadius;
+            const y = centerY + Math.sin(angle) * labelRadius;
+            return `translate(${x},${y})`;
+        })
+        .each(function(d, i) {
+            const group = d3.select(this);
+            const angle = angleScale(i) * 180 / Math.PI - 90;
+            // Add a white background rect for clarity
+            group.append("rect")
+                .attr("x", -90)
+                .attr("y", -12)
+                .attr("width", 180)
+                .attr("height", 28)
+                .attr("fill", "#fff")
+                .attr("rx", 8)
+                .attr("opacity", 0.92)
+                .attr("class", "label-bg");
+            // Add event name
+            group.append("text")
+                .attr("class", "event-label")
+                .attr("x", 0)
+                .attr("y", 8)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "13px")
+                .attr("font-weight", "600")
+                .attr("fill", colorScale(d.category))
+                .attr("font-family", "IBM Plex Mono, monospace")
+                .text(d.name)
+                .style("pointer-events", "none");
+        });
+
+    // Draw center circle
+    svg.append("circle")
+        .attr("cx", centerX)
+        .attr("cy", centerY)
+        .attr("r", innerRadius)
+        .attr("fill", "#f5f5f5")
+        .attr("stroke", "#bbb")
+        .attr("stroke-width", 2);
+
+    // Add year labels on the inner circle
+    svg.selectAll(".year-label")
+        .data(events)
+        .enter()
+        .append("text")
+        .attr("class", "year-label")
+        .attr("x", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * (innerRadius + 10))
+        .attr("y", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * (innerRadius + 10))
+        .attr("text-anchor", "middle")
+        .attr("font-size", "12px")
+        .attr("font-family", "IBM Plex Mono, monospace")
+        .attr("fill", "#888")
+        .text(d => d.date.getFullYear());
+
+    // Add interactive tooltips on event nodes
+    svg.selectAll(".event-point")
+        .on("mouseover", function(event, d) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr("r", 22);
+            showTooltip(event, d);
+        })
+        .on("mouseout", function() {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr("r", 16);
+            hideTooltip();
+        });
         .attr("class", "event-point-group")
         .attr("transform", d => `translate(${timeScale(d.date)},${height - 80})`)
         .each(function(d) {
@@ -306,33 +270,45 @@ function createTimeline() {
         .attr("opacity", 0.6)
         .style("stroke-dasharray", "5,5");
 
-    // Add event labels with calculated positions and text wrapping
-    svg.selectAll(".event-label-group")
+    // Add event labels with background, initially hidden, and make them interactive
+    const labelGroups = svg.selectAll(".event-label-group")
         .data(events)
         .enter()
         .append("g")
         .attr("class", "event-label-group")
         .attr("transform", (d, i) => `translate(${labelPositions[i].x}, ${labelPositions[i].y})`)
-        .each(function(d, i) {
-            const group = d3.select(this);
-            const anchor = labelPositions[i].anchor;
-            // Add event name with text wrapping and improved styling
-            const nameLines = wrapText(d.name, 120);
-            nameLines.forEach((line, lineIndex) => {
-                group.append("text")
-                    .attr("class", "event-label")
-                    .attr("x", 0)
-                    .attr("y", lineIndex * 16)
-                    .attr("text-anchor", anchor)
-                    .attr("font-size", "13px")
-                    .attr("font-weight", "600")
-                    .attr("fill", "#2c3e50")
-                    .attr("font-family", "IBM Plex Mono, monospace")
-                    .text(line)
-                    .style("pointer-events", "none")
-                    .style("text-shadow", "1px 1px 2px rgba(255,255,255,0.8)");
-            });
+        .style("opacity", 1);
+
+    labelGroups.each(function(d, i) {
+        const group = d3.select(this);
+        const anchor = labelPositions[i].anchor;
+        // Add a white background rect for clarity
+        group.append("rect")
+            .attr("x", -90)
+            .attr("y", -8)
+            .attr("width", 180)
+            .attr("height", 28)
+            .attr("fill", "#fff")
+            .attr("rx", 8)
+            .attr("opacity", 0.92)
+            .attr("class", "label-bg");
+        // Add event name with text wrapping and improved styling
+        const nameLines = wrapText(d.name, 120);
+        nameLines.forEach((line, lineIndex) => {
+            group.append("text")
+                .attr("class", "event-label")
+                .attr("x", 0)
+                .attr("y", lineIndex * 16 + 8)
+                .attr("text-anchor", anchor)
+                .attr("font-size", "13px")
+                .attr("font-weight", "600")
+                .attr("fill", "#2c3e50")
+                .attr("font-family", "IBM Plex Mono, monospace")
+                .text(line)
+                .style("pointer-events", "none")
+                .style("text-shadow", "1px 1px 2px rgba(255,255,255,0.8)");
         });
+    });
 
     // Add hover effects with improved animations
     svg.selectAll(".event-point")
