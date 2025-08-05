@@ -9,20 +9,7 @@
 <body>
     <a href="index.html" class="header-element top-left">Computational Design Workflows<br>2025 Summer GSAPP CDP</a>
     
-  <style>
-    body, input, textarea, button { cursor: none !important; }
-    #pink-cursor {
-      position: fixed;
-      top: 0; left: 0;
-      width: 18px; height: 18px;
-      background: #ff00cc;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      box-shadow: 0 2px 8px rgba(255,0,204,0.18);
-      transition: transform 0.08s cubic-bezier(.4,0,.2,1);
-    }
-  </style>
+    <!-- Pink cursor CSS removed -->
   <main>
     <div class="poll-header">
       <h1>🥗 Urban Food Choice Poll</h1>
@@ -95,15 +82,10 @@
       </div>
     </div>
   </main>
-  <div id="pink-cursor"></div>
+  
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <script src="../scripts/firebase.js"></script>
-  <script>
-    const pinkCursor = document.getElementById('pink-cursor');
-    document.addEventListener('mousemove', e => {
-      pinkCursor.style.transform = `translate(${e.clientX - 9}px, ${e.clientY - 9}px)`;
-    });
-  </script>
+  <!-- Pink cursor JS removed -->
 </body>
 </html>

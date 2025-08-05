@@ -133,28 +133,40 @@ function calculateLabelPositions(events, timeScale) {
 // Show tooltip
 
 function createTimeline() {
-    // --- Radial (star) timeline ---
-    const centerX = width / 2;
-    const centerY = height / 2 + 20;
-    const innerRadius = 60;
-    const outerRadius = 180;
-    const angleScale = d3.scaleLinear()
-        .domain([0, events.length])
-        .range([0, 2 * Math.PI]);
+    // --- Linear timeline ---
+    const margin = { top: 80, right: 60, bottom: 80, left: 60 };
+    const timelineWidth = width - margin.left - margin.right;
+    const timelineY = height / 2;
 
-    // Draw radial lines for each event
-    svg.selectAll(".radial-line")
+    // Time scale
+    const minDate = d3.min(events, d => d.date);
+    const maxDate = d3.max(events, d => d.date);
+    const timeScale = d3.scaleTime()
+        .domain([minDate, maxDate])
+        .range([margin.left, width - margin.right]);
+
+    // Draw timeline axis
+    svg.append("line")
+        .attr("x1", margin.left)
+        .attr("x2", width - margin.right)
+        .attr("y1", timelineY)
+        .attr("y2", timelineY)
+        .attr("stroke", "#bbb")
+        .attr("stroke-width", 4);
+
+    // Draw year ticks
+    svg.selectAll(".year-tick")
         .data(events)
         .enter()
         .append("line")
-        .attr("class", "radial-line")
-        .attr("x1", centerX)
-        .attr("y1", centerY)
-        .attr("x2", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * outerRadius)
-        .attr("y2", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * outerRadius)
+        .attr("class", "year-tick")
+        .attr("x1", d => timeScale(d.date))
+        .attr("x2", d => timeScale(d.date))
+        .attr("y1", timelineY - 18)
+        .attr("y2", timelineY + 18)
         .attr("stroke", d => colorScale(d.category))
         .attr("stroke-width", 3)
-        .attr("opacity", 0.3);
+        .attr("opacity", 0.7);
 
     // Draw event nodes
     svg.selectAll(".event-point")
@@ -162,95 +174,113 @@ function createTimeline() {
         .enter()
         .append("circle")
         .attr("class", "event-point")
-        .attr("cx", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * outerRadius)
-        .attr("cy", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * outerRadius)
-        .attr("r", 16)
+        .attr("cx", d => timeScale(d.date))
+        .attr("cy", timelineY)
+        .attr("r", 14)
         .attr("fill", d => colorScale(d.category))
         .attr("stroke", "#fff")
         .attr("stroke-width", 4)
         .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
 
-    // Draw event labels (outside the nodes)
-    svg.selectAll(".event-label-group")
+    // Calculate label positions
+    const labelPositions = calculateLabelPositions(events, timeScale);
+
+    // Add connecting lines
+    svg.selectAll(".connector-line")
+        .data(events)
+        .enter()
+        .append("line")
+        .attr("class", "connector-line")
+        .attr("x1", d => timeScale(d.date))
+        .attr("y1", timelineY)
+        .attr("x2", (d, i) => labelPositions[i].x)
+        .attr("y2", (d, i) => labelPositions[i].y + 20)
+        .attr("stroke", "#e0e0e0")
+        .attr("stroke-width", 2)
+        .attr("opacity", 0.6)
+        .style("stroke-dasharray", "5,5");
+
+    // Add event labels
+    const labelGroups = svg.selectAll(".event-label-group")
         .data(events)
         .enter()
         .append("g")
         .attr("class", "event-label-group")
-        .attr("transform", (d, i) => {
-            const angle = angleScale(i) - Math.PI/2;
-            const labelRadius = outerRadius + 40;
-            const x = centerX + Math.cos(angle) * labelRadius;
-            const y = centerY + Math.sin(angle) * labelRadius;
-            return `translate(${x},${y})`;
-        })
-        .each(function(d, i) {
-            const group = d3.select(this);
-            const angle = angleScale(i) * 180 / Math.PI - 90;
-            // Add a white background rect for clarity
-            group.append("rect")
-                .attr("x", -90)
-                .attr("y", -12)
-                .attr("width", 180)
-                .attr("height", 28)
-                .attr("fill", "#fff")
-                .attr("rx", 8)
-                .attr("opacity", 0.92)
-                .attr("class", "label-bg");
-            // Add event name
+        .attr("transform", (d, i) => `translate(${labelPositions[i].x}, ${labelPositions[i].y})`)
+        .style("opacity", 1);
+
+    labelGroups.each(function(d, i) {
+        const group = d3.select(this);
+        const anchor = labelPositions[i].anchor;
+        // Add a white background rect for clarity
+        group.append("rect")
+            .attr("x", -90)
+            .attr("y", -8)
+            .attr("width", 180)
+            .attr("height", 28)
+            .attr("fill", "#fff")
+            .attr("rx", 8)
+            .attr("opacity", 0.92)
+            .attr("class", "label-bg");
+        // Add event name with text wrapping
+        const nameLines = wrapText(d.name, 120);
+        nameLines.forEach((line, lineIndex) => {
             group.append("text")
                 .attr("class", "event-label")
                 .attr("x", 0)
-                .attr("y", 8)
-                .attr("text-anchor", "middle")
+                .attr("y", lineIndex * 16 + 8)
+                .attr("text-anchor", anchor)
                 .attr("font-size", "13px")
                 .attr("font-weight", "600")
-                .attr("fill", colorScale(d.category))
+                .attr("fill", "#2c3e50")
                 .attr("font-family", "IBM Plex Mono, monospace")
-                .text(d.name)
+                .text(line)
                 .style("pointer-events", "none");
         });
+    });
 
-    // Draw center circle
-    svg.append("circle")
-        .attr("cx", centerX)
-        .attr("cy", centerY)
-        .attr("r", innerRadius)
-        .attr("fill", "#f5f5f5")
-        .attr("stroke", "#bbb")
-        .attr("stroke-width", 2);
-
-    // Add year labels on the inner circle
-    svg.selectAll(".year-label")
-        .data(events)
-        .enter()
-        .append("text")
-        .attr("class", "year-label")
-        .attr("x", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * (innerRadius + 10))
-        .attr("y", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * (innerRadius + 10))
-        .attr("text-anchor", "middle")
-        .attr("font-size", "12px")
-        .attr("font-family", "IBM Plex Mono, monospace")
-        .attr("fill", "#888")
-        .text(d => d.date.getFullYear());
-
-    // Add interactive tooltips on event nodes
+    // Add hover effects
     svg.selectAll(".event-point")
         .on("mouseover", function(event, d) {
             d3.select(this)
                 .transition()
-                .duration(200)
-                .attr("r", 22);
+                .duration(300)
+                .attr("r", 18)
+                .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.3))");
+            // Highlight corresponding label
+            const index = events.indexOf(d);
+            svg.selectAll(".event-label-group")
+                .filter((d, i) => i === index)
+                .selectAll("text")
+                .transition()
+                .duration(300)
+                .attr("font-size", "15px")
+                .attr("fill", "#1a1a1a");
             showTooltip(event, d);
+        })
+        .on("mousemove", function(event) {
+            // Move tooltip with mouse
+            d3.select("body").selectAll(".tooltip")
+                .style("left", (event.pageX + 15) + "px")
+                .style("top", (event.pageY - 15) + "px");
         })
         .on("mouseout", function() {
             d3.select(this)
                 .transition()
-                .duration(200)
-                .attr("r", 16);
+                .duration(300)
+                .attr("r", 14)
+                .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
+            // Reset all labels
+            svg.selectAll(".event-label-group")
+                .selectAll("text")
+                .transition()
+                .duration(300)
+                .attr("font-size", "13px")
+                .attr("fill", "#2c3e50");
             hideTooltip();
         });
 
-    // Add title with improved styling
+    // Add title
     svg.append("text")
         .attr("class", "timeline-title")
         .attr("x", width / 2)
@@ -275,7 +305,7 @@ function createTimeline() {
         .attr("font-family", "IBM Plex Mono, monospace")
         .text("Research milestones and developments from 2009 to 2023");
 
-    // Add legend with improved styling
+    // Add legend
     const legend = svg.append("g")
         .attr("class", "legend")
         .attr("transform", `translate(20, 80)`);
@@ -294,14 +324,12 @@ function createTimeline() {
         .attr("transform", (d, i) => `translate(0, ${i * 30})`)
         .each(function(d) {
             const g = d3.select(this);
-            
             g.append("circle")
                 .attr("r", 8)
                 .attr("fill", colorScale(d.category))
                 .attr("stroke", "#fff")
                 .attr("stroke-width", 2)
                 .style("filter", "drop-shadow(0 1px 3px rgba(0,0,0,0.2))");
-            
             g.append("text")
                 .attr("x", 20)
                 .attr("y", 4)

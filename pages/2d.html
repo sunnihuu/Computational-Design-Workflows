@@ -53,7 +53,7 @@
       </div>
     </main>
 
-    <div id="pink-cursor"></div>
+    
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
@@ -63,12 +63,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
     <script src="../scripts/2d.js"></script>
     <script src="../scripts/website.js"></script>
-    <script>
-      // Pink dot cursor follow
-      const pinkCursor = document.getElementById('pink-cursor');
-      document.addEventListener('mousemove', e => {
-        pinkCursor.style.transform = `translate(${e.clientX - 9}px, ${e.clientY - 9}px)`;
-      });
-    </script>
+    <!-- Pink cursor JS removed -->
 </body>
 </html> 
