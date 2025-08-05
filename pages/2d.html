@@ -9,6 +9,7 @@
 <body>
     <a href="index.html" class="header-element top-left">Computational Design Workflows<br>2025 Summer GSAPP CDP</a>
     
+    
     <main>
       <div class="poll-header">
         <h1 style="font-size:24px; font-weight:500; color:#000; font-family:'IBM Plex Mono', monospace; margin-bottom:4px;">🖊️ 2D Spatial Canvases</h1>
@@ -52,6 +53,8 @@
       </div>
     </main>
 
+    <div id="pink-cursor"></div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
@@ -60,5 +63,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
     <script src="../scripts/2d.js"></script>
     <script src="../scripts/website.js"></script>
+    <script>
+      // Pink dot cursor follow
+      const pinkCursor = document.getElementById('pink-cursor');
+      document.addEventListener('mousemove', e => {
+        pinkCursor.style.transform = `translate(${e.clientX - 9}px, ${e.clientY - 9}px)`;
+      });
+    </script>
 </body>
 </html> 

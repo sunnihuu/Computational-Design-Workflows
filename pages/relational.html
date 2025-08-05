@@ -13,6 +13,20 @@
 <body>
     <a href="index.html" class="header-element top-left">Computational Design Workflows<br>2025 Summer GSAPP CDP</a>
     
+    <style>
+      body, #d3-canvas, svg { cursor: none !important; }
+      #pink-cursor {
+        position: fixed;
+        top: 0; left: 0;
+        width: 18px; height: 18px;
+        background: #ff00cc;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        box-shadow: 0 2px 8px rgba(255,0,204,0.18);
+        transition: transform 0.08s cubic-bezier(.4,0,.2,1);
+      }
+    </style>
     <main>
         <div class="poll-header">
             <h1>🌐 Observatory of Economic Complexity Interactive Tree</h1>
@@ -23,6 +37,7 @@
         <!-- Visualization Container -->
         <div id="d3-canvas" style="width: 100%; max-width: 900px; height: 500px; background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10); border: none; margin: 0 auto;"></div>
     </main>
+    <div id="pink-cursor"></div>
     <!-- Scripts -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
@@ -32,5 +47,11 @@
     </script>
     <script src="../scripts/relational.js"></script>
     <script src="../scripts/website.js"></script>
+    <script>
+      const pinkCursor = document.getElementById('pink-cursor');
+      document.addEventListener('mousemove', e => {
+        pinkCursor.style.transform = `translate(${e.clientX - 9}px, ${e.clientY - 9}px)`;
+      });
+    </script>
 </body>
 </html> 
