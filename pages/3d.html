@@ -12,51 +12,48 @@
 <body>
     <a href="index.html" class="header-element top-left">Computational Design Workflows<br>2025 Summer GSAPP CDP</a>
     
-    <!-- Page title -->
-    <div class="page-title">3D Spatial Canvases</div>
-    
-    <!-- Main content area -->
-    <div style="display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; width: 100vw; overflow-x: auto; overflow-y: auto; padding-bottom: 100px;">
-        <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 24px; margin-top: 200px;">
-            <!-- Canvases -->
-            <div style="position: relative;">
-                <canvas id="my-canvas" width="900" height="500" style="background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10);"></canvas>
-                <!-- Button container for first canvas -->
-                <div id="button-container" style="position: absolute; top: 16px; left: 16px; z-index: 50; display: flex; gap: 12px; pointer-events: auto;">
-                    <button id="play-btn" aria-label="Play" class="square-button base-button">
-                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <polygon points="9,6 22,14 9,22" fill="currentColor"/>
-                        </svg>
-                    </button>
-                    <button id="reset-btn" aria-label="Reset" class="square-button base-button">
-                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21.5 14c0-4.142-3.358-7.5-7.5-7.5-2.21 0-4.2 0.9-5.65 2.35M6.5 6.5v5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                            <path d="M6.5 14c0 4.142 3.358 7.5 7.5 7.5 2.21 0 4.2-0.9 5.65-2.35" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Second Canvas -->
-            <div style="position: relative; margin-top: 30px;">
-                <canvas id="my-canvas-2" width="900" height="500" style="background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.10);"></canvas>
-                <!-- Button container for second canvas -->
-                <div id="button-container-2" style="position: absolute; top: 16px; left: 16px; z-index: 50; display: flex; gap: 12px; pointer-events: auto;">
-                    <button id="play-btn-2" aria-label="Play" class="square-button base-button">
-                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <polygon points="9,6 22,14 9,22" fill="currentColor"/>
-                        </svg>
-                    </button>
-                    <button id="reset-btn-2" aria-label="Reset" class="square-button base-button">
-                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21.5 14c0-4.142-3.358-7.5-7.5-7.5-2.21 0-4.2 0.9-5.65 2.35M6.5 6.5v5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                            <path d="M6.5 14c0 4.142 3.358 7.5 7.5 7.5 2.21 0 4.2-0.9 5.65-2.35" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
+    <main>
+      <div class="poll-header">
+        <h1 style="font-size:24px; font-weight:500; color:#000; font-family:'IBM Plex Mono', monospace; margin-bottom:4px;">🧊 3D Spatial Canvases</h1>
+        <h2 style="font-size:16px; color:#000; font-family:'IBM Plex Mono', monospace; font-weight:400; margin-bottom:24px; font-style:italic;">Interactive 3D Drawing and Spatial Experiments</h2>
+        <p style="font-size:14px; color:#333; margin-bottom:40px; font-family:'IBM Plex Mono', monospace; line-height:1.6;">Explore 3D spatial canvases for real-time drawing, hand-tracking, and interactive spatial games. Use the controls to play, reset, and interact with the canvases below.</p>
+      </div>
+      <!-- Visualization Container -->
+      <div style="width:100%; max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:40px; align-items:center;">
+        <div id="canvas-container-1" style="width:100%; background:#fff; border-radius:16px; box-shadow:0 0 20px rgba(0,0,0,0.10); border:none; display:flex; justify-content:center; align-items:center; position:relative; margin-bottom:24px;">
+          <canvas id="my-canvas" width="900" height="500" style="background:transparent; border-radius:16px;"></canvas>
+          <div id="button-container" style="position:absolute; top:16px; left:16px; z-index:50; display:flex; gap:12px; pointer-events:auto;">
+            <button id="play-btn" aria-label="Play" class="square-button base-button">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="9,6 22,14 9,22" fill="currentColor"/>
+              </svg>
+            </button>
+            <button id="reset-btn" aria-label="Reset" class="square-button base-button">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.5 14c0-4.142-3.358-7.5-7.5-7.5-2.21 0-4.2 0.9-5.65 2.35M6.5 6.5v5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M6.5 14c0 4.142 3.358 7.5 7.5 7.5 2.21 0 4.2-0.9 5.65-2.35" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </button>
+          </div>
         </div>
-    </div>
+        <div id="canvas-container-2" style="width:100%; background:#fff; border-radius:16px; box-shadow:0 0 20px rgba(0,0,0,0.10); border:none; display:flex; justify-content:center; align-items:center; position:relative;">
+          <canvas id="my-canvas-2" width="900" height="500" style="background:transparent; border-radius:16px;"></canvas>
+          <div id="button-container-2" style="position:absolute; top:16px; left:16px; z-index:50; display:flex; gap:12px; pointer-events:auto;">
+            <button id="play-btn-2" aria-label="Play" class="square-button base-button">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="9,6 22,14 9,22" fill="currentColor"/>
+              </svg>
+            </button>
+            <button id="reset-btn-2" aria-label="Reset" class="square-button base-button">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.5 14c0-4.142-3.358-7.5-7.5-7.5-2.21 0-4.2 0.9-5.65 2.35M6.5 6.5v5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M6.5 14c0 4.142 3.358 7.5 7.5 7.5 2.21 0 4.2-0.9 5.65-2.35" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>

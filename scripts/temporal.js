@@ -30,11 +30,16 @@ function initializeSVG() {
         .attr("rx", 16)
         .attr("ry", 16);
     return true;
-}
 
 function initializeElements() {
-    console.log('Elements initialized successfully');
-    return true;
+    const result = initializeSVG();
+    if (result) {
+        console.log('Elements initialized successfully');
+        return true;
+    } else {
+        console.error('SVG initialization failed');
+        return false;
+    }
 }
 
 // Timeline events data
@@ -127,6 +132,7 @@ function calculateLabelPositions(events, timeScale) {
 
 // Show tooltip
 
+function createTimeline() {
     // --- Radial (star) timeline ---
     const centerX = width / 2;
     const centerY = height / 2 + 20;
@@ -243,113 +249,6 @@ function calculateLabelPositions(events, timeScale) {
                 .attr("r", 16);
             hideTooltip();
         });
-        .attr("class", "event-point-group")
-        .attr("transform", d => `translate(${timeScale(d.date)},${height - 80})`)
-        .each(function(d) {
-            const g = d3.select(this);
-            g.append("circle")
-                .attr("r", 14)
-                .attr("fill", colorScale(d.category))
-                .attr("stroke", "#fff")
-                .attr("stroke-width", 4)
-                .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
-        });
-
-    // Add connecting lines with improved styling
-    svg.selectAll(".connector-line")
-        .data(events)
-        .enter()
-        .append("line")
-        .attr("class", "connector-line")
-        .attr("x1", d => timeScale(d.date))
-        .attr("y1", height - 80)
-        .attr("x2", d => timeScale(d.date))
-        .attr("y2", (d, i) => labelPositions[i].y + 20)
-        .attr("stroke", "#e0e0e0")
-        .attr("stroke-width", 2)
-        .attr("opacity", 0.6)
-        .style("stroke-dasharray", "5,5");
-
-    // Add event labels with background, initially hidden, and make them interactive
-    const labelGroups = svg.selectAll(".event-label-group")
-        .data(events)
-        .enter()
-        .append("g")
-        .attr("class", "event-label-group")
-        .attr("transform", (d, i) => `translate(${labelPositions[i].x}, ${labelPositions[i].y})`)
-        .style("opacity", 1);
-
-    labelGroups.each(function(d, i) {
-        const group = d3.select(this);
-        const anchor = labelPositions[i].anchor;
-        // Add a white background rect for clarity
-        group.append("rect")
-            .attr("x", -90)
-            .attr("y", -8)
-            .attr("width", 180)
-            .attr("height", 28)
-            .attr("fill", "#fff")
-            .attr("rx", 8)
-            .attr("opacity", 0.92)
-            .attr("class", "label-bg");
-        // Add event name with text wrapping and improved styling
-        const nameLines = wrapText(d.name, 120);
-        nameLines.forEach((line, lineIndex) => {
-            group.append("text")
-                .attr("class", "event-label")
-                .attr("x", 0)
-                .attr("y", lineIndex * 16 + 8)
-                .attr("text-anchor", anchor)
-                .attr("font-size", "13px")
-                .attr("font-weight", "600")
-                .attr("fill", "#2c3e50")
-                .attr("font-family", "IBM Plex Mono, monospace")
-                .text(line)
-                .style("pointer-events", "none")
-                .style("text-shadow", "1px 1px 2px rgba(255,255,255,0.8)");
-        });
-    });
-
-    // Add hover effects with improved animations
-    svg.selectAll(".event-point")
-        .on("mouseover", function(event, d) {
-            d3.select(this)
-                .transition()
-                .duration(300)
-                .attr("r", 15)
-                .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.3))");
-            // Highlight corresponding label
-            const index = events.indexOf(d);
-            svg.selectAll(".event-label-group")
-                .filter((d, i) => i === index)
-                .selectAll("text")
-                .transition()
-                .duration(300)
-                .attr("font-size", "15px")
-                .attr("fill", "#1a1a1a");
-            showTooltip(event, d);
-        })
-        .on("mousemove", function(event) {
-            // Move tooltip with mouse
-            d3.select("body").selectAll(".tooltip")
-                .style("left", (event.pageX + 15) + "px")
-                .style("top", (event.pageY - 15) + "px");
-        })
-        .on("mouseout", function() {
-            d3.select(this)
-                .transition()
-                .duration(300)
-                .attr("r", 10)
-                .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
-            // Reset all labels
-            svg.selectAll(".event-label-group")
-                .selectAll("text")
-                .transition()
-                .duration(300)
-                .attr("font-size", "13px")
-                .attr("fill", "#2c3e50");
-            hideTooltip();
-        });
 
     // Add title with improved styling
     svg.append("text")
@@ -412,6 +311,7 @@ function calculateLabelPositions(events, timeScale) {
                 .attr("font-family", "'Roboto', sans-serif")
                 .text(d.label);
         });
+}
 }
 
 // Setup event listeners

@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🥗 Urban Food Choice Poll</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles/firebase.css">
+  <link rel="stylesheet" href="../styles/engagement.css">
 </head>
 <body>
     <a href="index.html" class="header-element top-left">Computational Design Workflows<br>2025 Summer GSAPP CDP</a>
@@ -16,10 +15,7 @@
       <h2 style="color:#000; font-family:'IBM Plex Mono', monospace; font-weight:400;">Community Survey on Food Choices and Transparency in NYC</h2>
       <p>I created this Urban Food Choice Poll to understand what New Yorkers prioritize when choosing food and where they hope to see more transparency in the food system, so I can explore how design can support more sustainable eating choices.</p>
     </div>
-    
-    <div class="section-title">Survey Question</div>
-    <p>When you choose what to eat, what do you care most about?</p>
-    
+
     <div class="poll-container">
       <div class="poll-question">
         <h3>When you choose what to eat, what do you care most about?</h3>
@@ -50,10 +46,7 @@
         <p>Total votes: <span id="total-votes">0</span></p>
       </div>
     </div>
-    
-    <div class="section-title">Follow-up Question</div>
-    <p>Where do you wish to see more transparency in the food system?</p>
-    
+
     <div class="poll-container">
       <div class="poll-question">
         <h3>Where do you wish to see more transparency in the food system?</h3>
@@ -81,9 +74,11 @@
       </div>
     </div>
     <div id="thank-you" class="hidden">Thank you for participating!</div>
-    <div class="section-title">Connection Status</div>
-    <div id="connection-status" class="status-display">
-      <p>Connecting to Firebase...</p>
+    <div class="poll-container status-display">
+      <h3>Connection Status</h3>
+      <div id="connection-status">
+        <p>Connecting to Firebase...</p>
+      </div>
     </div>
   </main>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
