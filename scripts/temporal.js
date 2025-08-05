@@ -19,7 +19,8 @@ function initializeSVG() {
     svg = container.append("svg")
         .attr("id", "my-canvas")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .style("border", "3px solid red"); // Debug: visible border
     // Add rounded background
     svg.append("rect")
         .attr("width", width)
@@ -29,6 +30,7 @@ function initializeSVG() {
         .attr("stroke-width", 1)
         .attr("rx", 16)
         .attr("ry", 16);
+    console.log('SVG created and appended to #d3-canvas');
     return true;
 
 function initializeElements() {
@@ -133,40 +135,28 @@ function calculateLabelPositions(events, timeScale) {
 // Show tooltip
 
 function createTimeline() {
-    // --- Linear timeline ---
-    const margin = { top: 80, right: 60, bottom: 80, left: 60 };
-    const timelineWidth = width - margin.left - margin.right;
-    const timelineY = height / 2;
+    // --- Radial (star) timeline ---
+    const centerX = width / 2;
+    const centerY = height / 2 + 20;
+    const innerRadius = 60;
+    const outerRadius = 180;
+    const angleScale = d3.scaleLinear()
+        .domain([0, events.length])
+        .range([0, 2 * Math.PI]);
 
-    // Time scale
-    const minDate = d3.min(events, d => d.date);
-    const maxDate = d3.max(events, d => d.date);
-    const timeScale = d3.scaleTime()
-        .domain([minDate, maxDate])
-        .range([margin.left, width - margin.right]);
-
-    // Draw timeline axis
-    svg.append("line")
-        .attr("x1", margin.left)
-        .attr("x2", width - margin.right)
-        .attr("y1", timelineY)
-        .attr("y2", timelineY)
-        .attr("stroke", "#bbb")
-        .attr("stroke-width", 4);
-
-    // Draw year ticks
-    svg.selectAll(".year-tick")
+    // Draw radial lines for each event
+    svg.selectAll(".radial-line")
         .data(events)
         .enter()
         .append("line")
-        .attr("class", "year-tick")
-        .attr("x1", d => timeScale(d.date))
-        .attr("x2", d => timeScale(d.date))
-        .attr("y1", timelineY - 18)
-        .attr("y2", timelineY + 18)
+        .attr("class", "radial-line")
+        .attr("x1", centerX)
+        .attr("y1", centerY)
+        .attr("x2", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * outerRadius)
+        .attr("y2", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * outerRadius)
         .attr("stroke", d => colorScale(d.category))
         .attr("stroke-width", 3)
-        .attr("opacity", 0.7);
+        .attr("opacity", 0.3);
 
     // Draw event nodes
     svg.selectAll(".event-point")
@@ -174,70 +164,156 @@ function createTimeline() {
         .enter()
         .append("circle")
         .attr("class", "event-point")
-        .attr("cx", d => timeScale(d.date))
-        .attr("cy", timelineY)
-        .attr("r", 14)
+        .attr("cx", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * outerRadius)
+        .attr("cy", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * outerRadius)
+        .attr("r", 16)
         .attr("fill", d => colorScale(d.category))
         .attr("stroke", "#fff")
         .attr("stroke-width", 4)
         .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
 
-    // Calculate label positions
-    const labelPositions = calculateLabelPositions(events, timeScale);
-
-    // Add connecting lines
-    svg.selectAll(".connector-line")
-        .data(events)
-        .enter()
-        .append("line")
-        .attr("class", "connector-line")
-        .attr("x1", d => timeScale(d.date))
-        .attr("y1", timelineY)
-        .attr("x2", (d, i) => labelPositions[i].x)
-        .attr("y2", (d, i) => labelPositions[i].y + 20)
-        .attr("stroke", "#e0e0e0")
-        .attr("stroke-width", 2)
-        .attr("opacity", 0.6)
-        .style("stroke-dasharray", "5,5");
-
-    // Add event labels
-    const labelGroups = svg.selectAll(".event-label-group")
+    // Draw event labels (outside the nodes)
+    svg.selectAll(".event-label-group")
         .data(events)
         .enter()
         .append("g")
         .attr("class", "event-label-group")
-        .attr("transform", (d, i) => `translate(${labelPositions[i].x}, ${labelPositions[i].y})`)
-        .style("opacity", 1);
-
-    labelGroups.each(function(d, i) {
-        const group = d3.select(this);
-        const anchor = labelPositions[i].anchor;
-        // Add a white background rect for clarity
-        group.append("rect")
-            .attr("x", -90)
-            .attr("y", -8)
-            .attr("width", 180)
-            .attr("height", 28)
-            .attr("fill", "#fff")
-            .attr("rx", 8)
-            .attr("opacity", 0.92)
-            .attr("class", "label-bg");
-        // Add event name with text wrapping
-        const nameLines = wrapText(d.name, 120);
-        nameLines.forEach((line, lineIndex) => {
+        .attr("transform", (d, i) => {
+            const angle = angleScale(i) - Math.PI/2;
+            const labelRadius = outerRadius + 40;
+            const x = centerX + Math.cos(angle) * labelRadius;
+            const y = centerY + Math.sin(angle) * labelRadius;
+            return `translate(${x},${y})`;
+        })
+        .each(function(d, i) {
+            const group = d3.select(this);
+            const angle = angleScale(i) * 180 / Math.PI - 90;
+            // Add a white background rect for clarity
+            group.append("rect")
+                .attr("x", -90)
+                .attr("y", -12)
+                .attr("width", 180)
+                .attr("height", 28)
+                .attr("fill", "#fff")
+                .attr("rx", 8)
+                .attr("opacity", 0.92)
+                .attr("class", "label-bg");
+            // Add event name
             group.append("text")
                 .attr("class", "event-label")
                 .attr("x", 0)
-                .attr("y", lineIndex * 16 + 8)
-                .attr("text-anchor", anchor)
+                .attr("y", 8)
+                .attr("text-anchor", "middle")
                 .attr("font-size", "13px")
                 .attr("font-weight", "600")
-                .attr("fill", "#2c3e50")
+                .attr("fill", colorScale(d.category))
                 .attr("font-family", "IBM Plex Mono, monospace")
-                .text(line)
+                .text(d.name)
                 .style("pointer-events", "none");
         });
-    });
+
+    // Draw center circle
+    svg.append("circle")
+        .attr("cx", centerX)
+        .attr("cy", centerY)
+        .attr("r", innerRadius)
+        .attr("fill", "#f5f5f5")
+        .attr("stroke", "#bbb")
+        .attr("stroke-width", 2);
+
+    // Add year labels on the inner circle
+    svg.selectAll(".year-label")
+        .data(events)
+        .enter()
+        .append("text")
+        .attr("class", "year-label")
+        .attr("x", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * (innerRadius + 10))
+        .attr("y", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * (innerRadius + 10))
+        .attr("text-anchor", "middle")
+        .attr("font-size", "12px")
+        .attr("font-family", "IBM Plex Mono, monospace")
+        .attr("fill", "#888")
+        .text(d => d.date.getFullYear());
+
+    // Add interactive tooltips on event nodes
+    svg.selectAll(".event-point")
+        .on("mouseover", function(event, d) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr("r", 22);
+            showTooltip(event, d);
+        })
+        .on("mouseout", function() {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr("r", 16);
+            hideTooltip();
+        });
+
+    // Add title with improved styling
+    svg.append("text")
+        .attr("class", "timeline-title")
+        .attr("x", width / 2)
+        .attr("y", 35)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "28px")
+        .attr("font-weight", "700")
+        .attr("fill", "#1a1a1a")
+        .attr("font-family", "IBM Plex Mono, monospace")
+        .text("Economic Complexity Timeline")
+        .style("text-shadow", "1px 1px 2px rgba(255,255,255,0.8)");
+
+    // Add subtitle
+    svg.append("text")
+        .attr("class", "timeline-subtitle")
+        .attr("x", width / 2)
+        .attr("y", 60)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "14px")
+        .attr("font-weight", "400")
+        .attr("fill", "#666")
+        .attr("font-family", "IBM Plex Mono, monospace")
+        .text("Research milestones and developments from 2009 to 2023");
+
+    // Add legend with improved styling
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(20, 80)`);
+
+    const legendData = [
+        { category: 'Research', label: 'Research' },
+        { category: 'Development', label: 'Development' },
+        { category: 'Milestone', label: 'Milestone' }
+    ];
+
+    legend.selectAll(".legend-item")
+        .data(legendData)
+        .enter()
+        .append("g")
+        .attr("class", "legend-item")
+        .attr("transform", (d, i) => `translate(0, ${i * 30})`)
+        .each(function(d) {
+            const g = d3.select(this);
+            
+            g.append("circle")
+                .attr("r", 8)
+                .attr("fill", colorScale(d.category))
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 2)
+                .style("filter", "drop-shadow(0 1px 3px rgba(0,0,0,0.2))");
+            
+            g.append("text")
+                .attr("x", 20)
+                .attr("y", 4)
+                .attr("font-size", "13px")
+                .attr("font-weight", "500")
+                .attr("fill", "#2c3e50")
+                .attr("font-family", "'Roboto', sans-serif")
+                .text(d.label);
+        });
+}
 
     // Add hover effects
     svg.selectAll(".event-point")
@@ -340,7 +416,6 @@ function createTimeline() {
                 .text(d.label);
         });
 }
-}
 
 // Setup event listeners
 function setupEventListeners() {
@@ -350,6 +425,7 @@ function setupEventListeners() {
 // Wait for DOM and D3.js to be ready
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Temporal.js DOMContentLoaded triggered');
+    console.log('Checking for #d3-canvas:', document.getElementById('d3-canvas'));
     
     // Check if D3.js is loaded
     if (typeof d3 === 'undefined') {
