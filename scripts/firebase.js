@@ -42,6 +42,7 @@ const firebaseConfig = {
   // We need to get references to the HTML elements we want to update
   // This is like getting "handles" to the parts of the webpage we want to change
   
+  // First poll elements
   const shadeButton = document.getElementById('vote-shade');
   const manageableButton = document.getElementById('vote-manageable');
   const hotButton = document.getElementById('vote-hot');
@@ -53,6 +54,17 @@ const firebaseConfig = {
   const totalVotes = document.getElementById('total-votes');
   const connectionStatus = document.getElementById('connection-status');
   const neighborhoodInput = document.getElementById('neighborhood');
+  // Second poll elements
+  const supermarketButton = document.getElementById('vote-supermarket');
+  const restaurantsButton = document.getElementById('vote-restaurants');
+  const deliveryButton = document.getElementById('vote-delivery');
+  const notsureButton = document.getElementById('vote-notsure');
+  const supermarketCount = document.getElementById('supermarket-count');
+  const restaurantsCount = document.getElementById('restaurants-count');
+  const deliveryCount = document.getElementById('delivery-count');
+  const notsureCount = document.getElementById('notsure-count');
+  const totalVotes2 = document.getElementById('total-votes-2');
+  const thankYou = document.getElementById('thank-you');
 
   // ========================================
   // STEP 3: SET UP REAL-TIME DATABASE LISTENERS
@@ -60,7 +72,7 @@ const firebaseConfig = {
   // Firebase Realtime Database can automatically update your app when data changes
   // We use .on('value') to listen for any changes to our poll data
   
-  // Listen for changes to each poll option in the database
+  // Listen for changes to each poll option in the database (first poll)
   database.ref('poll/shade').on('value', function(snapshot) {
     const count = snapshot.val() || 0;
     shadeCount.textContent = count;
@@ -85,6 +97,31 @@ const firebaseConfig = {
     updateTotalVotes();
     console.log('Avoid votes updated:', count);
   });
+  // Listen for changes to each poll option in the database (second poll)
+  database.ref('poll2/supermarket').on('value', function(snapshot) {
+    const count = snapshot.val() || 0;
+    supermarketCount.textContent = count;
+    updateTotalVotes2();
+    console.log('Supermarket votes updated:', count);
+  });
+  database.ref('poll2/restaurants').on('value', function(snapshot) {
+    const count = snapshot.val() || 0;
+    restaurantsCount.textContent = count;
+    updateTotalVotes2();
+    console.log('Restaurants votes updated:', count);
+  });
+  database.ref('poll2/delivery').on('value', function(snapshot) {
+    const count = snapshot.val() || 0;
+    deliveryCount.textContent = count;
+    updateTotalVotes2();
+    console.log('Delivery votes updated:', count);
+  });
+  database.ref('poll2/notsure').on('value', function(snapshot) {
+    const count = snapshot.val() || 0;
+    notsureCount.textContent = count;
+    updateTotalVotes2();
+    console.log('Not sure votes updated:', count);
+  });
 
   // ========================================
   // STEP 4: SET UP BUTTON EVENT LISTENERS
@@ -92,28 +129,42 @@ const firebaseConfig = {
   // When users click the vote buttons, we need to update the database
   // Firebase will then automatically update all other connected users
   
-  // Handle vote button clicks for each option
+  // Handle vote button clicks for each option (first poll)
   shadeButton.addEventListener('click', function() {
-    handleVote('shade', 'Comfortable / lots of shade');
+    handleVote('poll', 'shade', 'Comfortable / lots of shade');
   });
   manageableButton.addEventListener('click', function() {
-    handleVote('manageable', 'A bit hot but manageable');
+    handleVote('poll', 'manageable', 'A bit hot but manageable');
   });
   hotButton.addEventListener('click', function() {
-    handleVote('hot', 'Very hot / no shade');
+    handleVote('poll', 'hot', 'Very hot / no shade');
   });
   avoidButton.addEventListener('click', function() {
-    handleVote('avoid', 'I avoid walking outdoors');
+    handleVote('poll', 'avoid', 'I avoid walking outdoors');
   });
 
-  function handleVote(optionKey, optionLabel) {
+  // Handle vote button clicks for each option (second poll)
+  supermarketButton.addEventListener('click', function() {
+    handleVote2('poll2', 'supermarket', 'At the supermarket');
+  });
+  restaurantsButton.addEventListener('click', function() {
+    handleVote2('poll2', 'restaurants', 'At restaurants & takeout');
+  });
+  deliveryButton.addEventListener('click', function() {
+    handleVote2('poll2', 'delivery', 'At home / food delivery');
+  });
+  notsureButton.addEventListener('click', function() {
+    handleVote2('poll2', 'notsure', 'Not sure');
+  });
+
+  function handleVote(pollKey, optionKey, optionLabel) {
     // Optionally, get the neighborhood value
     const neighborhood = neighborhoodInput ? neighborhoodInput.value.trim() : '';
-    database.ref('poll/' + optionKey).once('value')
+    database.ref(pollKey + '/' + optionKey).once('value')
       .then(function(snapshot) {
         const currentCount = snapshot.val() || 0;
         const newCount = currentCount + 1;
-        return database.ref('poll/' + optionKey).set(newCount);
+        return database.ref(pollKey + '/' + optionKey).set(newCount);
       })
       .then(function() {
         // Optionally, store the neighborhood with a timestamp (not required for vote count)
@@ -126,6 +177,22 @@ const firebaseConfig = {
           database.ref('responses').push(entry);
         }
         showVoteConfirmation(optionLabel);
+      })
+      .catch(function(error) {
+        console.error('Error recording vote:', error);
+        showError('Failed to record vote. Please try again.');
+      });
+  }
+
+  function handleVote2(pollKey, optionKey, optionLabel) {
+    database.ref(pollKey + '/' + optionKey).once('value')
+      .then(function(snapshot) {
+        const currentCount = snapshot.val() || 0;
+        const newCount = currentCount + 1;
+        return database.ref(pollKey + '/' + optionKey).set(newCount);
+      })
+      .then(function() {
+        showVoteConfirmation2(optionLabel);
       })
       .catch(function(error) {
         console.error('Error recording vote:', error);
@@ -152,6 +219,15 @@ const firebaseConfig = {
     totalVotes.textContent = total;
   }
 
+  function updateTotalVotes2() {
+    const supermarketVotes = parseInt(supermarketCount.textContent) || 0;
+    const restaurantsVotes = parseInt(restaurantsCount.textContent) || 0;
+    const deliveryVotes = parseInt(deliveryCount.textContent) || 0;
+    const notsureVotes = parseInt(notsureCount.textContent) || 0;
+    const total = supermarketVotes + restaurantsVotes + deliveryVotes + notsureVotes;
+    totalVotes2.textContent = total;
+  }
+
   /**
    * showVoteConfirmation Function
    * Purpose: Show a brief confirmation message when a vote is recorded
@@ -174,11 +250,47 @@ const firebaseConfig = {
       z-index: 1000;
       animation: slideIn 0.3s ease-out;
     `;
-    
     // Add the confirmation to the page
     document.body.appendChild(confirmation);
-    
     // Remove the confirmation after 3 seconds
+    setTimeout(function() {
+      confirmation.style.animation = 'slideOut 0.3s ease-in';
+      setTimeout(function() {
+        if (confirmation.parentNode) {
+          confirmation.parentNode.removeChild(confirmation);
+        }
+      }, 300);
+    }, 3000);
+    // Hide thank you message if visible
+    if (thankYou) thankYou.classList.add('hidden');
+  }
+
+  function showVoteConfirmation2(vote) {
+    // Show the thank you message for the second poll
+    if (thankYou) {
+      thankYou.classList.remove('hidden');
+      thankYou.textContent = 'Thank you for participating!';
+      setTimeout(function() {
+        thankYou.classList.add('hidden');
+      }, 3000);
+    }
+    // Also show a floating confirmation
+    const confirmation = document.createElement('div');
+    confirmation.className = 'vote-confirmation';
+    confirmation.textContent = `Thank you for voting "${vote}"!`;
+    confirmation.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 14px;
+      z-index: 1000;
+      animation: slideIn 0.3s ease-out;
+    `;
+    document.body.appendChild(confirmation);
     setTimeout(function() {
       confirmation.style.animation = 'slideOut 0.3s ease-in';
       setTimeout(function() {
@@ -245,7 +357,7 @@ const firebaseConfig = {
   // ========================================
   // Set up any initial state when the page loads
   
-  // Initialize vote counts to 0 if they don't exist in the database
+  // Initialize vote counts to 0 if they don't exist in the database (first poll)
   database.ref('poll').once('value')
     .then(function(snapshot) {
       if (!snapshot.exists()) {
@@ -262,6 +374,24 @@ const firebaseConfig = {
     })
     .catch(function(error) {
       console.error('Error initializing poll:', error);
+    });
+  // Initialize vote counts to 0 if they don't exist in the database (second poll)
+  database.ref('poll2').once('value')
+    .then(function(snapshot) {
+      if (!snapshot.exists()) {
+        return database.ref('poll2').set({
+          supermarket: 0,
+          restaurants: 0,
+          delivery: 0,
+          notsure: 0
+        });
+      }
+    })
+    .then(function() {
+      console.log('Poll2 initialized successfully');
+    })
+    .catch(function(error) {
+      console.error('Error initializing poll2:', error);
     });
 
   // Add CSS animations for the vote confirmation
