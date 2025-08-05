@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/2d3d.css">
+    <link rel="stylesheet" href="../styles/engagement.css">
+    <link rel="stylesheet" href="../styles/agent.css">
+</head>
+<body>
+    <a href="../index.html" class="header-element top-left">Computational Design Workflows<br>2025 Summer GSAPP CDP</a>
+    
+    <main>
+        <div class="poll-header">
+            <h1>🤖 AI Chatbot</h1>
+            <h2 style="color:#000; font-family:'IBM Plex Mono', monospace; font-weight:400;">eal-time chat with ChatGPT API &amp; Firebase integration</h2>
+            <p>Note: The OpenAI API key is not paid, so the AI responses may not work. You can still use the chat UI and see your messages saved in Firebase if configured.</p>
+        </div>
+        
+        <div class="chat-container" aria-label="Chatbot conversation">
+  <div class="chat-messages" id="chat-messages">
+    <div class="message bot-message">
+      <div class="message-content">
+        <strong>AI Assistant:</strong> Hello! I'm your AI assistant. How can I help you today?
+      </div>
+      <div class="message-time">Just now</div>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <form class="input-container" id="chat-form" autocomplete="off" aria-label="Send a message">
+      <input type="text" id="message-input" placeholder="Type your message here..." maxlength="500" aria-label="Message input">
+      <button id="send-button" class="send-button" type="submit">
+        <span>Send</span>
+      </button>
+    </form>
+    <div class="input-hint">Press Enter to send, or click the Send button</div>
+  </div>
+  <div class="chat-status">
+    <p>Status: <span id="chat-status">Ready to chat</span></p>
+  </div>
+        </div>
+    </main>
+    
+      <!-- Firebase App (the core Firebase SDK) -->
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+      <!-- Firebase Realtime Database -->
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+      <!-- Chatbot logic -->
+      <script src="../scripts/chatbot.js"></script>
+</body>
+</html> 
