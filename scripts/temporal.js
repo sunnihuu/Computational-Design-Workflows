@@ -2,108 +2,49 @@
 // Timeline Visualization
 
 // SVG setup
-
-// Responsive SVG setup
-let width = 900, height = 500;
-let svg;
-
+let svg, width = 900, height = 500;
 
 function initializeSVG() {
-    // Use the #d3-canvas container for consistency
     const container = d3.select("#d3-canvas");
     if (container.empty()) {
         console.error('Container #d3-canvas not found!');
         return false;
     }
-    container.selectAll("*").remove();
+    container.selectAll("svg").remove();
     svg = container.append("svg")
         .attr("id", "my-canvas")
         .attr("width", width)
-        .attr("height", height)
-        .style("border", "3px solid red"); // Debug: visible border
-    // Add rounded background
-    svg.append("rect")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("fill", "#fafafa")
-        .attr("stroke", "#e0e0e0")
-        .attr("stroke-width", 1)
-        .attr("rx", 16)
-        .attr("ry", 16);
-    console.log('SVG created and appended to #d3-canvas');
+        .attr("height", height);
     return true;
-
-function initializeElements() {
-    const result = initializeSVG();
-    if (result) {
-        console.log('Elements initialized successfully');
-        return true;
-    } else {
-        console.error('SVG initialization failed');
-        return false;
-    }
 }
 
-// Timeline events data
+function initializeElements() {
+    return true;
+}
+
 const events = [
-    { 
-        date: new Date('2009-01-01'), 
-        name: 'Initial research on economic complexity at Harvard', 
-        category: 'Research'
-    },
-    { 
-        date: new Date('2011-01-01'), 
-        name: 'First publication of "Atlas of Economic Complexity"', 
-        category: 'Research'
-    },
-    { 
-        date: new Date('2013-01-01'), 
-        name: 'Launch of the OEC interactive platform', 
-        category: 'Milestone'
-    },
-    { 
-        date: new Date('2015-01-01'), 
-        name: 'Team moves to MIT and forms Collective Learning Group', 
-        category: 'Development'
-    },
-    { 
-        date: new Date('2017-01-01'), 
-        name: 'Bulk data downloads introduced', 
-        category: 'Development'
-    },
-    { 
-        date: new Date('2020-01-01'), 
-        name: 'Redesigned platform with new visual tools', 
-        category: 'Milestone'
-    },
-    { 
-        date: new Date('2022-01-01'), 
-        name: 'ESG and carbon data added', 
-        category: 'Development'
-    },
-    { 
-        date: new Date('2023-01-01'), 
-        name: 'Multilingual and mobile optimization', 
-        category: 'Milestone'
-    }
+    { date: new Date('2009-01-01'), name: 'Initial research on economic complexity at Harvard', category: 'Research' },
+    { date: new Date('2011-01-01'), name: 'First publication of "Atlas of Economic Complexity"', category: 'Research' },
+    { date: new Date('2013-01-01'), name: 'Launch of the OEC interactive platform', category: 'Milestone' },
+    { date: new Date('2015-01-01'), name: 'Team moves to MIT and forms Collective Learning Group', category: 'Development' },
+    { date: new Date('2017-01-01'), name: 'Bulk data downloads introduced', category: 'Development' },
+    { date: new Date('2020-01-01'), name: 'Redesigned platform with new visual tools', category: 'Milestone' },
+    { date: new Date('2022-01-01'), name: 'ESG and carbon data added', category: 'Development' },
+    { date: new Date('2023-01-01'), name: 'Multilingual and mobile optimization', category: 'Milestone' }
 ];
 
-// Color scale for categories - more vibrant and distinct
 const colorScale = d3.scaleOrdinal()
     .domain(['Research', 'Development', 'Milestone'])
-    .range(['#00C853', '#2979FF', '#FF1744']); // 🟢 Research, 🔵 Development, 🔴 Milestone
+    .range(['#4CAF50', '#2196F3', '#F44336']);
 
-// Text wrapping function
 function wrapText(text, width) {
     const words = text.split(' ');
     const lines = [];
     let currentLine = words[0];
-
     for (let i = 1; i < words.length; i++) {
         const word = words[i];
         const testLine = currentLine + ' ' + word;
-        const testWidth = testLine.length * 6; // Approximate character width
-        
+        const testWidth = testLine.length * 6;
         if (testWidth > width && currentLine !== '') {
             lines.push(currentLine);
             currentLine = word;
@@ -115,343 +56,192 @@ function wrapText(text, width) {
     return lines;
 }
 
-// Calculate staggered label positions for a more dynamic timeline
 function calculateLabelPositions(events, timeScale) {
     const positions = [];
-    const yBase = height - 190;
-    const yStagger = 60;
+    const minSpacing = 80;
     events.forEach((event, i) => {
         const x = timeScale(event.date);
-        // Stagger labels above and below the timeline for clarity
-        let y = (i % 2 === 0) ? yBase : yBase + yStagger;
+        let y = height - 190;
         let anchor = "middle";
-        if (x < width / 3) anchor = "start";
-        if (x > width * 2 / 3) anchor = "end";
-        positions.push({ x, y, anchor, up: i % 2 === 0 });
+        let hasOverlap = true, attempts = 0, maxAttempts = 10;
+        while (hasOverlap && attempts < maxAttempts) {
+            hasOverlap = false;
+            for (let j = 0; j < i; j++) {
+                const { x: prevX, y: prevY } = positions[j];
+                if (Math.abs(x - prevX) < 150 && Math.abs(y - prevY) < minSpacing) {
+                    hasOverlap = true;
+                    break;
+                }
+            }
+            if (hasOverlap) {
+                if (attempts % 3 === 0) y -= minSpacing;
+                else if (attempts % 3 === 1) anchor = x < width / 2 ? "start" : "end";
+                else y = height - 270;
+                attempts++;
+            }
+        }
+        positions.push({ x, y, anchor });
     });
     return positions;
 }
 
-// Show tooltip
+function showTooltip(event, d) {
+    const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background", "rgba(44, 62, 80, 0.95)")
+        .style("color", "white")
+        .style("padding", "12px 16px")
+        .style("border-radius", "8px")
+        .style("font-size", "13px")
+        .style("pointer-events", "none")
+        .style("z-index", "1000")
+        .style("box-shadow", "0 4px 12px rgba(0,0,0,0.3)")
+        .style("backdrop-filter", "blur(10px)")
+        .style("border", "1px solid rgba(255,255,255,0.1)");
+
+    const descriptions = {
+        'Initial research on economic complexity at Harvard': 'Started foundational work on understanding economic complexity and product space theory',
+        'First publication of "Atlas of Economic Complexity"': 'Landmark publication introducing the concept of economic complexity to the world',
+        'Launch of the OEC interactive platform': 'Created the Observatory of Economic Complexity as an interactive data visualization tool',
+        'Team moves to MIT and forms Collective Learning Group': 'Established the Collective Learning Group at MIT to advance complexity research',
+        'Bulk data downloads introduced': 'Made economic complexity data freely available for researchers worldwide',
+        'Redesigned platform with new visual tools': 'Enhanced the OEC platform with improved visualizations and user experience',
+        'ESG and carbon data added': 'Expanded research scope to include environmental, social, and governance metrics',
+        'Multilingual and mobile optimization': 'Made the platform accessible globally with multilingual support and mobile optimization'
+    };
+
+    tooltip.html(`
+        <div style="font-weight: 600; margin-bottom: 6px;">${d.name}</div>
+        <div style="font-size: 11px; color: #bdc3c7;">${descriptions[d.name]}</div>
+        <div style="font-size: 11px; color: #bdc3c7;">Date: ${d.date.toLocaleDateString()}</div>
+        <div style="font-size: 11px; color: #bdc3c7;">Category: ${d.category}</div>
+    `).style("left", `${event.pageX + 15}px`).style("top", `${event.pageY - 15}px`);
+}
+
+function hideTooltip() {
+    d3.selectAll(".tooltip").remove();
+}
 
 function createTimeline() {
-    // --- Radial (star) timeline ---
-    const centerX = width / 2;
-    const centerY = height / 2 + 20;
-    const innerRadius = 60;
-    const outerRadius = 180;
-    const angleScale = d3.scaleLinear()
-        .domain([0, events.length])
-        .range([0, 2 * Math.PI]);
+    if (!initializeSVG()) return;
+    svg.selectAll("*").remove();
 
-    // Draw radial lines for each event
-    svg.selectAll(".radial-line")
-        .data(events)
-        .enter()
-        .append("line")
-        .attr("class", "radial-line")
-        .attr("x1", centerX)
-        .attr("y1", centerY)
-        .attr("x2", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * outerRadius)
-        .attr("y2", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * outerRadius)
-        .attr("stroke", d => colorScale(d.category))
-        .attr("stroke-width", 3)
-        .attr("opacity", 0.3);
+    const timeScale = d3.scaleTime()
+        .domain(d3.extent(events, d => d.date))
+        .range([100, width - 100]);
 
-    // Draw event nodes
+    svg.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0, ${height - 50})`)
+        .call(d3.axisBottom(timeScale).tickFormat(d3.timeFormat('%Y')).ticks(8))
+        .selectAll("text")
+        .style("text-anchor", "middle")
+        .style("font-size", "14px");
+
+    const defs = svg.append("defs");
+    const gradient = defs.append("linearGradient")
+        .attr("id", "timelineGradient")
+        .attr("x1", "0%")
+        .attr("x2", "100%")
+        .attr("y1", "0%")
+        .attr("y2", "0%");
+    gradient.append("stop").attr("offset", "0%").attr("stop-color", "#4CAF50");
+    gradient.append("stop").attr("offset", "50%").attr("stop-color", "#2196F3");
+    gradient.append("stop").attr("offset", "100%").attr("stop-color", "#F44336");
+
+    svg.append("line")
+        .attr("x1", 100).attr("y1", height - 80)
+        .attr("x2", width - 100).attr("y2", height - 80)
+        .attr("stroke", "url(#timelineGradient)")
+        .attr("stroke-width", 4);
+
+    const labelPositions = calculateLabelPositions(events, timeScale);
+
     svg.selectAll(".event-point")
         .data(events)
-        .enter()
-        .append("circle")
+        .enter().append("circle")
         .attr("class", "event-point")
-        .attr("cx", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * outerRadius)
-        .attr("cy", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * outerRadius)
-        .attr("r", 16)
+        .attr("cx", d => timeScale(d.date))
+        .attr("cy", height - 80)
+        .attr("r", 10)
         .attr("fill", d => colorScale(d.category))
-        .attr("stroke", "#fff")
-        .attr("stroke-width", 4)
-        .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
+        .on("mouseover", function(event, d) {
+            d3.select(this).transition().attr("r", 15);
+            showTooltip(event, d);
+        })
+        .on("mouseout", function() {
+            d3.select(this).transition().attr("r", 10);
+            hideTooltip();
+        });
 
-    // Draw event labels (outside the nodes)
+    svg.selectAll(".connector-line")
+        .data(events)
+        .enter().append("line")
+        .attr("x1", d => timeScale(d.date))
+        .attr("y1", height - 80)
+        .attr("x2", d => timeScale(d.date))
+        .attr("y2", (d, i) => labelPositions[i].y + 20)
+        .attr("stroke", "#e0e0e0").attr("stroke-dasharray", "5,5");
+
     svg.selectAll(".event-label-group")
         .data(events)
-        .enter()
-        .append("g")
+        .enter().append("g")
         .attr("class", "event-label-group")
-        .attr("transform", (d, i) => {
-            const angle = angleScale(i) - Math.PI/2;
-            const labelRadius = outerRadius + 40;
-            const x = centerX + Math.cos(angle) * labelRadius;
-            const y = centerY + Math.sin(angle) * labelRadius;
-            return `translate(${x},${y})`;
-        })
+        .attr("transform", (d, i) => `translate(${labelPositions[i].x}, ${labelPositions[i].y})`)
         .each(function(d, i) {
             const group = d3.select(this);
-            const angle = angleScale(i) * 180 / Math.PI - 90;
-            // Add a white background rect for clarity
-            group.append("rect")
-                .attr("x", -90)
-                .attr("y", -12)
-                .attr("width", 180)
-                .attr("height", 28)
-                .attr("fill", "#fff")
-                .attr("rx", 8)
-                .attr("opacity", 0.92)
-                .attr("class", "label-bg");
-            // Add event name
-            group.append("text")
-                .attr("class", "event-label")
-                .attr("x", 0)
-                .attr("y", 8)
-                .attr("text-anchor", "middle")
-                .attr("font-size", "13px")
-                .attr("font-weight", "600")
-                .attr("fill", colorScale(d.category))
-                .attr("font-family", "IBM Plex Mono, monospace")
-                .text(d.name)
-                .style("pointer-events", "none");
+            const lines = wrapText(d.name, 120);
+            lines.forEach((line, index) => {
+                group.append("text")
+                    .attr("x", 0)
+                    .attr("y", index * 16)
+                    .attr("text-anchor", labelPositions[i].anchor)
+                    .attr("font-size", "13px")
+                    .text(line);
+            });
         });
 
-    // Draw center circle
-    svg.append("circle")
-        .attr("cx", centerX)
-        .attr("cy", centerY)
-        .attr("r", innerRadius)
-        .attr("fill", "#f5f5f5")
-        .attr("stroke", "#bbb")
-        .attr("stroke-width", 2);
-
-    // Add year labels on the inner circle
-    svg.selectAll(".year-label")
-        .data(events)
-        .enter()
-        .append("text")
-        .attr("class", "year-label")
-        .attr("x", (d, i) => centerX + Math.cos(angleScale(i) - Math.PI/2) * (innerRadius + 10))
-        .attr("y", (d, i) => centerY + Math.sin(angleScale(i) - Math.PI/2) * (innerRadius + 10))
-        .attr("text-anchor", "middle")
-        .attr("font-size", "12px")
-        .attr("font-family", "IBM Plex Mono, monospace")
-        .attr("fill", "#888")
-        .text(d => d.date.getFullYear());
-
-    // Add interactive tooltips on event nodes
-    svg.selectAll(".event-point")
-        .on("mouseover", function(event, d) {
-            d3.select(this)
-                .transition()
-                .duration(200)
-                .attr("r", 22);
-            showTooltip(event, d);
-        })
-        .on("mouseout", function() {
-            d3.select(this)
-                .transition()
-                .duration(200)
-                .attr("r", 16);
-            hideTooltip();
-        });
-
-    // Add title with improved styling
     svg.append("text")
-        .attr("class", "timeline-title")
         .attr("x", width / 2)
         .attr("y", 35)
         .attr("text-anchor", "middle")
         .attr("font-size", "28px")
-        .attr("font-weight", "700")
-        .attr("fill", "#1a1a1a")
-        .attr("font-family", "IBM Plex Mono, monospace")
-        .text("Economic Complexity Timeline")
-        .style("text-shadow", "1px 1px 2px rgba(255,255,255,0.8)");
+        .text("Economic Complexity Timeline");
 
-    // Add subtitle
     svg.append("text")
-        .attr("class", "timeline-subtitle")
         .attr("x", width / 2)
         .attr("y", 60)
         .attr("text-anchor", "middle")
         .attr("font-size", "14px")
-        .attr("font-weight", "400")
-        .attr("fill", "#666")
-        .attr("font-family", "IBM Plex Mono, monospace")
         .text("Research milestones and developments from 2009 to 2023");
 
-    // Add legend with improved styling
     const legend = svg.append("g")
-        .attr("class", "legend")
         .attr("transform", `translate(20, 80)`);
-
-    const legendData = [
-        { category: 'Research', label: 'Research' },
-        { category: 'Development', label: 'Development' },
-        { category: 'Milestone', label: 'Milestone' }
-    ];
-
+    const legendData = ['Research', 'Development', 'Milestone'];
     legend.selectAll(".legend-item")
         .data(legendData)
-        .enter()
-        .append("g")
-        .attr("class", "legend-item")
+        .enter().append("g")
         .attr("transform", (d, i) => `translate(0, ${i * 30})`)
         .each(function(d) {
-            const g = d3.select(this);
-            
-            g.append("circle")
+            d3.select(this).append("circle")
                 .attr("r", 8)
-                .attr("fill", colorScale(d.category))
-                .attr("stroke", "#fff")
-                .attr("stroke-width", 2)
-                .style("filter", "drop-shadow(0 1px 3px rgba(0,0,0,0.2))");
-            
-            g.append("text")
+                .attr("fill", colorScale(d));
+            d3.select(this).append("text")
                 .attr("x", 20)
                 .attr("y", 4)
                 .attr("font-size", "13px")
-                .attr("font-weight", "500")
-                .attr("fill", "#2c3e50")
-                .attr("font-family", "'Roboto', sans-serif")
-                .text(d.label);
+                .text(d);
         });
 }
 
-    // Add hover effects
-    svg.selectAll(".event-point")
-        .on("mouseover", function(event, d) {
-            d3.select(this)
-                .transition()
-                .duration(300)
-                .attr("r", 18)
-                .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.3))");
-            // Highlight corresponding label
-            const index = events.indexOf(d);
-            svg.selectAll(".event-label-group")
-                .filter((d, i) => i === index)
-                .selectAll("text")
-                .transition()
-                .duration(300)
-                .attr("font-size", "15px")
-                .attr("fill", "#1a1a1a");
-            showTooltip(event, d);
-        })
-        .on("mousemove", function(event) {
-            // Move tooltip with mouse
-            d3.select("body").selectAll(".tooltip")
-                .style("left", (event.pageX + 15) + "px")
-                .style("top", (event.pageY - 15) + "px");
-        })
-        .on("mouseout", function() {
-            d3.select(this)
-                .transition()
-                .duration(300)
-                .attr("r", 14)
-                .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
-            // Reset all labels
-            svg.selectAll(".event-label-group")
-                .selectAll("text")
-                .transition()
-                .duration(300)
-                .attr("font-size", "13px")
-                .attr("fill", "#2c3e50");
-            hideTooltip();
-        });
-
-    // Add title
-    svg.append("text")
-        .attr("class", "timeline-title")
-        .attr("x", width / 2)
-        .attr("y", 35)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "28px")
-        .attr("font-weight", "700")
-        .attr("fill", "#1a1a1a")
-        .attr("font-family", "IBM Plex Mono, monospace")
-        .text("Economic Complexity Timeline")
-        .style("text-shadow", "1px 1px 2px rgba(255,255,255,0.8)");
-
-    // Add subtitle
-    svg.append("text")
-        .attr("class", "timeline-subtitle")
-        .attr("x", width / 2)
-        .attr("y", 60)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
-        .attr("font-weight", "400")
-        .attr("fill", "#666")
-        .attr("font-family", "IBM Plex Mono, monospace")
-        .text("Research milestones and developments from 2009 to 2023");
-
-    // Add legend
-    const legend = svg.append("g")
-        .attr("class", "legend")
-        .attr("transform", `translate(20, 80)`);
-
-    const legendData = [
-        { category: 'Research', label: 'Research' },
-        { category: 'Development', label: 'Development' },
-        { category: 'Milestone', label: 'Milestone' }
-    ];
-
-    legend.selectAll(".legend-item")
-        .data(legendData)
-        .enter()
-        .append("g")
-        .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(0, ${i * 30})`)
-        .each(function(d) {
-            const g = d3.select(this);
-            g.append("circle")
-                .attr("r", 8)
-                .attr("fill", colorScale(d.category))
-                .attr("stroke", "#fff")
-                .attr("stroke-width", 2)
-                .style("filter", "drop-shadow(0 1px 3px rgba(0,0,0,0.2))");
-            g.append("text")
-                .attr("x", 20)
-                .attr("y", 4)
-                .attr("font-size", "13px")
-                .attr("font-weight", "500")
-                .attr("fill", "#2c3e50")
-                .attr("font-family", "'Roboto', sans-serif")
-                .text(d.label);
-        });
-}
-
-// Setup event listeners
-function setupEventListeners() {
-    // Timeline is static and interactive through hover effects
-}
-
-// Wait for DOM and D3.js to be ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Temporal.js DOMContentLoaded triggered');
-    console.log('Checking for #d3-canvas:', document.getElementById('d3-canvas'));
-    
-    // Check if D3.js is loaded
     if (typeof d3 === 'undefined') {
         console.error('D3.js is not loaded!');
         return;
     }
-    
-    console.log('D3.js version:', d3.version);
-    
-    // Check if this script is running multiple times
-    if (window.timelineCreated) {
-        console.warn('Timeline already created, skipping...');
-        return;
-    }
-    
-    // Initialize elements
-    if (!initializeElements()) {
-        console.error('Failed to initialize elements');
-        return;
-    }
-    
-    console.log('Creating timeline...');
+    if (window.timelineCreated) return;
+    if (!initializeElements()) return;
     createTimeline();
     window.timelineCreated = true;
-    console.log('Timeline created successfully!');
-    
-    // Add event listeners after initialization
-    setupEventListeners();
-}); 
+});
